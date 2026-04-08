@@ -1,0 +1,12 @@
+HEALTH CHECK REPORT:
+====================
+index.html - Has Sidebar: false
+login.html - Has Sidebar: false
+register.html - Has Sidebar: false
+onboarding.html - Has Sidebar: false
+dashboard.html - Has Sidebar: true
+browse.html - Has Sidebar: true
+
+JS Duplicate Functions: closeModal
+
+CSS Duplicate Classes: 47

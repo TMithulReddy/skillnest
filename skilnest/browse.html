@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse & Match - SkillNest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+
+    
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo" style="font-size: 20px;">
+                <div class="logo-icon" style="width: 32px; height: 32px;"class="sidebar-link active">>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                SkillNest
+            </a>
+            <button class="mobile-close" id="sidebarClose">&times;</button>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">JD</div>
+            <div class="user-info">
+                <div class="user-name">Student Name</div>
+                <div class="user-college">Your College</div>
+            </div>
+            <div class="user-pill-credits">💎 10500</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-group">
+                <a href="dashboard.html" class="sidebar-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Dashboard
+                </a>
+                <a href="browse.html" class="sidebar-link active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Browse Skills
+                </a>
+                <a href="sessions.html" class="sidebar-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    My Sessions
+                </a>
+                <a href="chat.html" class="sidebar-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    Chat
+                </a>
+                <a href="credits.html" class="sidebar-link">
+                    <span style="display: inline-block; width: 20px; text-align: center;">💎</span>
+                    Credits
+                </a>
+                <a href="profile.html" class="sidebar-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    My Profile
+                </a>
+            </div>
+
+            <div class="nav-bottom">
+                <a href="profile.html#settings" class="sidebar-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Settings
+                </a>
+                <a href="login.html" class="sidebar-link text-danger">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Log Out
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    
+    <main class="main-content">
+        
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+                <div class="greeting">
+                    <h2 class="display-font" style="font-size: 20px;">Browse & Match</h2>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Find the perfect peer mentor</div>
+                </div>
+            </div>
+            
+            <div class="topbar-right">
+                <div class="notification-container">
+                    <button class="notification-btn" id="notifBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="notification-dropdown" id="notifDropdown">
+                        <div style="font-weight: 600; padding: 16px; border-bottom: 1px solid var(--border);">Notifications</div>
+                        <div class="notif-item unread">
+                            <div class="n-icon">🎯</div>
+                            <div class="n-text"><strong>New match:</strong> Rohit Verma wants to learn Guitar!</div>
+                        </div>
+                        <div class="notif-item">
+                            <div class="n-icon">💎</div>
+                            <div class="n-text"><strong>Balance updated:</strong> You earned 4000 signup credits.</div>
+                        </div>
+                        <div style="text-align: center; padding: 12px;"><a href="javascript:void(0)" style="font-size: 13px; color: var(--primary); font-weight: 500;">Mark all as read</a></div>
+                    </div>
+                </div>
+                <a href="profile.html" class="topbar-avatar">JD</a>
+            </div>
+        </header>
+
+        
+        
+<div class="dashboard-container browse-page-container">
+    
+    <!-- SECTION 1 - Search & Filter Bar -->
+    <div class="b-search-filter-card">
+        <div class="b-search-row">
+            <div class="search-input-wrapper">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="browseSearchInput" placeholder="Search by skill, name, or department...">
+                <button id="browseClearSearch" class="clear-search-btn" style="display:none;">&times;</button>
+            </div>
+        </div>
+        <div class="b-filter-row">
+            <span class="filter-label">Filter by:</span>
+            
+            <div class="filter-group" id="filter-category">
+                <button class="b-filter-pill active" data-val="all">All</button>
+                <button class="b-filter-pill" data-val="tech">Tech</button>
+                <button class="b-filter-pill" data-val="design">Design</button>
+                <button class="b-filter-pill" data-val="languages">Languages</button>
+                <button class="b-filter-pill" data-val="music">Music</button>
+                <button class="b-filter-pill" data-val="academic">Academic</button>
+                <button class="b-filter-pill" data-val="business">Business</button>
+            </div>
+
+            <div class="filter-divider"></div>
+
+            <div class="filter-group" id="filter-role">
+                <button class="b-filter-pill active" data-val="anyone">Anyone</button>
+                <button class="b-filter-pill" data-val="teachers">Only Teachers</button>
+                <button class="b-filter-pill" data-val="learners">Only Learners</button>
+            </div>
+
+            <div class="filter-divider"></div>
+
+            <div class="filter-group" id="filter-year">
+                <button class="b-filter-pill active" data-val="any">Any Year</button>
+                <button class="b-filter-pill" data-val="1st">1st</button>
+                <button class="b-filter-pill" data-val="2nd">2nd</button>
+                <button class="b-filter-pill" data-val="3rd">3rd</button>
+                <button class="b-filter-pill" data-val="4th">4th</button>
+            </div>
+            
+            <button id="clearAllFiltersBtn" class="clear-all-text-btn" style="display:none;">Clear All Filters</button>
+        </div>
+        
+        <div class="b-meta-row">
+            <div id="browseResultsCount" class="b-results-text">Showing 12 matches for you</div>
+            <div class="b-sort-dropdown">
+                <select id="browseSortSelect">
+                    <option value="best">Sort by: Best Match</option>
+                    <option value="credits">Sort by: Most Credits</option>
+                    <option value="rating">Sort by: Highest Rated</option>
+                    <option value="newest">Sort by: Newest</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 - Two Column Layout -->
+    <div class="b-two-col-layout">
+        
+        <!-- LEFT: Grid -->
+        <div class="b-grid-column">
+            <div class="b-match-grid" id="browseMatchGrid">
+                
+<div class="b-match-card" data-name="arjun mehta" data-dept="cse 3rd year" data-rating="4.9" data-credits="54" data-match="87">
+    <div class="b-match-badge badge-high">87% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#dbeafe; color:#1d4ed8;">AM</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Arjun Mehta</h4>
+            <div class="b-dept">CSE 3rd Year</div>
+            <div class="b-rating">4.9 ★ <span class="b-sessions">(14 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Python</div><div class="b-skill-pill pill-teach">Machine Learning</div><div class="b-skill-pill pill-teach">Data Analysis</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Guitar</div><div class="b-skill-pill pill-learn">Music Theory</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Arjun Mehta" data-skills="Python,Machine Learning,Data Analysis">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="priya sharma" data-dept="it 2nd year" data-rating="4.7" data-credits="38" data-match="76">
+    <div class="b-match-badge badge-med">76% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#fce7f3; color:#be185d;">PS</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Priya Sharma</h4>
+            <div class="b-dept">IT 2nd Year</div>
+            <div class="b-rating">4.7 ★ <span class="b-sessions">(9 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">UI/UX Design</div><div class="b-skill-pill pill-teach">Figma</div><div class="b-skill-pill pill-teach">Canva</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Python</div><div class="b-skill-pill pill-learn">Data Analysis</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Priya Sharma" data-skills="UI/UX Design,Figma,Canva">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="rohit verma" data-dept="cse 4th year" data-rating="4.8" data-credits="86" data-match="91">
+    <div class="b-match-badge badge-high">91% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#dcfce7; color:#15803d;">RV</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Rohit Verma</h4>
+            <div class="b-dept">CSE 4th Year</div>
+            <div class="b-rating">4.8 ★ <span class="b-sessions">(21 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">React</div><div class="b-skill-pill pill-teach">JavaScript</div><div class="b-skill-pill pill-teach">Git</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Spanish</div><div class="b-skill-pill pill-learn">Communication</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Rohit Verma" data-skills="React,JavaScript,Git">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="ananya iyer" data-dept="mba 1st year" data-rating="4.6" data-credits="22" data-match="82">
+    <div class="b-match-badge badge-high">82% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#fef3c7; color:#d97706;">AI</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Ananya Iyer</h4>
+            <div class="b-dept">MBA 1st Year</div>
+            <div class="b-rating">4.6 ★ <span class="b-sessions">(7 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Public Speaking</div><div class="b-skill-pill pill-teach">Digital Marketing</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Excel</div><div class="b-skill-pill pill-learn">Financial Planning</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Ananya Iyer" data-skills="Public Speaking,Digital Marketing">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="karan singh" data-dept="ece 3rd year" data-rating="4.5" data-credits="41" data-match="67">
+    <div class="b-match-badge badge-med">67% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#ede9fe; color:#6d28d9;">KS</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Karan Singh</h4>
+            <div class="b-dept">ECE 3rd Year</div>
+            <div class="b-rating">4.5 ★ <span class="b-sessions">(11 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Arduino</div><div class="b-skill-pill pill-teach">C++</div><div class="b-skill-pill pill-teach">Linux</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Photoshop</div><div class="b-skill-pill pill-learn">Video Editing</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Karan Singh" data-skills="Arduino,C++,Linux">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="sneha patel" data-dept="it 3rd year" data-rating="4.8" data-credits="63" data-match="73">
+    <div class="b-match-badge badge-med">73% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#fce7f3; color:#be185d;">SP</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Sneha Patel</h4>
+            <div class="b-dept">IT 3rd Year</div>
+            <div class="b-rating">4.8 ★ <span class="b-sessions">(16 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Video Editing</div><div class="b-skill-pill pill-teach">Motion Graphics</div><div class="b-skill-pill pill-teach">Canva</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Python</div><div class="b-skill-pill pill-learn">Machine Learning</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Sneha Patel" data-skills="Video Editing,Motion Graphics,Canva">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="dev nair" data-dept="cse 2nd year" data-rating="4.3" data-credits="18" data-match="58">
+    <div class="b-match-badge badge-low">58% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#dbeafe; color:#1d4ed8;">DN</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Dev Nair</h4>
+            <div class="b-dept">CSE 2nd Year</div>
+            <div class="b-rating">4.3 ★ <span class="b-sessions">(6 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Git</div><div class="b-skill-pill pill-teach">Linux</div><div class="b-skill-pill pill-teach">Cybersecurity</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Music Production</div><div class="b-skill-pill pill-learn">Guitar</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Dev Nair" data-skills="Git,Linux,Cybersecurity">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="meera joshi" data-dept="arts 2nd year" data-rating="4.7" data-credits="29" data-match="69">
+    <div class="b-match-badge badge-med">69% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#fef3c7; color:#d97706;">MJ</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Meera Joshi</h4>
+            <div class="b-dept">Arts 2nd Year</div>
+            <div class="b-rating">4.7 ★ <span class="b-sessions">(8 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">French</div><div class="b-skill-pill pill-teach">Photography</div><div class="b-skill-pill pill-teach">Essay Writing</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Figma</div><div class="b-skill-pill pill-learn">UI/UX Design</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Meera Joshi" data-skills="French,Photography,Essay Writing">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="aditya rao" data-dept="cse 4th year" data-rating="5.0" data-credits="92" data-match="88">
+    <div class="b-match-badge badge-high">88% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#dcfce7; color:#15803d;">AR</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Aditya Rao</h4>
+            <div class="b-dept">CSE 4th Year</div>
+            <div class="b-rating">5.0 ★ <span class="b-sessions">(28 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Data Analysis</div><div class="b-skill-pill pill-teach">SQL</div><div class="b-skill-pill pill-teach">Statistics</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Guitar</div><div class="b-skill-pill pill-learn">Piano</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Aditya Rao" data-skills="Data Analysis,SQL,Statistics">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="kavya reddy" data-dept="it 1st year" data-rating="4.4" data-credits="12" data-match="54">
+    <div class="b-match-badge badge-low">54% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#ede9fe; color:#6d28d9;">KR</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Kavya Reddy</h4>
+            <div class="b-dept">IT 1st Year</div>
+            <div class="b-rating">4.4 ★ <span class="b-sessions">(5 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Canva</div><div class="b-skill-pill pill-teach">Illustrator</div><div class="b-skill-pill pill-teach">Branding</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">React</div><div class="b-skill-pill pill-learn">JavaScript</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Kavya Reddy" data-skills="Canva,Illustrator,Branding">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="siddharth kumar" data-dept="mba 2nd year" data-rating="4.6" data-credits="47" data-match="71">
+    <div class="b-match-badge badge-med">71% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#fef3c7; color:#d97706;">SK</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Siddharth Kumar</h4>
+            <div class="b-dept">MBA 2nd Year</div>
+            <div class="b-rating">4.6 ★ <span class="b-sessions">(13 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Financial Planning</div><div class="b-skill-pill pill-teach">Leadership</div><div class="b-skill-pill pill-teach">Economics</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Video Editing</div><div class="b-skill-pill pill-learn">Photoshop</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Siddharth Kumar" data-skills="Financial Planning,Leadership,Economics">Request Session</button>
+        </div>
+    </div>
+</div>
+
+<div class="b-match-card" data-name="riya desai" data-dept="cse 3rd year" data-rating="4.8" data-credits="71" data-match="79">
+    <div class="b-match-badge badge-med">79% match</div>
+    <div class="b-card-top">
+        <div class="b-avatar" style="background:#dcfce7; color:#15803d;">RD</div>
+        <div class="b-user-info">
+            <h4 class="b-name">Riya Desai</h4>
+            <div class="b-dept">CSE 3rd Year</div>
+            <div class="b-rating">4.8 ★ <span class="b-sessions">(17 sessions)</span></div>
+        </div>
+    </div>
+    <div class="b-card-mid">
+        <div class="b-label-teach">Can Teach You:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-teach">Flutter</div><div class="b-skill-pill pill-teach">Dart</div><div class="b-skill-pill pill-teach">React</div></div>
+        <div class="b-label-learn">Wants to Learn:</div>
+        <div class="b-pill-container"><div class="b-skill-pill pill-learn">Spanish</div><div class="b-skill-pill pill-learn">French</div></div>
+        <div class="b-indicators">
+            <div class="overlap-text overlap-green">✓ Matches your learning goals</div><div class="overlap-text overlap-blue">✓ Needs what you can teach</div>
+        </div>
+    </div>
+    <div class="b-card-bottom">
+        <div class="b-cost">💎 1250 credits</div>
+        <div class="b-card-actions">
+            <button class="btn btn-ghost btn-sm" onclick="window.location.href='profile-view.html'">View Profile</button>
+            <button class="btn btn-primary btn-sm btn-request-session" data-name="Riya Desai" data-skills="Flutter,Dart,React">Request Session</button>
+        </div>
+    </div>
+</div>
+
+            </div>
+            
+            <!-- SECTION 3 - Pagination -->
+            <div class="b-pagination">
+                <button class="btn btn-ghost btn-sm">&larr; Previous</button>
+                <button class="b-page-btn active">1</button>
+                <button class="b-page-btn">2</button>
+                <button class="b-page-btn">3</button>
+                <span style="color: var(--text-muted);">...</span>
+                <button class="b-page-btn">8</button>
+                <button class="btn btn-ghost btn-sm">Next &rarr;</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: Insights Panel -->
+        <div class="b-insights-column">
+            <div class="b-insights-panel sticky-panel">
+                <h4 style="margin-bottom: 16px;">Your Match Profile</h4>
+                
+                <div style="margin-bottom: 8px; font-size: 13px; color: var(--text-secondary);">You teach:</div>
+                <div class="b-pill-container" style="margin-bottom: 16px;">
+                    <div class="b-skill-pill pill-teach">Python</div>
+                    <div class="b-skill-pill pill-teach">Guitar</div>
+                    <div class="b-skill-pill pill-teach">Excel</div>
+                </div>
+
+                <div style="margin-bottom: 8px; font-size: 13px; color: var(--text-secondary);">You want to learn:</div>
+                <div class="b-pill-container" style="margin-bottom: 16px;">
+                    <div class="b-skill-pill pill-learn">UI/UX Design</div>
+                    <div class="b-skill-pill pill-learn">French</div>
+                    <div class="b-skill-pill pill-learn">React</div>
+                </div>
+                
+                <a href="profile.html#skills" style="font-size: 13px; color: var(--primary); font-weight: 500;">Edit Skills &rarr;</a>
+
+                <hr style="border:none; border-top: 1px solid var(--border); margin: 24px 0;">
+
+                <h4 style="margin-bottom: 16px;">How Matching Works</h4>
+                <div class="b-match-algo">
+                    <div class="algo-row"><span class="dot d-green"></span> We find students who teach what you want to learn</div>
+                    <div class="algo-row"><span class="dot d-blue"></span> We prioritize students who need what you teach</div>
+                    <div class="algo-row"><span class="dot d-purple"></span> Match % uses skill overlap, ratings and activity</div>
+                </div>
+
+                <hr style="border:none; border-top: 1px solid var(--border); margin: 24px 0;">
+
+                <h4 style="margin-bottom: 16px;">Top Skills Today</h4>
+                <div class="b-chart-rows">
+                    <div class="b-chart-row">
+                        <div class="c-label">Tech</div>
+                        <div class="c-bar-bg"><div class="c-bar-fill" style="width: 34%; background: #3b82f6;"></div></div>
+                        <div class="c-val">34%</div>
+                    </div>
+                    <div class="b-chart-row">
+                        <div class="c-label">Design</div>
+                        <div class="c-bar-bg"><div class="c-bar-fill" style="width: 21%; background: #8b5cf6;"></div></div>
+                        <div class="c-val">21%</div>
+                    </div>
+                    <div class="b-chart-row">
+                        <div class="c-label">Languages</div>
+                        <div class="c-bar-bg"><div class="c-bar-fill" style="width: 18%; background: #10b981;"></div></div>
+                        <div class="c-val">18%</div>
+                    </div>
+                    <div class="b-chart-row">
+                        <div class="c-label">Music</div>
+                        <div class="c-bar-bg"><div class="c-bar-fill" style="width: 15%; background: #f59e0b;"></div></div>
+                        <div class="c-val">15%</div>
+                    </div>
+                    <div class="b-chart-row">
+                        <div class="c-label">Academic</div>
+                        <div class="c-bar-bg"><div class="c-bar-fill" style="width: 12%; background: #ef4444;"></div></div>
+                        <div class="c-val">12%</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+    </main>
+
+    
+    <div class="toast-notification" id="toastContainer">
+        <div class="t-icon">✅</div>
+        <div class="t-content">
+            <div style="font-weight: 600; font-size: 14px;">Session request sent!</div>
+            <div style="font-size: 13px; opacity: 0.9;">1250 credits held in escrow.</div>
+        </div>
+        <button class="t-close">&times;</button>
+    </div>
+
+    
+    <!-- REQUEST SESSION MODAL -->
+    <div class="custom-modal-overlay" id="requestModalOverlay">
+        <div class="custom-modal" id="requestModal">
+            <div class="cm-header">
+                <h3>Request a Session</h3>
+                <button class="cm-close" id="closeRequestModal">&times;</button>
+            </div>
+            <div class="cm-body">
+                <div class="cm-group">
+                    <label>What do you want to learn?</label>
+                    <div class="cm-pill-select" id="rm-skills">
+                        <!-- injected by js -->
+                    </div>
+                </div>
+                <div class="cm-group">
+                    <label>Session Duration</label>
+                    <div class="cm-pill-select" id="rm-duration">
+                        <button class="rm-pill">30 min</button>
+                        <button class="rm-pill active">1 hour</button>
+                        <button class="rm-pill">1.5 hours</button>
+                        <button class="rm-pill">2 hours</button>
+                    </div>
+                </div>
+                <div class="cm-group">
+                    <label>Preferred Date & Time</label>
+                    <input type="datetime-local" class="cm-input" style="width: 100%;">
+                </div>
+                <div class="cm-group">
+                    <label>Add a note (optional)</label>
+                    <textarea class="cm-input" id="rm-note" placeholder="Introduce yourself and mention what specifically you want to learn..." rows="3" maxlength="200"></textarea>
+                    <div class="char-counter" id="rm-charcount">0/200</div>
+                </div>
+                
+                <div class="cm-credit-box">
+                    <p class="cb-primary">💎 This will deduct 1250 credits from your balance</p>
+                    <p class="cb-sec">Your balance after request: 9250 credits</p>
+                    <p class="cb-sec">Credits are held in escrow until session completes.</p>
+                </div>
+            </div>
+            
+            <div class="cm-footer">
+                <button class="btn btn-primary" id="btnSendRequest" style="width: 100%; margin-bottom: 8px;">Send Request (−1250 credits)</button>
+                <button class="btn btn-ghost" id="btnCancelRequest" style="width: 100%;">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TOAST INJECTED VIA JS (we can just put template here) -->
+    <div class="custom-toast" id="browseToast">
+        <div class="ct-content">✓ Session request sent! 1250 credits held in escrow.</div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Inline script to set the current date specifically for this topbar
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateEl = document.getElementById('currentDate');
+            if(dateEl) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                dateEl.innerText = new Date().toLocaleDateString('en-US', options);
+            }
+        });
+    </script>
+</body>
+</html>

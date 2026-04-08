@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Sessions - SkillNest</title>
+    <meta name="description" content="View and manage your upcoming, pending, completed, and cancelled learning and teaching sessions on SkillNest.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="index.html" class="logo" style="font-size:20px;">
+            <div class="logo-icon" style="width:32px;height:32px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            SkillNest
+        </a>
+        <button class="mobile-close" id="sidebarClose">&times;</button>
+    </div>
+    <div class="sidebar-user">
+        <div class="user-avatar">SN</div>
+        <div class="user-info">
+            <div class="user-name">Student Name</div>
+            <div class="user-college">JNTU College</div>
+        </div>
+        <div class="user-pill-credits">💎 10500</div>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-group">
+            <a href="dashboard.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Dashboard
+            </a>
+            <a href="browse.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Browse Skills
+            </a>
+            <a href="sessions.html" class="sidebar-link active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                My Sessions
+            </a>
+            <a href="chat.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Chat
+            </a>
+            <a href="credits.html" class="sidebar-link">
+                <span style="display:inline-block;width:20px;text-align:center;">💎</span>
+                Credits
+            </a>
+            <a href="profile.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                My Profile
+            </a>
+        </div>
+        <div class="nav-bottom">
+            <a href="profile.html#settings" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Settings
+            </a>
+            <a href="login.html" class="sidebar-link text-danger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Log Out
+            </a>
+        </div>
+    </nav>
+</aside>
+
+<main class="main-content">
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="greeting">
+                <h2 class="display-font" style="font-size:20px;">My Sessions</h2>
+                <div style="font-size:13px;color:var(--text-secondary);">Manage and schedule your learning interactions</div>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="notification-container">
+                <button class="notification-btn" id="notifBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </button>
+                <div class="notification-dropdown" id="notifDropdown">
+                    <div style="font-weight:600;padding:16px;border-bottom:1px solid var(--border);">Notifications</div>
+                    <div class="notif-item unread"><div class="n-icon">🎯</div><div class="n-text"><strong>New match:</strong> Rohit Verma wants to learn Guitar!</div></div>
+                </div>
+            </div>
+            <a href="profile.html" class="topbar-avatar">SN</a>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        
+        <!-- TOP SUMMARY CARDS -->
+        <div class="stat-grid" style="margin-bottom:24px;">
+            <div class="stat-card">
+                <div class="stat-value">18</div>
+                <div class="stat-label">Total Sessions</div>
+                <div class="stat-meta">All time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">9 sessions</div>
+                <div class="stat-label">As Teacher</div>
+                <div class="stat-meta" style="color:var(--success);">+3 this month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">9 sessions</div>
+                <div class="stat-label">As Learner</div>
+                <div class="stat-meta" style="color:var(--success);">+3 this month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">💎 18000</div>
+                <div class="stat-label">Credits From Sessions</div>
+                <div class="stat-meta">Earned teaching</div>
+            </div>
+        </div>
+
+        <!-- FILTER AND ACTION BAR -->
+        <div class="sessions-filter-bar">
+            <div class="cm-pill-select" id="sessionsFilterNav">
+                <button class="rm-pill active" data-filter="all">All</button>
+                <button class="rm-pill" data-filter="upcoming">Upcoming</button>
+                <button class="rm-pill" data-filter="completed">Completed</button>
+                <button class="rm-pill" data-filter="cancelled">Cancelled</button>
+                <button class="rm-pill" data-filter="pending">Pending</button>
+            </div>
+            <button class="btn btn-primary" id="btnScheduleSession">+ Schedule Session</button>
+        </div>
+
+        <!-- SESSIONS LIST -->
+        <div class="sessions-list-container" id="allSessionsList">
+            
+            <!-- Session 1 -->
+            <div class="session-list-card s-border-learning" data-type="upcoming">
+                <div class="slc-top">
+                    <span class="role-badge role-learn">Learning</span>
+                    <span class="status-badge st-confirmed">Confirmed</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">Python Basics</div>
+                        <div class="slc-partner-text">with Arjun Mehta</div>
+                        <div class="slc-datetime">Tomorrow · 3:00 PM</div>
+                        <div class="slc-duration">1 hour · Google Meet</div>
+                        <div class="slc-notes">"Focus on functions and OOP concepts"</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#dbeafe;color:#1d4ed8;">AM</div>
+                        <div class="slc-partner-name">Arjun Mehta</div>
+                        <div class="slc-partner-rating">4.9 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="#" class="btn btn-primary btn-sm">Join Meet</a>
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                    <button class="btn btn-ghost btn-sm" onclick="openRescheduleModal()">Reschedule</button>
+                    <button class="btn btn-ghost btn-sm text-danger" onclick="openCancelModal()">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Session 2 -->
+            <div class="session-list-card s-border-teaching" data-type="pending">
+                <div class="slc-top">
+                    <span class="role-badge role-teach">Teaching</span>
+                    <span class="status-badge st-pending">Pending</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">Guitar Fundamentals</div>
+                        <div class="slc-partner-text">with Rohit Verma</div>
+                        <div class="slc-datetime">Friday · 5:30 PM</div>
+                        <div class="slc-duration">1 hour · Google Meet</div>
+                        <div class="slc-notes" style="display:none;"></div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#dcfce7;color:#15803d;">RV</div>
+                        <div class="slc-partner-name">Rohit Verma</div>
+                        <div class="slc-partner-rating">4.8 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                    <button class="btn btn-ghost btn-sm" onclick="openRescheduleModal()">Reschedule</button>
+                    <button class="btn btn-ghost btn-sm text-danger" onclick="openCancelModal()">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Session 3 -->
+            <div class="session-list-card s-border-teaching" data-type="completed">
+                <div class="slc-top">
+                    <span class="role-badge role-teach">Teaching</span>
+                    <span class="status-badge st-completed">Completed</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">Excel for Data</div>
+                        <div class="slc-partner-text">with Dev Nair</div>
+                        <div class="slc-datetime">Last Wednesday · 2:00 PM</div>
+                        <div class="slc-duration">1 hour · Google Meet</div>
+                        <div class="slc-credits-earn">+2000 credits earned</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#ede9fe;color:#6d28d9;">DN</div>
+                        <div class="slc-partner-name">Dev Nair</div>
+                        <div class="slc-partner-rating">4.7 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                </div>
+            </div>
+
+            <!-- Session 4 -->
+            <div class="session-list-card s-border-learning" data-type="completed">
+                <div class="slc-top">
+                    <span class="role-badge role-learn">Learning</span>
+                    <span class="status-badge st-completed">Completed</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">UI/UX Fundamentals</div>
+                        <div class="slc-partner-text">with Priya Sharma</div>
+                        <div class="slc-datetime">Last Monday · 4:00 PM</div>
+                        <div class="slc-duration">1.5 hours · Google Meet</div>
+                        <div class="slc-credits-spend">−1250 credits spent</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#fce7f3;color:#be185d;">PS</div>
+                        <div class="slc-partner-name">Priya Sharma</div>
+                        <div class="slc-partner-rating">5.0 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                    <button class="btn btn-primary btn-sm btnRateTrigger">Rate Session</button>
+                </div>
+            </div>
+
+            <!-- Session 5 -->
+            <div class="session-list-card s-border-cancelled" data-type="cancelled">
+                <div class="slc-top">
+                    <span class="role-badge role-learn op-70">Learning</span>
+                    <span class="status-badge st-cancelled">Cancelled</span>
+                </div>
+                <div class="slc-main op-70">
+                    <div class="slc-left">
+                        <div class="slc-skill">French Basics</div>
+                        <div class="slc-partner-text">with Meera Joshi</div>
+                        <div class="slc-datetime">3 days ago · 6:00 PM</div>
+                        <div class="slc-duration">1 hour · Google Meet</div>
+                        <div class="slc-notes">Reason: "Teacher cancelled"</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#fef3c7;color:#b45309;">MJ</div>
+                        <div class="slc-partner-name">Meera Joshi</div>
+                        <div class="slc-partner-rating">4.8 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                </div>
+            </div>
+
+            <!-- Session 6 -->
+            <div class="session-list-card s-border-teaching" data-type="completed">
+                <div class="slc-top">
+                    <span class="role-badge role-teach">Teaching</span>
+                    <span class="status-badge st-completed">Completed</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">Python OOP</div>
+                        <div class="slc-partner-text">with Kavya Reddy</div>
+                        <div class="slc-datetime">1 week ago · 3:00 PM</div>
+                        <div class="slc-duration">1 hour · Google Meet</div>
+                        <div class="slc-credits-earn">+2000 credits earned</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#ede9fe;color:#6d28d9;">KR</div>
+                        <div class="slc-partner-name">Kavya Reddy</div>
+                        <div class="slc-partner-rating">4.9 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                </div>
+            </div>
+
+            <!-- Session 7 -->
+            <div class="session-list-card s-border-learning" data-type="completed">
+                <div class="slc-top">
+                    <span class="role-badge role-learn">Learning</span>
+                    <span class="status-badge st-completed">Completed</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">Data Analysis</div>
+                        <div class="slc-partner-text">with Aditya Rao</div>
+                        <div class="slc-datetime">2 weeks ago · 5:00 PM</div>
+                        <div class="slc-duration">2 hours · Google Meet</div>
+                        <div class="slc-credits-spend">−2500 credits spent</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#dcfce7;color:#15803d;">AR</div>
+                        <div class="slc-partner-name">Aditya Rao</div>
+                        <div class="slc-partner-rating">4.7 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                </div>
+            </div>
+
+            <!-- Session 8 -->
+            <div class="session-list-card s-border-teaching" data-type="completed">
+                <div class="slc-top">
+                    <span class="role-badge role-teach">Teaching</span>
+                    <span class="status-badge st-completed">Completed</span>
+                </div>
+                <div class="slc-main">
+                    <div class="slc-left">
+                        <div class="slc-skill">Guitar Advanced</div>
+                        <div class="slc-partner-text">with Siddharth Kumar</div>
+                        <div class="slc-datetime">3 weeks ago · 7:00 PM</div>
+                        <div class="slc-duration">1 hour · Google Meet</div>
+                        <div class="slc-credits-earn">+2000 credits earned</div>
+                    </div>
+                    <div class="slc-right">
+                        <div class="slc-partner-av" style="background:#fef3c7;color:#b45309;">SK</div>
+                        <div class="slc-partner-name">Siddharth Kumar</div>
+                        <div class="slc-partner-rating">4.6 ★</div>
+                    </div>
+                </div>
+                <div class="slc-bottom">
+                    <a href="session-detail.html" class="btn btn-ghost btn-sm">View Details</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<!-- SCHEDULE SESSION MODAL -->
+<div class="custom-modal-overlay" id="scheduleModalOverlay">
+    <div class="custom-modal" style="max-width:520px;">
+        <div class="cm-header" style="border-bottom:1px solid var(--border);padding-bottom:16px;">
+            <h3>Schedule a Session</h3>
+            <button class="cm-close" id="closeScheduleModal">&times;</button>
+        </div>
+
+        <!-- Step 1: Details -->
+        <div class="cm-body" id="schStep1">
+            <div class="form-group" style="position:relative;margin-bottom:16px;">
+                <label class="form-label" style="font-weight:600;">Who are you scheduling with?</label>
+                <input type="text" class="form-input" id="partnerSearchInput" placeholder="Search students by name..." autocomplete="off">
+                <div class="partner-dropdown" id="partnerDropdown">
+                    <div class="partner-dropdown-item" data-partner="Arjun Mehta" data-t="Python, Machine Learning" data-w="Guitar" data-av="AM" data-bg="#dbeafe" data-col="#1d4ed8">
+                        <div class="pd-av" style="background:#dbeafe;color:#1d4ed8;">AM</div>
+                        <div class="pd-info">
+                            <div class="pd-name">Arjun Mehta</div>
+                            <div class="pd-skills">Teaches: Python • Wants: Guitar</div>
+                        </div>
+                    </div>
+                    <div class="partner-dropdown-item" data-partner="Priya Sharma" data-t="UI/UX Design, Figma" data-w="Data Analysis" data-av="PS" data-bg="#fce7f3" data-col="#be185d">
+                        <div class="pd-av" style="background:#fce7f3;color:#be185d;">PS</div>
+                        <div class="pd-info">
+                            <div class="pd-name">Priya Sharma</div>
+                            <div class="pd-skills">Teaches: UI/UX • Wants: Data Analysis</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Partner Selected Card inside input area initially hidden -->
+                <div class="selected-partner-card" id="selectedPartnerCard" style="display:none;"></div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px; opacity: 0.5; pointer-events: none;" id="schRoleGroup">
+                <label class="form-label" style="font-weight:600;">Your role:</label>
+                <div class="cm-pill-select" id="schRoleSelect">
+                    <button class="rm-pill active" data-val="learn" style="color:var(--primary);">I want to learn this</button>
+                    <button class="rm-pill" data-val="teach" style="color:var(--success);">I want to teach this</button>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px; opacity: 0.5; pointer-events: none;" id="schSkillGroup">
+                <label class="form-label" style="font-weight:600;">What skill?</label>
+                <div class="cm-pill-select" id="schSkillSelect">
+                    <!-- populated based on partner & role -->
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px;">
+                <label class="form-label" style="font-weight:600;">Duration:</label>
+                <div class="cm-pill-select" id="schDurationSelect">
+                    <button class="rm-pill">30 min</button>
+                    <button class="rm-pill active">1 hour</button>
+                    <button class="rm-pill">1.5 hours</button>
+                    <button class="rm-pill">2 hours</button>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:16px;">
+                <label class="form-label" style="font-weight:600;">Date &amp; Time:</label>
+                <input type="datetime-local" class="form-input" id="schDatetimeInput">
+            </div>
+
+            <div class="form-group" style="margin-bottom:24px;">
+                <label class="form-label" style="font-weight:600;">Session Notes (optional):</label>
+                <textarea class="form-input" id="schNotesInput" rows="3" maxlength="200" placeholder="Introduce yourself and set expectations..."></textarea>
+                <div style="text-align:right;font-size:12px;color:var(--text-muted);margin-top:4px;" id="schNotesCounter">0/200</div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;" id="btnContinueSchedule" disabled>Continue &rarr;</button>
+        </div>
+
+        <!-- Step 2: Confirm -->
+        <div class="cm-body" id="schStep2" style="display:none;">
+            <div class="sch-summary-card">
+                <div class="sch-s-row"><span class="sch-s-label">Skill:</span><span class="sch-s-val" id="sumSkill"></span></div>
+                <div class="sch-s-row"><span class="sch-s-label">With:</span><span class="sch-s-val" id="sumPartner"></span></div>
+                <div class="sch-s-row"><span class="sch-s-label">Time:</span><span class="sch-s-val" id="sumTime"></span></div>
+                <div class="sch-s-row"><span class="sch-s-label">Duration:</span><span class="sch-s-val" id="sumDur"></span></div>
+            </div>
+
+            <div class="sch-credit-summary" id="schCreditBox">
+                <!-- Inner HTML populated by JS -->
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:24px;">
+                <button class="btn btn-ghost" style="width:40%;" id="btnBackSchEdit">&larr; Back to Edit</button>
+                <button class="btn btn-primary" style="width:60%;" id="btnConfirmSession">Confirm Session</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RATE SESSION MODAL -->
+<div class="custom-modal-overlay" id="rateModalOverlay">
+    <div class="custom-modal" style="max-width:440px;">
+        <div class="cm-header">
+            <h3>Rate your session</h3>
+            <button class="cm-close" id="closeRateModal">&times;</button>
+        </div>
+        <div class="cm-body" style="text-align:center;">
+            <p style="margin-bottom:20px;color:var(--text-secondary);">How was your session with <span id="ratePartnerName" style="font-weight:600;">Priya Sharma</span>?</p>
+            
+            <div class="star-rating-selector" id="starRatingSystem">
+                <span class="r-star" data-val="1">★</span>
+                <span class="r-star" data-val="2">★</span>
+                <span class="r-star" data-val="3">★</span>
+                <span class="r-star" data-val="4">★</span>
+                <span class="r-star" data-val="5">★</span>
+            </div>
+
+            <div style="text-align:left;margin-top:24px;">
+                <label class="form-label">Write a review (optional):</label>
+                <textarea class="form-input" id="rateReviewInput" rows="3" maxlength="300" placeholder="What went well? Any areas of improvement?"></textarea>
+                <div style="text-align:right;font-size:12px;color:var(--text-muted);margin-top:4px;" id="rateCounter">0/300</div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;margin-top:24px;" id="btnSubmitRating">Post Rating</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-notification" id="toastContainer">
+    <div class="t-icon">✅</div>
+    <div class="t-content"><div style="font-weight:600;font-size:14px;" id="toastMsg">Saved!</div></div>
+    <button class="t-close">&times;</button>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

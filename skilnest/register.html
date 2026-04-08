@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up - SkillNest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="register-page">
+
+    
+    <nav class="reg-nav">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                SkillNest
+            </a>
+            <div style="font-size: 14px; color: var(--text-secondary);">
+                Already have an account? <a href="login.html" style="color: var(--primary); font-weight: 500;">Log in</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-line">
+                <div class="progress-line-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-steps">
+                <div class="step-indicator active" id="stepIndicator1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Account</div>
+                </div>
+                <div class="step-indicator" id="stepIndicator2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Your Profile</div>
+                </div>
+                <div class="step-indicator" id="stepIndicator3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Your Skills</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="container">
+        <div class="reg-card">
+            
+            
+            <div class="reg-step-section active" id="step1">
+                <h2 class="auth-title display-font">Create your account</h2>
+                <p class="auth-subtitle">Start with the basics — takes less than a minute</p>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="regName" class="form-input" placeholder="e.g. Jane Doe">
+                    <div class="error-text">Please enter your name.</div>
+                </div>
+
+                <div class="form-group" style="position: relative;">
+                    <label class="form-label">College Name</label>
+                    <div style="position: relative;">
+                        
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 16px; top: 14px; color: var(--text-muted); pointer-events: none;">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="regCollege" class="form-input" style="padding-left: 44px;" placeholder="Search for your university">
+                    </div>
+                    <div class="error-text">Please select your college.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="regEmail" class="form-input" placeholder="yourname@college.edu">
+                    <div class="error-text">Please enter a valid email address.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="regPassword" class="form-input" placeholder="••••••••">
+                    <span class="password-toggle" id="regTogglePwd1">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                    <div class="error-text">Password is too weak.</div>
+                </div>
+
+                <div class="password-strength">
+                    <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                    <div class="strength-label" id="strengthLabel">Weak</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" id="regConfirmPwd" class="form-input" placeholder="••••••••">
+                    <span class="password-toggle" id="regTogglePwd2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                    <div class="error-text">Passwords do not match.</div>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: flex-start; gap: 12px; margin-top: 24px;">
+                    <input type="checkbox" id="regTerms" style="margin-top: 4px; width: 16px; height: 16px;">
+                    <label for="regTerms" style="font-size: 14px; color: var(--text-secondary); line-height: 1.4;">
+                        I agree to the <a href="index.html#terms" style="color: var(--primary);">Terms of Service</a> and <a href="index.html#privacy" style="color: var(--primary);">Privacy Policy</a>.
+                    </label>
+                </div>
+
+                <button class="btn btn-primary auth-btn" id="btnNext1" style="margin-top: 16px;">Continue &rarr;</button>
+            </div>
+
+            
+            <div class="reg-step-section" id="step2">
+                <h2 class="auth-title display-font">Set up your profile</h2>
+                <p class="auth-subtitle">This is how other students will find and recognize you</p>
+
+                <div class="photo-upload-wrapper">
+                    <div class="photo-upload-circle" id="photoUploadZone">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 8px;">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        <span style="font-size: 13px; font-weight: 500;">Upload photo</span>
+                        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                        <img src="" class="photo-preview" id="photoPreview">
+                        <div class="photo-remove" id="photoRemoveBtn">&times;</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Bio / About You</label>
+                    <textarea class="form-input" id="regBio" rows="4" placeholder="Tell us a little about yourself..."></textarea>
+                    <div style="text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 4px;" id="bioCounter">0/160</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <select class="form-input" id="regDept">
+                        <option value="">Select your department...</option>
+                        <option value="cs">Computer Science</option>
+                        <option value="it">Information Technology</option>
+                        <option value="ec">Electronics</option>
+                        <option value="me">Mechanical</option>
+                        <option value="ce">Civil</option>
+                        <option value="ba">Business Administration</option>
+                        <option value="ah">Arts & Humanities</option>
+                        <option value="sc">Science</option>
+                        <option value="ot">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Year of Study</label>
+                    <div class="radio-pills">
+                        <label class="radio-pill-label">
+                            <input type="radio" name="year" value="1" checked>
+                            <span class="radio-pill-text">1st Year</span>
+                        </label>
+                        <label class="radio-pill-label">
+                            <input type="radio" name="year" value="2">
+                            <span class="radio-pill-text">2nd Year</span>
+                        </label>
+                        <label class="radio-pill-label">
+                            <input type="radio" name="year" value="3">
+                            <span class="radio-pill-text">3rd Year</span>
+                        </label>
+                        <label class="radio-pill-label">
+                            <input type="radio" name="year" value="4">
+                            <span class="radio-pill-text">4th Year</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 16px; margin-top: 32px;">
+                    <button class="btn btn-ghost" id="btnSkip2" style="flex: 1;">Skip</button>
+                    <button class="btn btn-primary" id="btnNext2" style="flex: 2;">Save & Continue &rarr;</button>
+                </div>
+            </div>
+
+            
+            <div class="reg-step-section" id="step3">
+                <h2 class="auth-title display-font">What do you want to teach and learn?</h2>
+                <p class="auth-subtitle">Add at least one skill in each section to continue</p>
+
+                <div class="skills-selector-grid">
+                    
+                    
+                    <div class="skills-col teach-col">
+                        <h3 style="font-size: 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: var(--success);">↑</span> Skills I Can Teach
+                        </h3>
+                        
+                        <div class="skill-search-wrapper">
+                            <input type="text" class="form-input" id="teachSearch" placeholder="Search or add a skill...">
+                            <div class="skill-suggestions" id="teachSuggestions"></div>
+                        </div>
+
+                        <div class="selected-skills-container" id="teachContainer"></div>
+
+                        <div class="proficiency-selector" id="teachProficiency">
+                            <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px;">Your proficiency in <strong id="profSkillName">Skill</strong>:</div>
+                            <div class="radio-pills" style="grid-template-columns: 1fr 1fr 1fr;">
+                                <label class="radio-pill-label">
+                                    <input type="radio" name="proficiency" value="Beginner">
+                                    <span class="radio-pill-text" style="font-size: 12px; padding: 8px;">Beginner</span>
+                                </label>
+                                <label class="radio-pill-label">
+                                    <input type="radio" name="proficiency" value="Intermediate" checked>
+                                    <span class="radio-pill-text" style="font-size: 12px; padding: 8px;">Intermediate</span>
+                                </label>
+                                <label class="radio-pill-label">
+                                    <input type="radio" name="proficiency" value="Advanced">
+                                    <span class="radio-pill-text" style="font-size: 12px; padding: 8px;">Advanced</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-primary btn-sm" id="confirmTeachBtn" style="margin-top: 12px; width: 100%; padding: 8px; font-size: 13px;">Confirm Skill</button>
+                        </div>
+                    </div>
+
+                    
+                    <div class="skills-col learn-col">
+                        <h3 style="font-size: 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: var(--primary);">↓</span> Skills I Want to Learn
+                        </h3>
+                        
+                        <div class="skill-search-wrapper">
+                            <input type="text" class="form-input" id="learnSearch" placeholder="Search or add a skill...">
+                            <div class="skill-suggestions" id="learnSuggestions"></div>
+                        </div>
+
+                        <div class="selected-skills-container" id="learnContainer"></div>
+                    </div>
+
+                </div>
+
+                <div id="skillsError" class="error-text" style="margin-top: 16px; text-align: center;">You must add at least one teach skill and one learn skill.</div>
+
+                <button class="btn btn-primary auth-btn" id="btnComplete" style="margin-top: 24px;">Complete Setup &rarr;</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

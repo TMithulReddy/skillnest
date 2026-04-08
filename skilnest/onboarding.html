@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SkillNest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="onboarding-page" style="background: white;">
+
+    <div class="onboarding-header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+            </div>
+            SkillNest
+        </a>
+    </div>
+
+
+    <div id="onboarding-screen-1" class="onboarding-screen active">
+        <div class="onboarding-content-center">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <h1 class="display-font"
+                style="font-size: 36px; margin-top: 24px; margin-bottom: 12px; animation: fadeInUp 0.8s ease 0.5s both;">
+                You're in, Student! 🎉</h1>
+            <p
+                style="color: var(--text-secondary); font-size: 18px; max-width: 400px; margin: 0 auto; animation: fadeInUp 0.8s ease 0.7s both;">
+                Your SkillNest account is ready. Here's what you need to know before you start.
+            </p>
+            <div style="margin-top: 32px; animation: fadeIn 1s ease 2s both;">
+                <button class="btn btn-ghost" id="skipAnimBtn">Continue Tracking &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="onboarding-screen-2" class="onboarding-screen">
+        <div class="container" style="max-width: 800px; padding-top: 48px;">
+            <div class="text-center" style="margin-bottom: 40px; text-align: center;">
+                <div class="badge" style="background: var(--success); color: white; margin-bottom: 16px;">Welcome Bonus
+                </div>
+                <h1 class="display-font" style="font-size: 36px; margin-bottom: 16px;">You have <span
+                        id="creditCounter">0</span> credits to start</h1>
+                <p style="color: var(--text-secondary); font-size: 18px;">Credits run the SkillNest ecosystem. No money
+                    involved.</p>
+            </div>
+
+            <div class="credit-card" style="max-width: 400px; margin: 0 auto 48px;">
+                <div class="credit-card-header">SkillNest Credits 💎</div>
+                <div class="credit-amount display-font">1500</div>
+                <div class="credit-label">credits available</div>
+            </div>
+
+            <div class="onboarding-cards">
+                <div class="ob-card">
+                    <div class="ob-icon" style="background: var(--primary-light); color: var(--primary);">💡</div>
+                    <h3 style="margin-bottom: 8px;">Earn credits</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px;">Teach a session and earn 800 credits. Get
+                        bonuses for ratings and streaks.</p>
+                </div>
+                <div class="ob-card">
+                    <div class="ob-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">📚</div>
+                    <h3 style="margin-bottom: 8px;">Spend credits</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px;">Request a learning session for 500
+                        credits. Held in escrow until session completes.</p>
+                </div>
+                <div class="ob-card">
+                    <div class="ob-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">🔒</div>
+                    <h3 style="margin-bottom: 8px;">Protected system</h3>
+                    <p style="color: var(--text-secondary); font-size: 14px;">Credits are refunded if a teacher cancels.
+                        No-shows are penalized automatically.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 48px;">
+                <a href="dashboard.html" class="btn btn-primary btn-large">Got it, take me to my dashboard &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

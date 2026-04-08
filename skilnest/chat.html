@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - SkillNest</title>
+    <meta name="description" content="Chat with other students and schedule sessions on SkillNest.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="index.html" class="logo" style="font-size:20px;">
+            <div class="logo-icon" style="width:32px;height:32px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            SkillNest
+        </a>
+        <button class="mobile-close" id="sidebarClose">&times;</button>
+    </div>
+    <div class="sidebar-user">
+        <div class="user-avatar">SN</div>
+        <div class="user-info">
+            <div class="user-name">Student Name</div>
+            <div class="user-college">JNTU College</div>
+        </div>
+        <div class="user-pill-credits">💎 10500</div>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-group">
+            <a href="dashboard.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Dashboard
+            </a>
+            <a href="browse.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Browse Skills
+            </a>
+            <a href="sessions.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                My Sessions
+            </a>
+            <a href="chat.html" class="sidebar-link active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Chat
+            </a>
+            <a href="credits.html" class="sidebar-link">
+                <span style="display:inline-block;width:20px;text-align:center;">💎</span>
+                Credits
+            </a>
+            <a href="profile.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                My Profile
+            </a>
+        </div>
+        <div class="nav-bottom">
+            <a href="profile.html#settings" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Settings
+            </a>
+            <a href="login.html" class="sidebar-link text-danger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Log Out
+            </a>
+        </div>
+    </nav>
+</aside>
+
+<main class="main-content" style="display:flex; flex-direction:column; height: 100vh;">
+    <header class="topbar" style="flex-shrink:0;">
+        <div class="topbar-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="greeting">
+                <h2 class="display-font" style="font-size:20px;">Messages</h2>
+                <div style="font-size:13px;color:var(--text-secondary);">Real-time conversations with other students</div>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <a href="profile.html" class="topbar-avatar">SN</a>
+        </div>
+    </header>
+
+    <div class="chat-wrapper">
+        <!-- LEFT PANEL: Conversation List -->
+        <div class="chat-sidebar">
+            <div class="cs-header">
+                <input type="text" id="chatSearchInput" class="form-input" placeholder="Search conversations..." style="margin-bottom:0;">
+            </div>
+            <div class="cs-list" id="convList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Active Chat -->
+        <div class="chat-main" id="chatMainPanel">
+            <div id="noChatSelected" class="chat-empty-state">
+                <svg width="48" height="48" style="margin-bottom:16px;color:var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                <h3 style="font-size:18px;margin-bottom:8px;">Your Messages</h3>
+                <p style="color:var(--text-secondary);font-size:14px;">Select an online user from the sidebar to start a new chat or continue an existing conversation.</p>
+            </div>
+
+            <div id="activeChatView" style="display:none; flex-direction:column; height:100%;">
+                <div class="chat-header">
+                    <button id="btnBackToConvList" class="btn btn-ghost btn-icon" style="margin-right:12px;display:none;">&larr;</button>
+                    <div class="chat-header-user">
+                        <div class="ch-avatar" id="activeChatAvatar"></div>
+                        <div class="ch-info">
+                            <h3 id="activeChatName">Loading...</h3>
+                            <div class="ch-status" id="activeChatStatus">
+                                <span class="status-dot"></span> <span class="status-text">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="btn btn-ghost btn-sm" id="btnRequestMeet" title="Propose Meet link" style="padding:8px; border-radius:50%;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4z"></path><rect x="3" y="6" width="12" height="12" rx="2" ry="2"></rect></svg></button>
+                        <a href="profile-view.html" class="btn btn-ghost btn-sm" style="padding:8px; border-radius:50%;" title="View Profile">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="chat-messages-area" id="chatMessagesArea">
+                    <!-- Messages go here -->
+                </div>
+
+                <div class="chat-typing-indicator" id="chatTypingIndicator" style="display:none;">
+                    <span>Arjun is typing</span>
+                    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                </div>
+
+                <div class="chat-input-area">
+                    <form id="chatInputForm" style="display:flex; width:100%; align-items:flex-end; gap:12px; background:var(--bg-secondary); padding:12px 16px; border-radius:24px;">
+                        <textarea id="chatTextInput" placeholder="Type a message... (max 500 chars)" rows="1" maxlength="500"></textarea>
+                        <button type="submit" class="btn-send-msg" id="btnSendMsg" disabled>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </form>
+                    <div class="chat-input-error" id="chatInputError"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/chat.js"></script>
+</body>
+</html>

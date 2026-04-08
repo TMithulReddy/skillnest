@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - SkillNest</title>
+    <meta name="description" content="Manage your SkillNest profile, skills, sessions, and account settings.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="index.html" class="logo" style="font-size:20px;">
+            <div class="logo-icon" style="width:32px;height:32px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            SkillNest
+        </a>
+        <button class="mobile-close" id="sidebarClose">&times;</button>
+    </div>
+    <div class="sidebar-user">
+        <div class="user-avatar">SN</div>
+        <div class="user-info">
+            <div class="user-name">Student Name</div>
+            <div class="user-college">JNTU College</div>
+        </div>
+        <div class="user-pill-credits">💎 10500</div>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-group">
+            <a href="dashboard.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Dashboard
+            </a>
+            <a href="browse.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Browse Skills
+            </a>
+            <a href="sessions.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                My Sessions
+            </a>
+            <a href="chat.html" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Chat
+            </a>
+            <a href="credits.html" class="sidebar-link">
+                <span style="display:inline-block;width:20px;text-align:center;">💎</span>
+                Credits
+            </a>
+            <a href="profile.html" class="sidebar-link active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                My Profile
+            </a>
+        </div>
+        <div class="nav-bottom">
+            <a href="profile.html#settings" class="sidebar-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Settings
+            </a>
+            <a href="login.html" class="sidebar-link text-danger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Log Out
+            </a>
+        </div>
+    </nav>
+</aside>
+
+<main class="main-content">
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="greeting">
+                <h2 class="display-font" style="font-size:20px;">My Profile</h2>
+                <div style="font-size:13px;color:var(--text-secondary);">Manage your profile and account settings</div>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div class="notification-container">
+                <button class="notification-btn" id="notifBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="notification-dropdown" id="notifDropdown">
+                    <div style="font-weight:600;padding:16px;border-bottom:1px solid var(--border);">Notifications</div>
+                    <div class="notif-item unread"><div class="n-icon">🎯</div><div class="n-text"><strong>New match:</strong> Rohit Verma wants to learn Guitar!</div></div>
+                    <div class="notif-item"><div class="n-icon">💎</div><div class="n-text"><strong>Balance updated:</strong> You earned 2000 credits for teaching Python.</div></div>
+                    <div style="text-align:center;padding:12px;"><a href="javascript:void(0)" style="font-size:13px;color:var(--primary);font-weight:500;">Mark all as read</a></div>
+                </div>
+            </div>
+            <a href="profile.html" class="topbar-avatar">SN</a>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+
+        <!-- PROFILE HEADER CARD -->
+        <div class="p-card profile-header-card" style="margin-bottom:24px;">
+            <div class="ph-left">
+                <div class="profile-photo-wrap" id="profilePhotoWrap">
+                    <div class="profile-photo-circle" id="profilePhotoCircle">
+                        <span class="ph-initials" id="phInitials">SN</span>
+                        <img src="" id="phPhotoImg" class="ph-photo-img" alt="Profile photo">
+                        <div class="ph-hover-overlay">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <span style="font-size:11px;margin-top:4px;">Change</span>
+                        </div>
+                    </div>
+                    <input type="file" id="phFileInput" accept="image/*" style="display:none;">
+                </div>
+                <div class="ph-info">
+                    <h2 class="display-font" style="font-size:24px;margin-bottom:4px;">Student Name</h2>
+                    <div style="font-size:15px;color:var(--text-secondary);margin-bottom:4px;">B.Tech Information Technology · 2nd Year</div>
+                    <div style="font-size:14px;color:var(--text-muted);margin-bottom:10px;">JNTU College of Engineering, Hyderabad</div>
+                    <div class="ph-bio-wrap">
+                        <p class="ph-bio-text" id="phBioText">Passionate about technology and peer learning. I teach Python and want to learn UI/UX design.</p>
+                    </div>
+                    <div class="ph-stats-row">
+                        <span>💎 42 credits</span><span class="ph-dot">·</span>
+                        <span>⭐ 4.8 rating</span><span class="ph-dot">·</span>
+                        <span>📅 12 sessions</span><span class="ph-dot">·</span>
+                        <span>🎓 3 skills teaching</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ph-right">
+                <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:16px;">
+                    <div class="profile-completion-ring" style="position:relative;width:80px;height:80px;">
+                        <svg width="80" height="80" viewBox="0 0 80 80">
+                            <circle cx="40" cy="40" r="32" fill="none" stroke="#e2e8f0" stroke-width="7"/>
+                            <circle cx="40" cy="40" r="32" fill="none" stroke="#2563eb" stroke-width="7" stroke-dasharray="201" stroke-dashoffset="56" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                        </svg>
+                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px;color:var(--primary);">72%</div>
+                    </div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;">Profile Complete</div>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <div style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;">COMPLETE YOUR PROFILE</div>
+                    <a href="#" class="ph-incomplete-link" onclick="switchTab('settings')">Add mobile number →</a>
+                    <a href="#" class="ph-incomplete-link" onclick="switchTab('overview')">Add availability schedule →</a>
+                    <a href="#" class="ph-incomplete-link" onclick="switchTab('skills')">Add certifications →</a>
+                </div>
+                <div class="ph-actions">
+                    <button class="btn btn-primary" onclick="switchTab('overview')">Edit Profile</button>
+                    <a href="profile-view.html" class="btn btn-ghost">View Public Profile →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB NAV -->
+        <div class="profile-tabs" id="profileTabs">
+            <button class="p-tab active" data-tab="overview">Overview</button>
+            <button class="p-tab" data-tab="skills">Skills</button>
+            <button class="p-tab" data-tab="sessions">Sessions</button>
+            <button class="p-tab" data-tab="credits">Credits</button>
+            <button class="p-tab" data-tab="settings" id="settingsTabBtn">Settings</button>
+        </div>
+
+        <!-- ===================== TAB 1: OVERVIEW ===================== -->
+        <div class="p-tab-content active" id="tab-overview">
+            <div class="tab-grid-60-40">
+                <!-- LEFT -->
+                <div style="display:flex;flex-direction:column;gap:20px;">
+
+                    <!-- About Me -->
+                    <div class="p-card">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+                            <h3 style="font-size:16px;">About Me</h3>
+                            <button class="icon-btn" id="editBioBtn" title="Edit bio">✏️</button>
+                        </div>
+                        <div id="bioDisplay">
+                            <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;">Passionate about technology and peer learning. I teach Python and want to learn UI/UX design. Always open to collaborating on interesting projects and helping peers grow their skills.</p>
+                        </div>
+                        <div id="bioEditArea" style="display:none;">
+                            <textarea id="bioTextarea" class="form-input" rows="4" maxlength="300" style="margin-bottom:10px;">Passionate about technology and peer learning. I teach Python and want to learn UI/UX design. Always open to collaborating on interesting projects and helping peers grow their skills.</textarea>
+                            <div style="display:flex;gap:8px;">
+                                <button class="btn btn-primary btn-sm" id="saveBioBtn">Save</button>
+                                <button class="btn btn-ghost btn-sm" id="cancelBioBtn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Details -->
+                    <div class="p-card">
+                        <h3 style="font-size:16px;margin-bottom:16px;">Personal Details</h3>
+                        <div class="detail-row">
+                            <div class="detail-label">Department</div>
+                            <div class="detail-value">B.Tech Information Technology</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Year</div>
+                            <div class="detail-value">2nd Year</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">College</div>
+                            <div class="detail-value">JNTU College of Engineering, Hyderabad</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Mobile</div>
+                            <div class="detail-value" style="color:var(--text-muted);">Not added — <a href="#" class="text-primary" onclick="switchTab('settings')">Add →</a></div>
+                        </div>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="p-card">
+                        <h3 style="font-size:16px;margin-bottom:4px;">Availability Schedule</h3>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">When are you available for sessions?</p>
+                        <div class="avail-grid" id="availGrid">
+                            <!-- Rendered by JS -->
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="saveAvailBtn" style="display:none;margin-top:16px;">Save Schedule</button>
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
+                <div style="display:flex;flex-direction:column;gap:20px;">
+
+                    <!-- Reviews -->
+                    <div class="p-card">
+                        <h3 style="font-size:16px;margin-bottom:16px;">Recent Reviews</h3>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="rev-avatar" style="background:#dbeafe;color:#1d4ed8;">AM</div>
+                                <div>
+                                    <div style="font-weight:600;font-size:14px;">Arjun Mehta</div>
+                                    <div class="rev-stars">★★★★★ <span style="color:var(--text-muted);font-size:12px;">2 days ago</span></div>
+                                </div>
+                            </div>
+                            <p class="rev-text">"Excellent Python teacher, very patient and clear with explanations. Would definitely book again."</p>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="rev-avatar" style="background:#fce7f3;color:#be185d;">PS</div>
+                                <div>
+                                    <div style="font-weight:600;font-size:14px;">Priya Sharma</div>
+                                    <div class="rev-stars">★★★★★ <span style="color:var(--text-muted);font-size:12px;">1 week ago</span></div>
+                                </div>
+                            </div>
+                            <p class="rev-text">"Helped me understand UI/UX basics in just one session. Very structured teaching approach."</p>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="rev-avatar" style="background:#dcfce7;color:#15803d;">RV</div>
+                                <div>
+                                    <div style="font-weight:600;font-size:14px;">Rohit Verma</div>
+                                    <div class="rev-stars">★★★★☆ <span style="color:var(--text-muted);font-size:12px;">2 weeks ago</span></div>
+                                </div>
+                            </div>
+                            <p class="rev-text">"Good session overall, clear communication and good knowledge of the subject."</p>
+                        </div>
+                        <a href="sessions.html" style="font-size:13px;color:var(--primary);font-weight:500;">View All Reviews →</a>
+                    </div>
+
+                    <!-- Endorsements -->
+                    <div class="p-card">
+                        <h3 style="font-size:16px;margin-bottom:16px;">Skill Endorsements</h3>
+                        <div class="endorse-row">
+                            <div class="endorse-skill">Python</div>
+                            <div style="font-size:13px;color:var(--text-secondary);">8 endorsements</div>
+                            <button class="btn btn-ghost btn-sm" disabled title="This is your own skill" style="cursor:not-allowed;opacity:0.5;">Endorse</button>
+                        </div>
+                        <div class="endorse-row">
+                            <div class="endorse-skill">Guitar</div>
+                            <div style="font-size:13px;color:var(--text-secondary);">3 endorsements</div>
+                            <button class="btn btn-ghost btn-sm" disabled title="This is your own skill" style="cursor:not-allowed;opacity:0.5;">Endorse</button>
+                        </div>
+                        <div class="endorse-row">
+                            <div class="endorse-skill">Excel</div>
+                            <div style="font-size:13px;color:var(--text-secondary);">5 endorsements</div>
+                            <button class="btn btn-ghost btn-sm" disabled title="This is your own skill" style="cursor:not-allowed;opacity:0.5;">Endorse</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 2: SKILLS ===================== -->
+        <div class="p-tab-content" id="tab-skills">
+            <div class="tab-grid-split">
+                <!-- Teach -->
+                <div>
+                    <div class="skills-section-header teach-header">
+                        <span>↑</span> Skills I Teach
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:12px;" id="teachSkillsList">
+                        <div class="skill-card">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                                <div>
+                                    <div style="font-weight:600;font-size:15px;">Python</div>
+                                    <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">Advanced · 6 sessions · 4.9★ · 8 endorsements</div>
+                                </div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-ghost btn-sm">Edit</button>
+                                    <button class="btn btn-ghost btn-sm" style="color:#ef4444;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skill-card">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                                <div>
+                                    <div style="font-weight:600;font-size:15px;">Guitar</div>
+                                    <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">Intermediate · 3 sessions · 4.7★ · 3 endorsements</div>
+                                </div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-ghost btn-sm">Edit</button>
+                                    <button class="btn btn-ghost btn-sm" style="color:#ef4444;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skill-card">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                                <div>
+                                    <div style="font-weight:600;font-size:15px;">Excel</div>
+                                    <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">Intermediate · 3 sessions · 4.8★ · 5 endorsements</div>
+                                </div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-ghost btn-sm">Edit</button>
+                                    <button class="btn btn-ghost btn-sm" style="color:#ef4444;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skill-card skill-add-card" id="addTeachSkillToggle">
+                            <div style="text-align:center;color:var(--primary);font-weight:600;font-size:14px;cursor:pointer;" id="addTeachTrigger">+ Add New Skill to Teach</div>
+                            <div id="addTeachForm" style="display:none;margin-top:12px;">
+                                <input type="text" class="form-input" id="addTeachInput" placeholder="Search skill..." style="margin-bottom:10px;">
+                                <div class="skill-suggestions" id="addTeachSuggestions"></div>
+                                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;" id="addTeachProficiencyPills">
+                                    <button class="b-filter-pill active" data-prof="Beginner">Beginner</button>
+                                    <button class="b-filter-pill" data-prof="Intermediate">Intermediate</button>
+                                    <button class="b-filter-pill" data-prof="Advanced">Advanced</button>
+                                </div>
+                                <button class="btn btn-primary btn-sm" style="width:100%;margin-top:12px;" id="confirmAddTeachBtn">Add Skill</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learn -->
+                <div>
+                    <div class="skills-section-header learn-header">
+                        <span>↓</span> Skills I Want to Learn
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:12px;" id="learnSkillsList">
+                        <div class="skill-card" style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-weight:600;font-size:15px;">UI/UX Design</div>
+                                <div style="font-size:12px;margin-top:4px;"><span class="status-badge-on">● Actively looking</span></div>
+                            </div>
+                            <button class="sn-toggle active" data-skill="uiux" title="Toggle actively looking"></button>
+                        </div>
+                        <div class="skill-card" style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-weight:600;font-size:15px;">French</div>
+                                <div style="font-size:12px;margin-top:4px;"><span class="status-badge-on">● Actively looking</span></div>
+                            </div>
+                            <button class="sn-toggle active" data-skill="french" title="Toggle actively looking"></button>
+                        </div>
+                        <div class="skill-card" style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-weight:600;font-size:15px;">React</div>
+                                <div style="font-size:12px;margin-top:4px;"><span class="status-badge-off">○ Not actively looking</span></div>
+                            </div>
+                            <button class="sn-toggle" data-skill="react" title="Toggle actively looking"></button>
+                        </div>
+                        <div class="skill-card skill-add-card">
+                            <div style="text-align:center;color:var(--primary);font-weight:600;font-size:14px;cursor:pointer;" id="addLearnTrigger">+ Add New Skill to Learn</div>
+                            <div id="addLearnForm" style="display:none;margin-top:12px;">
+                                <input type="text" class="form-input" id="addLearnInput" placeholder="Search skill..." style="margin-bottom:10px;">
+                                <div class="skill-suggestions" id="addLearnSuggestions"></div>
+                                <button class="btn btn-primary btn-sm" style="width:100%;margin-top:10px;" id="confirmAddLearnBtn">Add Skill</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 3: SESSIONS ===================== -->
+        <div class="p-tab-content" id="tab-sessions">
+            <div class="p-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+                    <h3 style="font-size:16px;">My Sessions</h3>
+                    <div class="cm-pill-select" id="sessionFilter">
+                        <button class="rm-pill active" data-sf="all">All</button>
+                        <button class="rm-pill" data-sf="upcoming">Upcoming</button>
+                        <button class="rm-pill" data-sf="completed">Completed</button>
+                        <button class="rm-pill" data-sf="cancelled">Cancelled</button>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:12px;" id="profileSessionList">
+                    <div class="session-card s-learning" data-sf="upcoming">
+                        <div class="s-role">You're learning</div>
+                        <h4 class="s-title">Python</h4>
+                        <div class="s-detail">with Arjun Mehta</div>
+                        <div class="s-meta"><span>📅 Tomorrow · 3:00 PM</span><span>⏱ 1 hour</span></div>
+                        <div class="s-status st-confirmed">Confirmed</div>
+                    </div>
+                    <div class="session-card s-teaching" data-sf="upcoming">
+                        <div class="s-role">You're teaching</div>
+                        <h4 class="s-title">Guitar</h4>
+                        <div class="s-detail">to Rohit Verma</div>
+                        <div class="s-meta"><span>📅 Friday · 5:30 PM</span><span>⏱ 1 hour</span></div>
+                        <div class="s-status st-pending">Pending</div>
+                    </div>
+                    <div class="session-card s-learning" data-sf="completed">
+                        <div class="s-role">You're learning</div>
+                        <h4 class="s-title">Figma</h4>
+                        <div class="s-detail">with Priya Sharma</div>
+                        <div class="s-meta"><span>📅 Last Monday · 4:00 PM</span><span>⏱ 1.5 hours</span></div>
+                        <div class="s-status st-confirmed" style="background:#dcfce7;color:#15803d;">Completed ✓</div>
+                    </div>
+                    <div class="session-card s-teaching" data-sf="completed">
+                        <div class="s-role">You're teaching</div>
+                        <h4 class="s-title">Excel</h4>
+                        <div class="s-detail">to Dev Nair</div>
+                        <div class="s-meta"><span>📅 Last Wednesday · 2:00 PM</span><span>⏱ 1 hour</span></div>
+                        <div class="s-status st-confirmed" style="background:#dcfce7;color:#15803d;">Completed ✓</div>
+                    </div>
+                    <div class="session-card" data-sf="cancelled" style="border-color:#fca5a5;background:#fff5f5;">
+                        <div class="s-role">You were learning</div>
+                        <h4 class="s-title">Spanish</h4>
+                        <div class="s-detail">Session cancelled</div>
+                        <div class="s-meta"><span>📅 Last Month</span></div>
+                        <div class="s-status" style="background:#fee2e2;color:#dc2626;">Cancelled</div>
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:20px;">
+                    <a href="sessions.html" style="font-size:14px;color:var(--primary);font-weight:500;">View All Sessions →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 4: CREDITS ===================== -->
+        <div class="p-tab-content" id="tab-credits">
+            <div class="credits-hero-card" style="margin-bottom:24px;">
+                <div>
+                    <div class="ch-balance">42</div>
+                    <div class="ch-label">Credits Available</div>
+                </div>
+                <div style="text-align:right;">
+                    <a href="credits.html" class="btn btn-ghost" style="background:rgba(255,255,255,0.2);color:white;border:none;margin-bottom:8px;">View Full History →</a>
+                </div>
+            </div>
+            <div class="p-card">
+                <h3 style="font-size:16px;margin-bottom:16px;">Recent Transactions</h3>
+                <div class="transaction-row type-earn"><div class="tr-left"><div class="tr-icon earn">📉</div><div><div class="tr-desc">Taught Python Basics</div><div class="tr-date">2 hours ago</div></div></div><div class="tr-amount earn">+8 credits</div></div>
+                <div class="transaction-row type-earn"><div class="tr-left"><div class="tr-icon earn">⭐</div><div><div class="tr-desc">5-star rating received</div><div class="tr-date">2 hours ago</div></div></div><div class="tr-amount earn">+2 credits</div></div>
+                <div class="transaction-row type-spend"><div class="tr-left"><div class="tr-icon spend">💸</div><div><div class="tr-desc">Requested Figma session</div><div class="tr-date">1 day ago</div></div></div><div class="tr-amount spend">−5 credits</div></div>
+                <div class="transaction-row type-earn"><div class="tr-left"><div class="tr-icon earn">📉</div><div><div class="tr-desc">Taught Guitar session</div><div class="tr-date">3 days ago</div></div></div><div class="tr-amount earn">+8 credits</div></div>
+                <div class="transaction-row type-earn"><div class="tr-left"><div class="tr-icon earn">💎</div><div><div class="tr-desc">Profile completed bonus</div><div class="tr-date">4 days ago</div></div></div><div class="tr-amount earn">+5 credits</div></div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 5: SETTINGS ===================== -->
+        <div class="p-tab-content" id="tab-settings">
+
+            <!-- Account -->
+            <div class="p-card" style="margin-bottom:20px;">
+                <h3 style="font-size:16px;margin-bottom:20px;">Account</h3>
+                <div class="settings-row">
+                    <div>
+                        <div class="settings-row-label">Email Address</div>
+                        <div class="settings-row-value">student@jntu.ac.in</div>
+                    </div>
+                    <button class="btn btn-ghost btn-sm">Change Email</button>
+                </div>
+                <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:12px;">
+                    <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+                        <div>
+                            <div class="settings-row-label">Password</div>
+                            <div class="settings-row-value">••••••••</div>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" id="togglePwdFormBtn">Change Password</button>
+                    </div>
+                    <div id="pwdChangeForm" style="display:none;width:100%;padding:16px;background:var(--bg-page);border-radius:var(--radius-md);">
+                        <div class="form-group" style="margin-bottom:12px;"><label class="form-label">Current Password</label><input type="password" class="form-input" placeholder="••••••••"></div>
+                        <div class="form-group" style="margin-bottom:8px;"><label class="form-label">New Password</label><input type="password" class="form-input" id="newPwdInput" placeholder="••••••••"></div>
+                        <div class="password-strength" style="margin-bottom:12px;"><div class="strength-bar"><div class="strength-fill" id="newPwdStrengthFill"></div></div><div class="strength-label" id="newPwdStrengthLabel"></div></div>
+                        <div class="form-group" style="margin-bottom:16px;"><label class="form-label">Confirm New Password</label><input type="password" class="form-input" placeholder="••••••••"></div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-primary btn-sm">Save Password</button>
+                            <button class="btn btn-ghost btn-sm" id="cancelPwdFormBtn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <div>
+                        <div class="settings-row-label">Mobile Number</div>
+                        <div class="settings-row-value" style="color:var(--text-muted);">Not added</div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" style="width:180px;height:38px;font-size:13px;">
+                        <button class="btn btn-primary btn-sm">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="p-card" style="margin-bottom:20px;">
+                <h3 style="font-size:16px;margin-bottom:20px;">Notifications</h3>
+                <div class="toggle-row"><div class="toggle-label">Session request received</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="notif_request" checked><span class="sn-toggle-slider"></span></label></div>
+                <div class="toggle-row"><div class="toggle-label">Session confirmed or cancelled</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="notif_confirm" checked><span class="sn-toggle-slider"></span></label></div>
+                <div class="toggle-row"><div class="toggle-label">New message received</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="notif_message" checked><span class="sn-toggle-slider"></span></label></div>
+                <div class="toggle-row"><div class="toggle-label">Credit activity</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="notif_credits" checked><span class="sn-toggle-slider"></span></label></div>
+            </div>
+
+            <!-- Privacy -->
+            <div class="p-card" style="margin-bottom:20px;">
+                <h3 style="font-size:16px;margin-bottom:20px;">Privacy</h3>
+                <div class="toggle-row"><div class="toggle-label">Show profile in browse results</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="priv_browse" checked><span class="sn-toggle-slider"></span></label></div>
+                <div class="toggle-row"><div class="toggle-label">Show credit balance publicly</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="priv_credits"><span class="sn-toggle-slider"></span></label></div>
+                <div class="toggle-row"><div class="toggle-label">Allow session requests from anyone</div><label class="sn-toggle-wrap"><input type="checkbox" class="sn-toggle-input" data-key="priv_requests" checked><span class="sn-toggle-slider"></span></label></div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="danger-zone-card">
+                <div style="font-weight:700;font-size:16px;color:#dc2626;margin-bottom:8px;">Delete Account</div>
+                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;">Permanently deletes your account, all sessions, credits, and messages. Cannot be undone.</p>
+                <button class="btn btn-ghost btn-sm" style="color:#dc2626;border-color:#dc2626;" id="deleteAccountBtn">Delete My Account</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- DELETE ACCOUNT MODAL -->
+<div class="custom-modal-overlay" id="deleteModal">
+    <div class="custom-modal">
+        <div class="cm-header">
+            <h3 style="color:#dc2626;">Delete Account</h3>
+            <button class="cm-close" id="closeDeleteModal">&times;</button>
+        </div>
+        <div class="cm-body">
+            <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px;">This action is permanent and cannot be reversed. All your data will be deleted.</p>
+            <label class="form-label">Type DELETE to confirm.</label>
+            <input type="text" class="form-input" id="deleteConfirmInput" placeholder="Type DELETE here" style="margin-top:8px;">
+            <button class="btn btn-sm" id="confirmDeleteBtn" style="width:100%;margin-top:16px;background:#94a3b8;color:white;border:none;padding:12px;border-radius:var(--radius-md);cursor:not-allowed;" disabled>Confirm Delete</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-notification" id="toastContainer">
+    <div class="t-icon">✅</div>
+    <div class="t-content"><div style="font-weight:600;font-size:14px;" id="toastMsg">Saved!</div></div>
+    <button class="t-close">&times;</button>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ─── Sidebar mobile ───
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const closeBtn = document.getElementById('sidebarClose');
+    if (menuBtn) menuBtn.addEventListener('click', () => { sidebar.classList.add('active'); overlay.classList.add('active'); });
+    if (closeBtn) closeBtn.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+    if (overlay) overlay.addEventListener('click', () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); });
+
+    // ─── Tab switching ───
+    window.switchTab = function(tabName) {
+        document.querySelectorAll('.p-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.p-tab-content').forEach(c => c.classList.remove('active'));
+        const btn = document.querySelector(`.p-tab[data-tab="${tabName}"]`);
+        const content = document.getElementById(`tab-${tabName}`);
+        if (btn) btn.classList.add('active');
+        if (content) content.classList.add('active');
+    };
+
+    document.querySelectorAll('.p-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    });
+
+    // Handle anchor #settings
+    if (window.location.hash === '#settings') switchTab('settings');
+
+    // ─── Notification dropdown ───
+    const notifBtn = document.getElementById('notifBtn');
+    const notifDrop = document.getElementById('notifDropdown');
+    if (notifBtn) notifBtn.addEventListener('click', (e) => { e.stopPropagation(); notifDrop.classList.toggle('active'); });
+    document.addEventListener('click', () => { if(notifDrop) notifDrop.classList.remove('active'); });
+
+    // ─── Photo upload ───
+    const photoCircle = document.getElementById('profilePhotoCircle');
+    const fileInput = document.getElementById('phFileInput');
+    const phImg = document.getElementById('phPhotoImg');
+    const phInitials = document.getElementById('phInitials');
+    if (photoCircle) photoCircle.addEventListener('click', () => fileInput.click());
+    if (fileInput) fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                phImg.src = ev.target.result;
+                phImg.style.display = 'block';
+                phInitials.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // ─── Bio edit ───
+    const editBioBtn = document.getElementById('editBioBtn');
+    const bioDisplay = document.getElementById('bioDisplay');
+    const bioEditArea = document.getElementById('bioEditArea');
+    const bioTextarea = document.getElementById('bioTextarea');
+    const saveBioBtn = document.getElementById('saveBioBtn');
+    const cancelBioBtn = document.getElementById('cancelBioBtn');
+    if (editBioBtn) {
+        editBioBtn.addEventListener('click', () => {
+            bioDisplay.style.display = 'none';
+            bioEditArea.style.display = 'block';
+            bioTextarea.focus();
+        });
+        saveBioBtn.addEventListener('click', () => {
+            bioDisplay.querySelector('p').textContent = bioTextarea.value;
+            bioDisplay.style.display = 'block';
+            bioEditArea.style.display = 'none';
+            showToast('Bio updated!');
+        });
+        cancelBioBtn.addEventListener('click', () => {
+            bioDisplay.style.display = 'block';
+            bioEditArea.style.display = 'none';
+        });
+    }
+
+    // ─── Availability Grid ───
+    const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const times = ['Morning','Afternoon','Evening'];
+    const defaultOn = { Mon:['Afternoon','Evening'], Tue:['Afternoon','Evening'], Wed:['Afternoon','Evening'], Thu:['Afternoon','Evening'], Fri:['Afternoon','Evening'] };
+    const savedAvail = JSON.parse(localStorage.getItem('sn_availability') || 'null');
+    const avail = savedAvail || defaultOn;
+    let availChanged = false;
+
+    const grid = document.getElementById('availGrid');
+    if (grid) {
+        // Header row
+        const headerRow = document.createElement('div');
+        headerRow.className = 'avail-row';
+        headerRow.innerHTML = '<div class="avail-time-label"></div>' + days.map(d => `<div class="avail-day-label">${d}</div>`).join('');
+        grid.appendChild(headerRow);
+
+        times.forEach(time => {
+            const row = document.createElement('div');
+            row.className = 'avail-row';
+            row.innerHTML = `<div class="avail-time-label">${time}</div>`;
+            days.forEach(day => {
+                const isOn = avail[day] && avail[day].includes(time);
+                const cell = document.createElement('button');
+                cell.className = `avail-cell ${isOn ? 'avail-on' : ''}`;
+                cell.dataset.day = day;
+                cell.dataset.time = time;
+                cell.addEventListener('click', () => {
+                    cell.classList.toggle('avail-on');
+                    availChanged = true;
+                    document.getElementById('saveAvailBtn').style.display = 'block';
+                });
+                row.appendChild(cell);
+            });
+            grid.appendChild(row);
+        });
+    }
+
+    const saveAvailBtn = document.getElementById('saveAvailBtn');
+    if (saveAvailBtn) {
+        saveAvailBtn.addEventListener('click', () => {
+            const newAvail = {};
+            document.querySelectorAll('.avail-cell.avail-on').forEach(cell => {
+                const d = cell.dataset.day, t = cell.dataset.time;
+                if (!newAvail[d]) newAvail[d] = [];
+                newAvail[d].push(t);
+            });
+            localStorage.setItem('sn_availability', JSON.stringify(newAvail));
+            saveAvailBtn.style.display = 'none';
+            showToast('Availability saved!');
+        });
+    }
+
+    // ─── Session filter ───
+    document.querySelectorAll('#sessionFilter .rm-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('#sessionFilter .rm-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            const filter = pill.dataset.sf;
+            document.querySelectorAll('#profileSessionList .session-card').forEach(card => {
+                card.style.display = (filter === 'all' || card.dataset.sf === filter) ? 'block' : 'none';
+            });
+        });
+    });
+
+    // ─── Settings toggles: persist to localStorage ───
+    document.querySelectorAll('.sn-toggle-input').forEach(input => {
+        const key = input.dataset.key;
+        const saved = localStorage.getItem(`sn_${key}`);
+        if (saved !== null) input.checked = saved === 'true';
+        input.addEventListener('change', () => {
+            localStorage.setItem(`sn_${key}`, input.checked);
+        });
+    });
+
+    // ─── Password change form ───
+    const togglePwdBtn = document.getElementById('togglePwdFormBtn');
+    const pwdForm = document.getElementById('pwdChangeForm');
+    const cancelPwdBtn = document.getElementById('cancelPwdFormBtn');
+    if (togglePwdBtn) togglePwdBtn.addEventListener('click', () => { pwdForm.style.display = pwdForm.style.display === 'none' ? 'block' : 'none'; });
+    if (cancelPwdBtn) cancelPwdBtn.addEventListener('click', () => { pwdForm.style.display = 'none'; });
+
+    const newPwdInput = document.getElementById('newPwdInput');
+    const strengthFill = document.getElementById('newPwdStrengthFill');
+    const strengthLabel = document.getElementById('newPwdStrengthLabel');
+    if (newPwdInput) {
+        newPwdInput.addEventListener('input', () => {
+            const v = newPwdInput.value;
+            let s = 0;
+            if (v.length >= 8) s++;
+            if (/[0-9]/.test(v) || /[^A-Za-z0-9]/.test(v)) s++;
+            const colors = ['#ef4444','#f59e0b','#10b981'];
+            const labels = ['Weak','Fair','Strong'];
+            const widths = ['33%','66%','100%'];
+            if (v.length === 0) { strengthFill.style.width='0'; strengthLabel.textContent=''; return; }
+            strengthFill.style.width = widths[s] || '33%';
+            strengthFill.style.background = colors[s] || '#ef4444';
+            strengthLabel.textContent = labels[s] || 'Weak';
+            strengthLabel.style.color = colors[s] || '#ef4444';
+        });
+    }
+
+    // ─── Delete account ───
+    const deleteBtn = document.getElementById('deleteAccountBtn');
+    const deleteModal = document.getElementById('deleteModal');
+    const closeDeleteModal = document.getElementById('closeDeleteModal');
+    const deleteInput = document.getElementById('deleteConfirmInput');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+    if (deleteBtn) deleteBtn.addEventListener('click', () => { deleteModal.classList.add('active'); });
+    if (closeDeleteModal) closeDeleteModal.addEventListener('click', () => { deleteModal.classList.remove('active'); });
+    if (deleteModal) deleteModal.addEventListener('click', (e) => { if(e.target === deleteModal) deleteModal.classList.remove('active'); });
+    if (deleteInput) {
+        deleteInput.addEventListener('input', () => {
+            const match = deleteInput.value === 'DELETE';
+            confirmDeleteBtn.disabled = !match;
+            confirmDeleteBtn.style.background = match ? '#dc2626' : '#94a3b8';
+            confirmDeleteBtn.style.cursor = match ? 'pointer' : 'not-allowed';
+        });
+    }
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+    }
+
+    // ─── Learn skill toggles ───
+    document.querySelectorAll('.sn-toggle[data-skill]').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('active');
+            const badge = toggle.previousElementSibling.querySelector('span');
+            if (toggle.classList.contains('active')) {
+                badge.className = 'status-badge-on';
+                badge.textContent = '● Actively looking';
+            } else {
+                badge.className = 'status-badge-off';
+                badge.textContent = '○ Not actively looking';
+            }
+        });
+    });
+
+    // ─── Add teach skill form ───
+    const addTeachTrigger = document.getElementById('addTeachTrigger');
+    const addTeachForm = document.getElementById('addTeachForm');
+    if (addTeachTrigger) addTeachTrigger.addEventListener('click', () => { addTeachForm.style.display = addTeachForm.style.display === 'none' ? 'block' : 'none'; });
+    document.querySelectorAll('#addTeachProficiencyPills .b-filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('#addTeachProficiencyPills .b-filter-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+        });
+    });
+
+    // ─── Add learn skill form ───
+    const addLearnTrigger = document.getElementById('addLearnTrigger');
+    const addLearnForm = document.getElementById('addLearnForm');
+    if (addLearnTrigger) addLearnTrigger.addEventListener('click', () => { addLearnForm.style.display = addLearnForm.style.display === 'none' ? 'block' : 'none'; });
+
+    // ─── Toast helper ───
+    window.showToast = function(msg) {
+        const toast = document.getElementById('toastContainer');
+        const msgEl = document.getElementById('toastMsg');
+        if (msgEl) msgEl.textContent = msg;
+        if (toast) {
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 3000);
+        }
+    };
+    const toastClose = document.querySelector('.t-close');
+    if (toastClose) toastClose.addEventListener('click', () => document.getElementById('toastContainer').classList.remove('active'));
+});
+</script>
+</body>
+</html>

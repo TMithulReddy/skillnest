@@ -1,0 +1,689 @@
+const fs = require('fs');
+
+// ---------------------------------------------------------
+// 1. APPEND NEW CSS
+// ---------------------------------------------------------
+const newCss = `
+/* ========================================================= */
+/* SESSIONS PAGE STYLES */
+/* ========================================================= */
+.sessions-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.sc-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.sc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sc-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.sc-meta {
+    font-size: 14px;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.sc-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.sc-badge.upcoming { background: #dbeafe; color: #1d4ed8; }
+.sc-badge.completed { background: #dcfce7; color: #15803d; }
+.sc-badge.cancelled { background: #fee2e2; color: #b91c1c; }
+.sc-badge.pending { background: #fef9c3; color: #a16207; }
+
+.sc-role {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.sc-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Star Rating component */
+.star-rating {
+    display: flex;
+    gap: 4px;
+    font-size: 32px;
+    color: #e2e8f0;
+    cursor: pointer;
+    justify-content: center;
+    margin: 16px 0;
+}
+.star-rating .star:hover,
+.star-rating .star.active {
+    color: #f59e0b;
+}
+
+/* ========================================================= */
+/* CHAT PAGE STYLES */
+/* ========================================================= */
+.chat-container-split {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    height: calc(100vh - 160px);
+    overflow: hidden;
+}
+
+/* Chat List Panel */
+.chat-sidebar {
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    background: #f8fafc;
+}
+
+.chat-list {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.cl-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cl-item:hover { background: #f1f5f9; }
+.cl-item.active { background: white; border-left: 3px solid var(--primary); }
+
+.cl-av {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.cl-meta { flex-grow: 1; overflow: hidden; }
+.cl-meta h5 { margin: 0 0 4px; font-size: 14px; }
+.cl-preview {
+    font-size: 13px; color: var(--text-secondary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Chat Window Panel */
+.chat-window {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+}
+
+.chat-history {
+    flex-grow: 1;
+    padding: 24px;
+    overflow-y: auto;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.c-bubble-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.c-bubble-row.left { align-items: flex-start; }
+.c-bubble-row.right { align-items: flex-end; }
+
+.chat-bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 70%;
+}
+
+.chat-bubble.left {
+    background: #f1f5f9;
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.right {
+    background: var(--primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.c-time {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.chat-input-area {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    background: white;
+    display: flex;
+    gap: 12px;
+}
+
+.chat-input {
+    flex-grow: 1;
+    border-radius: 24px;
+}
+
+/* ========================================================= */
+/* CREDITS PAGE STYLES */
+/* ========================================================= */
+.credits-hero-card {
+    background: var(--primary-dark);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.5);
+}
+
+.ch-balance {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.ch-label {
+    margin-top: 8px;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.credits-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.transaction-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.transaction-row:last-child { border-bottom: none; }
+
+.tr-left { display: flex; gap: 16px; align-items: center; }
+.tr-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+}
+
+.tr-icon.earn { background: #dcfce7; }
+.tr-icon.spend { background: #fee2e2; }
+
+.tr-desc { font-weight: 500; font-size: 15px; }
+.tr-date { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.tr-amount { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 700; }
+.tr-amount.earn { color: var(--success); }
+.tr-amount.spend { color: #dc2626; }
+
+.insight-stat {
+    margin-bottom: 24px;
+}
+.insight-stat-val {
+    font-size: 24px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .chat-container-split { grid-template-columns: 1fr; }
+    .chat-sidebar { display: none; }
+    .credits-grid { grid-template-columns: 1fr; }
+    .credits-hero-card { flex-direction: column; text-align: center; gap: 24px; }
+}
+`;
+fs.appendFileSync('css/style.css', newCss, 'utf8');
+
+// ---------------------------------------------------------
+// 2. HELPER TO REPLACE DASHBOARD INNER
+// ---------------------------------------------------------
+const baseHtml = fs.readFileSync('dashboard.html', 'utf8');
+const dStart = baseHtml.indexOf('<div class="dashboard-container');
+const dEnd = baseHtml.indexOf('</main>');
+
+function generatePage(title, activeNavStr, headerTitle, headerSub, innerContent, fileName, additionalScripts = '') {
+    let html = baseHtml.replace('<title>Dashboard - SkillNest</title>', \`<title>\${title} - SkillNest</title>\`);
+    
+    // Clear old active nav
+    html = html.replace(/class="sidebar-link active"/g, 'class="sidebar-link"');
+    
+    // Set new active nav regex logic
+    const navMatch = new RegExp(\`class="sidebar-link"([^>]*>\s*<[^>]*>\\s*<[^>]*>\\s*\${activeNavStr}\\s*<\\/a>)\`, 'i');
+    html = html.replace(navMatch, 'class="sidebar-link active"$1');
+
+    html = html.replace('Good morning 👋', headerTitle);
+    html = html.replace('<div style="font-size: 13px; color: var(--text-secondary);" id="currentDate">Date Placeholder</div>', \`<div style="font-size: 13px; color: var(--text-secondary);">\${headerSub}</div>\`);
+    
+    html = html.substring(0, dStart) + 
+           '<div class="dashboard-container">\n' + innerContent + '\n</div>\n' + 
+           html.substring(dEnd);
+           
+    if(additionalScripts) {
+         html = html.replace('</body>', additionalScripts + '\n</body>');
+    }
+    fs.writeFileSync(fileName, html, 'utf8');
+}
+
+// ---------------------------------------------------------
+// 3. BUILD SESSIONS.HTML
+// ---------------------------------------------------------
+const sessionsHtml = `
+    <div class="sessions-top-bar">
+        <div class="cm-pill-select" id="sessionsFilter">
+            <button class="rm-pill active" data-filter="all">All</button>
+            <button class="rm-pill" data-filter="upcoming">Upcoming</button>
+            <button class="rm-pill" data-filter="completed">Completed</button>
+            <button class="rm-pill" data-filter="cancelled">Cancelled</button>
+        </div>
+        <button class="btn btn-primary" id="btnCreateSessionModal">Create Session</button>
+    </div>
+
+    <div id="sessionsFeed">
+        <!-- Card 1 -->
+        <div class="sc-card" data-status="upcoming">
+            <div class="sc-info">
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <div class="sc-role">You are learning</div>
+                    <div class="sc-badge upcoming">Upcoming</div>
+                </div>
+                <div class="sc-title">Learning Python with Arjun Mehta</div>
+                <div class="sc-meta">📅 April 12, 3:00 PM &middot; ⏱️ 1 Hour</div>
+            </div>
+            <div class="sc-actions">
+                <button class="btn btn-ghost btn-sm">Reschedule</button>
+                <button class="btn btn-primary btn-sm">Join Session</button>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="sc-card" data-status="pending">
+            <div class="sc-info">
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <div class="sc-role">You are teaching</div>
+                    <div class="sc-badge pending">Pending</div>
+                </div>
+                <div class="sc-title">Teaching Guitar to Rohit Verma</div>
+                <div class="sc-meta">📅 April 15, 5:30 PM &middot; ⏱️ 1 Hour</div>
+            </div>
+            <div class="sc-actions">
+                <button class="btn btn-ghost btn-sm" style="color:#ef4444;">Cancel</button>
+                <button class="btn btn-primary btn-sm" style="background:#10b981; border-color:#10b981;">Approve</button>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="sc-card" data-status="completed">
+            <div class="sc-info">
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <div class="sc-role">You are learning</div>
+                    <div class="sc-badge completed">Completed</div>
+                </div>
+                <div class="sc-title">Learning Figma with Priya Sharma</div>
+                <div class="sc-meta">📅 March 28, 4:00 PM &middot; ⏱️ 1.5 Hours</div>
+            </div>
+            <div class="sc-actions">
+                <button class="btn btn-primary btn-sm btnRateSession">Rate Session</button>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="sc-card" data-status="cancelled">
+            <div class="sc-info">
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <div class="sc-role">You are learning</div>
+                    <div class="sc-badge cancelled">Cancelled</div>
+                </div>
+                <div class="sc-title">Learning Spanish with Unknown</div>
+                <div class="sc-meta">📅 March 15</div>
+            </div>
+            <div class="sc-actions">
+                <button class="btn btn-ghost btn-sm" disabled>Rate Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Session Modal -->
+    <div class="custom-modal-overlay" id="createSessionModal">
+        <div class="custom-modal">
+            <div class="cm-header">
+                <h3>Create Session</h3>
+                <button class="cm-close" id="closeCreateModal">&times;</button>
+            </div>
+            <div class="cm-body">
+                <div>
+                    <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">Select Student/Match</label>
+                    <select class="cm-input" style="margin-bottom:16px;">
+                        <option>Arjun Mehta</option>
+                        <option>Priya Sharma</option>
+                        <option>Rohit Verma</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">Select Skill</label>
+                    <select class="cm-input" id="csSkill" style="margin-bottom:16px;">
+                        <option>Python</option>
+                        <option>Guitar</option>
+                        <option>Figma</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:16px; margin-bottom:16px;">
+                    <div style="flex-grow:1;">
+                        <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">Date & Time</label>
+                        <input type="datetime-local" class="cm-input" value="2026-04-10T14:30">
+                    </div>
+                    <div style="width:120px;">
+                        <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">Duration</label>
+                        <select class="cm-input">
+                            <option>1 Hour</option>
+                            <option>1.5 Hours</option>
+                            <option>2 Hours</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">Session Notes</label>
+                    <textarea class="cm-input" rows="3" placeholder="What do you want to cover?"></textarea>
+                </div>
+                <button class="btn btn-primary" id="btnSubmitCreateSession" style="width:100%; margin-top:16px;">Create & Invite</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div class="custom-modal-overlay" id="ratingModal">
+        <div class="custom-modal">
+            <div class="cm-header">
+                <h3>How was your session?</h3>
+                <button class="cm-close" id="closeRatingModal">&times;</button>
+            </div>
+            <div class="cm-body" style="text-align:center;">
+                <p style="font-size:14px; color:var(--text-secondary);">Your feedback helps maintain community quality.</p>
+                <div class="star-rating" id="starRatingSystem">
+                    <span class="star" data-val="1">★</span>
+                    <span class="star" data-val="2">★</span>
+                    <span class="star" data-val="3">★</span>
+                    <span class="star" data-val="4">★</span>
+                    <span class="star" data-val="5">★</span>
+                </div>
+                <textarea class="cm-input" rows="3" placeholder="Leave a review..." style="text-align:left; margin-bottom: 16px;"></textarea>
+                <button class="btn btn-primary" id="btnSubmitRating" style="width:100%;">Submit Rating</button>
+            </div>
+        </div>
+    </div>
+`;
+generatePage('My Sessions', 'My Sessions', 'My Sessions', 'Organize your upcoming and completed meetings', sessionsHtml, 'sessions.html');
+
+// ---------------------------------------------------------
+// 4. BUILD CHAT.HTML
+// ---------------------------------------------------------
+const chatHtml = `
+    <div class="chat-container-split">
+        <!-- Sidebar array -->
+        <div class="chat-sidebar">
+            <div style="padding:16px; font-weight:600; font-size:16px; border-bottom:1px solid var(--border); background:white;">Messages</div>
+            <div class="chat-list">
+                <div class="cl-item active">
+                    <div class="cl-av">AM</div>
+                    <div class="cl-meta">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h5>Arjun Mehta</h5>
+                            <span style="font-size:11px; color:var(--text-muted);">2m ago</span>
+                        </div>
+                        <div class="cl-preview" style="color:var(--text-primary); font-weight:500;">Yes that sounds perfect. Let's do 3 PM.</div>
+                    </div>
+                </div>
+                <div class="cl-item">
+                    <div class="cl-av" style="background:#fce7f3;color:#be185d;">PS</div>
+                    <div class="cl-meta">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h5>Priya Sharma</h5>
+                            <span style="font-size:11px; color:var(--text-muted);">Yesterday</span>
+                        </div>
+                        <div class="cl-preview">Thanks for the Figma tips!</div>
+                    </div>
+                </div>
+                <div class="cl-item">
+                    <div class="cl-av" style="background:#dcfce7;color:#15803d;">RV</div>
+                    <div class="cl-meta">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h5>Rohit Verma</h5>
+                            <span style="font-size:11px; color:var(--text-muted);">Mon</span>
+                        </div>
+                        <div class="cl-preview">Okay, will let you know later.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active View -->
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="cl-av">AM</div>
+                <div>
+                    <div style="font-weight:600; font-size:16px;">Arjun Mehta</div>
+                    <div style="font-size:12px; color:var(--text-secondary);">Online now</div>
+                </div>
+                <button class="btn btn-ghost btn-sm btn-icon" style="margin-left:auto; padding:10px;" onclick="window.location.href='profile-view.html'"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button>
+            </div>
+            
+            <div class="chat-history" id="chatHistoryBox">
+                <!-- Message Set -->
+                <div class="c-bubble-row left">
+                    <div class="chat-bubble left">Hey! Did you get a chance to look at the Python exercise I sent?</div>
+                    <div class="c-time">2:14 PM</div>
+                </div>
+                <div class="c-bubble-row right">
+                    <div class="chat-bubble right">Taking a look at it now. The recursion part is tricky.</div>
+                    <div class="c-time">2:30 PM &middot; Seen ✓✓</div>
+                </div>
+                <div class="c-bubble-row left">
+                    <div class="chat-bubble left">No rush. We can go over it step by step in our session tomorrow. Are we still good for 3 PM?</div>
+                    <div class="c-time">2:31 PM</div>
+                </div>
+                <div class="c-bubble-row right">
+                    <div class="chat-bubble right">Yes that sounds perfect. Let's do 3 PM.</div>
+                    <div class="c-time">2:35 PM &middot; Seen ✓✓</div>
+                </div>
+                <!-- Dynamic injected here -->
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" class="cm-input chat-input" placeholder="Type a message..." id="chatInputStr">
+                <button class="btn btn-primary btn-icon" style="padding:12px; border-radius:50%;" id="btnSendChat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+`;
+generatePage('Chat', 'Chat', 'Messages', 'Real-time peer communication', chatHtml, 'chat.html');
+
+// ---------------------------------------------------------
+// 5. BUILD CREDITS.HTML
+// ---------------------------------------------------------
+const creditsHtml = `
+    <div class="credits-hero-card">
+        <div>
+            <div class="ch-balance">42</div>
+            <div class="ch-label">Credits Available</div>
+        </div>
+        <div style="text-align:right;">
+            <button class="btn btn-ghost" style="background:rgba(255,255,255,0.2); color:white; border:none; margin-bottom:8px;" onclick="window.location.href='browse.html'">Spend Credits &rarr;</button><br>
+            <span style="font-size:13px; opacity:0.8;">Teach sessions to earn more.</span>
+        </div>
+    </div>
+
+    <div class="credits-grid">
+        <div class="p-card">
+            <div class="sessions-top-bar">
+                <h3 style="margin:0;">Transaction History</h3>
+                <div class="cm-pill-select" id="creditFilterSelector">
+                    <button class="rm-pill active">All</button>
+                    <button class="rm-pill">Earned</button>
+                    <button class="rm-pill">Spent</button>
+                </div>
+            </div>
+            
+            <div id="transactionsList">
+                <div class="transaction-row type-earn">
+                    <div class="tr-left">
+                        <div class="tr-icon earn">📉</div>
+                        <div>
+                            <div class="tr-desc">Taught Python Basics</div>
+                            <div class="tr-date">April 08, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount earn">+8 credits</div>
+                </div>
+                <div class="transaction-row type-earn">
+                    <div class="tr-left">
+                        <div class="tr-icon earn">⭐</div>
+                        <div>
+                            <div class="tr-desc">5-star rating bonus (Arjun)</div>
+                            <div class="tr-date">April 08, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount earn">+2 credits</div>
+                </div>
+                <div class="transaction-row type-spend">
+                    <div class="tr-left">
+                        <div class="tr-icon spend">💸</div>
+                        <div>
+                            <div class="tr-desc">Requested Figma Session</div>
+                            <div class="tr-date">April 06, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount spend">−5 credits</div>
+                </div>
+                <div class="transaction-row type-earn">
+                    <div class="tr-left">
+                        <div class="tr-icon earn">📉</div>
+                        <div>
+                            <div class="tr-desc">Taught Guitar Session</div>
+                            <div class="tr-date">April 05, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount earn">+8 credits</div>
+                </div>
+                <div class="transaction-row type-spend">
+                    <div class="tr-left">
+                        <div class="tr-icon spend">💸</div>
+                        <div>
+                            <div class="tr-desc">Requested React Help</div>
+                            <div class="tr-date">March 30, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount spend">−6 credits</div>
+                </div>
+                <div class="transaction-row type-earn">
+                    <div class="tr-left">
+                        <div class="tr-icon earn">💎</div>
+                        <div>
+                            <div class="tr-desc">Profile Completion Bonus</div>
+                            <div class="tr-date">March 25, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount earn">+5 credits</div>
+                </div>
+                <div class="transaction-row type-earn">
+                    <div class="tr-left">
+                        <div class="tr-icon earn">🎁</div>
+                        <div>
+                            <div class="tr-desc">Signup Bonus</div>
+                            <div class="tr-date">March 25, 2026</div>
+                        </div>
+                    </div>
+                    <div class="tr-amount earn">+15 credits</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-card">
+            <h3 style="margin:0 0 24px;">Lifetime Insights</h3>
+            
+            <div class="insight-stat">
+                <div style="font-size:14px; color:var(--text-secondary);">Total Earned</div>
+                <div class="insight-stat-val" style="color:var(--success);">38</div>
+            </div>
+            
+            <div class="insight-stat">
+                <div style="font-size:14px; color:var(--text-secondary);">Total Spent</div>
+                <div class="insight-stat-val" style="color:#ef4444;">11</div>
+            </div>
+            
+            <div class="insight-stat">
+                <div style="font-size:14px; color:var(--text-secondary);">Sessions Completed</div>
+                <div class="insight-stat-val">12</div>
+            </div>
+            
+            <div class="insight-stat">
+                <div style="font-size:14px; color:var(--text-secondary);">Rating Impact</div>
+                <div class="insight-stat-val" style="display:flex; align-items:center; gap:8px;">4.8 <span style="font-size:16px; color:#f59e0b;">★</span></div>
+                <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">Top 10% of users in your college community.</p>
+            </div>
+        </div>
+    </div>
+`;
+generatePage('Credits', 'Credits', 'Credit Balance', 'Track your ecosystem economy', creditsHtml, 'credits.html');
+
+console.log('Final 3 Pages generated identically following dashboard sidebar integrity.');
