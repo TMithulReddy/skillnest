@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Sessions — SkillNest</title>
+  <meta name="description" content="View and manage all your scheduled, past, and upcoming skill exchange sessions on SkillNest.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    #page-content { visibility: hidden; }
+
+    /* ── Tab bar ── */
+    .sessions-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 6px;
+      margin-bottom: 32px;
+      width: fit-content;
+    }
+    .sessions-tab {
+      background: none;
+      border: none;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: var(--font-family);
+    }
+    .sessions-tab:hover { background: var(--color-secondary); }
+    .sessions-tab.active {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+    .sessions-tab .tab-count {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      border-radius: 100px;
+      padding: 1px 8px;
+      font-size: 0.8rem;
+      margin-left: 6px;
+    }
+    .sessions-tab:not(.active) .tab-count {
+      background: var(--color-border);
+      color: var(--color-text-secondary);
+    }
+
+    /* ── Session Card ── */
+    .session-card-full {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .session-card-full:hover { box-shadow: var(--shadow-md); }
+    .session-card-full { cursor: pointer; }
+    .session-card-footer { cursor: default; }
+
+    .session-card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .session-role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .session-role-badge.teaching {
+      background: rgba(16,185,129,0.12);
+      color: var(--color-success);
+    }
+    .session-role-badge.learning {
+      background: rgba(37,99,235,0.12);
+      color: #2563EB;
+    }
+
+    .session-status-badge {
+      margin-left: auto;
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .session-status-badge.pending   { background: rgba(245,158,11,0.15); color: var(--color-warning); }
+    .session-status-badge.confirmed { background: rgba(16,185,129,0.12); color: var(--color-success); }
+    .session-status-badge.completed { background: rgba(30,41,59,0.1); color: var(--color-primary); }
+    .session-status-badge.cancelled { background: rgba(239,68,68,0.12); color: var(--color-danger); }
+    .session-status-badge.no_show   { background: var(--color-border); color: var(--color-text-secondary); }
+
+    .session-card-body {
+      padding: 20px 24px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .session-person {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 220px;
+    }
+    .session-person a { text-decoration: none; color: inherit; }
+    .session-person a:hover { text-decoration: underline; color: var(--color-primary); }
+
+    .session-meta-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .session-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+    }
+    .session-meta-row svg { flex-shrink: 0; color: var(--color-text-hint); }
+    .session-meta-row .meta-value { color: var(--color-text-primary); font-weight: 500; }
+
+    .session-credit-display {
+      font-size: 1.1rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .session-credit-display.earn { color: var(--color-success); }
+    .session-credit-display.spend { color: var(--color-danger); }
+
+    .session-escrow-note {
+      padding: 10px 24px;
+      background: var(--color-primary-light);
+      border-top: 1px solid rgba(30,41,59,0.08);
+      font-size: 0.85rem;
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .session-card-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-secondary);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ── Rating Stars ── */
+    .star-picker {
+      display: flex;
+      gap: 6px;
+      margin: 8px 0;
+    }
+    .star-picker .star-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--color-border);
+      transition: color 0.15s, transform 0.15s;
+      padding: 0;
+      line-height: 1;
+    }
+    .star-picker .star-btn.active,
+    .star-picker .star-btn:hover { color: var(--color-warning); transform: scale(1.15); }
+
+    /* ── Skeleton ── */
+    .session-skeleton {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .session-card-body { flex-direction: column; gap: 16px; }
+      .session-person { min-width: unset; }
+      .session-card-footer { gap: 8px; }
+      .session-card-footer .btn { flex: 1; justify-content: center; font-size: 13px; padding: 10px; }
+      .sessions-tabs { width: 100%; }
+      .sessions-tab { flex: 1; padding: 10px 12px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="page-loader">
+    <div class="loader-logo">
+      <svg width="40" height="40" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1B3A6B"/><text x="16" y="22" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white" font-weight="bold">S</text></svg>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════
+       NAVBAR-APP
+       ═══════════════════════ -->
+  <nav class="navbar-app">
+    <a href="dashboard.html" class="navbar-app-logo">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      SkillNest
+    </a>
+
+    <div class="navbar-app-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <a href="sessions.html" class="active">Sessions</a>
+      <a href="chat.html">Messages</a>
+    </div>
+
+    <div class="navbar-app-right">
+      <a href="credits.html" class="nav-credit-chip" id="nav-credit-link">
+        ✦ <span class="js-credit-balance">—</span>
+      </a>
+      <a href="notifications.html" class="nav-bell" aria-label="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span class="nav-bell-badge" id="nav-bell-badge"></span>
+      </a>
+      <div class="nav-avatar-wrapper">
+        <button class="nav-avatar-btn" id="nav-avatar-btn" aria-label="Profile menu">
+          <span class="avatar avatar-sm" id="nav-avatar">?</span>
+        </button>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <a href="my-profile.html">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            My Profile
+          </a>
+          <a href="settings.html">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+          </a>
+          <div class="nav-dropdown-divider"></div>
+          <button class="danger" id="nav-signout-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+      <button class="navbar-app-hamburger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════
+       PAGE CONTENT
+       ═══════════════════════ -->
+  <div id="page-content" class="page-content">
+    <div class="container" style="padding-bottom: 64px;">
+
+      <!-- Page header -->
+      <div style="margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h1 style="font-size: 2rem; font-weight: 800; color: var(--color-text-primary); margin-bottom: 4px;">My Sessions</h1>
+          <p style="color: var(--color-text-secondary);">Manage your skill exchange sessions, track credits, and leave reviews.</p>
+        </div>
+        <a href="browse.html" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Find a Peer
+        </a>
+      </div>
+
+      <!-- ⚡ Action Required Panel (hidden until pending requests exist) -->
+      <div class="action-required-panel" id="action-required-panel" style="display:none;">
+        <div class="action-required-header">
+          <span style="font-size:1.3rem;">⚡</span>
+          <span class="action-required-title">Action Required</span>
+          <span class="action-required-count" id="action-required-count">0</span>
+        </div>
+        <div class="action-request-cards" id="action-request-cards"></div>
+      </div>
+
+      <!-- Sessions Stats Bar -->
+      <div class="sessions-stats-bar" id="sessions-stats-bar">
+        <div class="sessions-stat-chip">
+          <div class="sessions-stat-label">Total Sessions</div>
+          <div class="sessions-stat-value" id="stat-total">—</div>
+        </div>
+        <div class="sessions-stat-chip">
+          <div class="sessions-stat-label">Sessions Taught</div>
+          <div class="sessions-stat-value" id="stat-taught">—</div>
+        </div>
+        <div class="sessions-stat-chip">
+          <div class="sessions-stat-label">Sessions Learned</div>
+          <div class="sessions-stat-value" id="stat-learned">—</div>
+        </div>
+        <div class="sessions-stat-chip">
+          <div class="sessions-stat-label">Credits Earned</div>
+          <div class="sessions-stat-value credit-value" id="stat-earned">—</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="sessions-tabs" role="tablist">
+        <button class="sessions-tab active" id="tab-upcoming" role="tab" aria-selected="true" data-tab="upcoming">
+          Upcoming
+          <span class="tab-count" id="count-upcoming">—</span>
+        </button>
+        <button class="sessions-tab" id="tab-past" role="tab" aria-selected="false" data-tab="past">
+          Past
+          <span class="tab-count" id="count-past">—</span>
+        </button>
+        <button class="sessions-tab" id="tab-all" role="tab" aria-selected="false" data-tab="all">
+          All
+          <span class="tab-count" id="count-all">—</span>
+        </button>
+      </div>
+
+      <!-- Sessions list -->
+      <div id="sessions-list" role="tabpanel">
+
+        <!-- Skeleton (shown while loading) -->
+        <div id="sessions-skeleton">
+          ${[1,2,3].map(() => `
+          <div class="session-skeleton">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;">
+              <div class="skeleton skeleton-text" style="width:100px;height:24px;border-radius:100px;margin:0;"></div>
+              <div class="skeleton skeleton-text" style="width:80px;height:24px;border-radius:100px;margin:0;"></div>
+              <div class="skeleton skeleton-text" style="width:90px;height:24px;border-radius:100px;margin:0;margin-left:auto;"></div>
+            </div>
+            <div style="display:flex;gap:20px;align-items:center;">
+              <div class="skeleton skeleton-avatar" style="width:48px;height:48px;"></div>
+              <div style="flex:1;">
+                <div class="skeleton skeleton-text" style="width:40%;"></div>
+                <div class="skeleton skeleton-text" style="width:60%;height:12px;"></div>
+              </div>
+            </div>
+          </div>`).join('')}
+        </div>
+
+        <!-- Real content injected here -->
+        <div id="sessions-container"></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════
+       ADD MEET LINK MODAL
+       ═══════════════════════ -->
+  <div class="modal-backdrop" id="meet-link-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="meet-modal-title">
+      <div class="modal-header">
+        <h3 class="modal-title" id="meet-modal-title">Add Meeting Link</h3>
+        <button class="modal-close" id="meet-modal-close" aria-label="Close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-error" id="meet-modal-error" style="display:none;"></div>
+        <div class="form-group">
+          <label class="form-label" for="meet-link-input">Google Meet / Zoom URL</label>
+          <input type="url" id="meet-link-input" class="form-input" placeholder="https://meet.google.com/abc-defg-hij">
+          <div class="form-hint">Paste your meeting link here. It will be shared with the learner.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="meet-modal-cancel">Cancel</button>
+        <button class="btn btn-primary" id="meet-modal-save">Save Link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════
+       RATING MODAL
+       ═══════════════════════ -->
+  <div class="modal-backdrop" id="rating-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rating-modal-title">
+      <div class="modal-header">
+        <h3 class="modal-title" id="rating-modal-title">Leave a Review</h3>
+        <button class="modal-close" id="rating-modal-close" aria-label="Close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-error" id="rating-modal-error" style="display:none;"></div>
+
+        <p style="margin-bottom:16px; color: var(--color-text-secondary); font-size: 0.95rem;">
+          How was your session with <strong id="rating-teacher-name">your teacher</strong>?
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">Your Rating</label>
+          <div class="star-picker" id="star-picker" role="group" aria-label="Star rating">
+            <button type="button" class="star-btn" data-val="1" aria-label="1 star">★</button>
+            <button type="button" class="star-btn" data-val="2" aria-label="2 stars">★</button>
+            <button type="button" class="star-btn" data-val="3" aria-label="3 stars">★</button>
+            <button type="button" class="star-btn" data-val="4" aria-label="4 stars">★</button>
+            <button type="button" class="star-btn" data-val="5" aria-label="5 stars">★</button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="review-text">Review (optional)</label>
+          <textarea id="review-text" class="form-input" rows="3" maxlength="300"
+            placeholder="Share what you learned and how your teacher was…"
+            style="resize:none; padding:12px;"></textarea>
+          <div style="font-size:0.8rem; color:var(--color-text-hint); text-align:right; margin-top:4px;" id="review-char-counter">0 / 300</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="rating-modal-skip">Skip</button>
+        <button class="btn btn-primary" id="rating-modal-submit" disabled>Submit Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════
+       SESSION DETAIL MODAL
+       ═══════════════════════ -->
+  <div class="modal-backdrop" id="session-detail-modal">
+    <div class="modal session-detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="detail-modal-title">Session Details</h3>
+          <div style="margin-top:4px;" id="detail-skill-badge"></div>
+        </div>
+        <button class="modal-close" id="detail-modal-close" aria-label="Close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Participants -->
+        <div class="detail-participants" id="detail-participants"></div>
+
+        <!-- Info grid -->
+        <div class="detail-info-grid" id="detail-info-grid"></div>
+
+        <!-- Notes -->
+        <div id="detail-notes-wrap" style="margin-bottom:20px;display:none;">
+          <div class="detail-info-label" style="margin-bottom:6px;">Session Notes</div>
+          <div id="detail-notes" style="font-size:0.95rem;color:var(--color-text-primary);background:var(--color-secondary);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:12px 16px;line-height:1.5;"></div>
+        </div>
+
+        <!-- Credits breakdown -->
+        <div class="detail-credits-row" id="detail-credits"></div>
+
+      </div>
+      <div class="modal-footer" style="justify-content:flex-end;">
+        <button class="btn btn-secondary" id="detail-modal-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/sessions.js"></script>
+</body>
+</html>

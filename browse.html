@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Peers — SkillNest</title>
+  <meta name="description" content="Find the perfect peer to teach you any skill, and book a session using your credits.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    #page-content { visibility: hidden; }
+  </style>
+</head>
+<body>
+
+  <div id="page-loader">
+    <div class="loader-logo">
+      <svg width="40" height="40" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1B3A6B"/><text x="16" y="22" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white" font-weight="bold">S</text></svg>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- Overlay for mobile sidebar -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar-app">
+    <a href="dashboard.html" class="navbar-app-logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      SkillNest
+    </a>
+
+    <div class="navbar-app-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html" class="active">Browse</a>
+      <a href="sessions.html">Sessions</a>
+      <a href="chat.html">Messages</a>
+    </div>
+
+    <div class="navbar-app-right">
+      <a href="credits.html" class="nav-credit-chip" id="nav-credit-link">
+        ✦ <span class="js-credit-balance">—</span>
+      </a>
+      <a href="notifications.html" class="nav-bell" aria-label="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span class="nav-bell-badge" id="nav-bell-badge"></span>
+      </a>
+      <div class="nav-avatar-wrapper">
+        <button class="nav-avatar-btn" id="nav-avatar-btn" aria-label="Profile menu">
+          <span class="avatar avatar-sm" id="nav-avatar">?</span>
+        </button>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <a href="my-profile.html">My Profile</a>
+          <a href="settings.html">Settings</a>
+          <div class="nav-dropdown-divider"></div>
+          <button class="danger" id="nav-signout-btn">Sign Out</button>
+        </div>
+      </div>
+      <button class="navbar-app-hamburger" id="nav-mobile-menuBtn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="page-content" class="page-content">
+    <div class="container">
+      
+      <div class="browse-layout">
+        <!-- Sidebar Filters -->
+        <aside class="browse-sidebar" id="browse-sidebar">
+          <h2 class="sidebar-title">Filter Peers</h2>
+          
+          <div class="filter-section">
+            <input type="text" id="search-peers" class="form-input" placeholder="Search skill, name..." autocomplete="off">
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-heading">Skill Category</h3>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="all" id="cat-all" checked>
+              All Categories
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="tech">
+              <span class="color-dot" style="background-color: #0284C7;"></span> Tech
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="design">
+              <span class="color-dot" style="background-color: #DB2777;"></span> Design
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="music">
+              <span class="color-dot" style="background-color: #D97706;"></span> Music
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="languages">
+              <span class="color-dot" style="background-color: #059669;"></span> Languages
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="academic">
+              <span class="color-dot" style="background-color: #9333EA;"></span> Academic
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="business">
+              <span class="color-dot" style="background-color: #0D9488;"></span> Business
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="category" value="other">
+              <span class="color-dot" style="background-color: #475569;"></span> Other
+            </label>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-heading">Proficiency Level</h3>
+            <label class="checkbox-label"><input type="radio" name="proficiency" value="all" id="prof-all" checked> Any Level</label>
+            <label class="checkbox-label"><input type="radio" name="proficiency" value="Beginner"> Beginner</label>
+            <label class="checkbox-label"><input type="radio" name="proficiency" value="Intermediate"> Intermediate</label>
+            <label class="checkbox-label"><input type="radio" name="proficiency" value="Advanced"> Advanced</label>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-heading">Status</h3>
+            <label class="checkbox-label">
+              <input type="checkbox" id="filter-active">
+              Actively online now
+            </label>
+          </div>
+
+          <div class="filter-section">
+            <h3 class="filter-heading">Minimum Rating</h3>
+            <div class="rating-selector">
+              <div class="rating-option active" data-val="0">Any rating</div>
+              <div class="rating-option" data-val="4"><span class="stars-display">★★★★☆</span> 4.0 and up</div>
+              <div class="rating-option" data-val="3"><span class="stars-display">★★★☆☆</span> 3.0 and up</div>
+            </div>
+          </div>
+
+          <button id="clear-filters-btn" class="btn btn-secondary" style="width: 100%;">Clear All Filters</button>
+        </aside>
+
+        <!-- Results Area -->
+        <main class="browse-results">
+          
+          <div class="results-header">
+            <button class="btn btn-secondary btn-filter-toggle" id="btn-mobile-filters">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              Filters
+            </button>
+            <div class="results-count" id="results-count">Loading peers...</div>
+            
+            <div class="results-controls">
+              <select class="form-select" style="width: 160px; height: 38px;">
+                <option value="best_match">Best Match</option>
+                <option value="rating_desc">Highest Rated</option>
+                <option value="sessions_desc">Most Sessions</option>
+              </select>
+              
+              <div class="view-toggle">
+                <button class="view-toggle-btn active" id="btn-grid-view" aria-label="Grid view">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </button>
+                <button class="view-toggle-btn" id="btn-list-view" aria-label="List view">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skeleton Loaders -->
+          <div id="peers-skeleton" class="peer-grid">
+            ${Array(6).fill().map(() => `
+              <div class="peer-card">
+                <div class="peer-card-top">
+                  <div class="skeleton skeleton-avatar" style="width:64px;height:64px;"></div>
+                  <div style="flex:1;">
+                    <div class="skeleton skeleton-text" style="width:70%;"></div>
+                    <div class="skeleton skeleton-text" style="width:50%;height:12px;"></div>
+                    <div class="skeleton skeleton-text" style="width:30%;height:12px;margin-top:12px;"></div>
+                  </div>
+                </div>
+                <div class="peer-skills">
+                  <div class="skeleton skeleton-text" style="width:40%;height:12px;"></div>
+                  <div style="display:flex;gap:8px;margin-top:8px;">
+                    <div class="skeleton skeleton-text" style="width:60px;height:24px;border-radius:12px;margin:0;"></div>
+                    <div class="skeleton skeleton-text" style="width:80px;height:24px;border-radius:12px;margin:0;"></div>
+                  </div>
+                </div>
+                <div class="peer-actions">
+                  <div class="skeleton skeleton-text" style="flex:1;height:36px;border-radius:8px;margin:0;"></div>
+                  <div class="skeleton skeleton-text" style="flex:1;height:36px;border-radius:8px;margin:0;"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Real Content -->
+          <div id="peers-container" class="peer-grid"></div>
+
+          <!-- Empty state -->
+          <div id="empty-state" class="empty-state" style="display:none; margin-top: 48px;">
+            <div class="empty-state-icon">🔭</div>
+            <div class="empty-state-title">No peers found</div>
+            <div class="empty-state-text">We couldn't find anyone matching those exact filters.</div>
+            <button class="btn btn-secondary" onclick="document.getElementById('clear-filters-btn').click()">Clear Filters</button>
+          </div>
+
+        </main>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Request Session Modal -->
+  <div class="modal-backdrop" id="request-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-peer-name">
+      <div class="modal-header">
+        <h3 class="modal-title">Request Session</h3>
+        <button class="modal-close" id="modal-close" aria-label="Close modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="alert alert-error" id="modal-error"></div>
+
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding:12px;background:var(--color-primary-light);border-radius:var(--radius-md);">
+          <div id="modal-peer-avatar"></div>
+          <div>
+            <div id="modal-peer-name" class="fw-600"></div>
+            <div style="font-size:13px;color:var(--color-text-secondary);margin-top:4px;">
+              Skill: <span id="modal-skill-badge" class="badge"></span>
+            </div>
+          </div>
+        </div>
+
+        <form id="session-request-form">
+          <div class="form-group">
+            <label class="form-label" for="modal-duration">Duration</label>
+            <select id="modal-duration" class="form-select" required>
+              <option value="30">30 minutes (625 ✦)</option>
+              <option value="60" selected>60 minutes (1250 ✦)</option>
+              <option value="90">90 minutes (1875 ✦)</option>
+              <option value="120">120 minutes (2500 ✦)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modal-datetime">Proposed Date & Time</label>
+            <input type="datetime-local" id="modal-datetime" class="form-input" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="modal-notes">Message / Goals</label>
+            <textarea id="modal-notes" class="form-input" style="height:80px;padding:12px;resize:none;" placeholder="What do you want to learn? Include any links." maxlength="200" required></textarea>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer" style="justify-content:space-between;align-items:center;">
+        <div>
+          <div class="fw-700 text-primary" id="modal-cost-preview">Cost: 1250 ✦</div>
+          <div style="font-size:12px;color:var(--color-text-hint);" id="modal-your-balance"></div>
+        </div>
+        <button type="submit" form="session-request-form" class="btn btn-primary" id="confirm-request-btn">
+          Confirm Request
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/browse.js"></script>
+</body>
+</html>

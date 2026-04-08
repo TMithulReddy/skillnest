@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications — SkillNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body { background-color: var(--color-secondary); }
+    .container { max-width: 720px; margin: 0 auto; padding-top: 80px; padding-bottom: 40px; }
+    .notifications-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .tabs-wrap { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; }
+    .tab-item { padding: 8px 16px; cursor: pointer; border-radius: var(--radius-md); font-weight: 500; color: var(--color-text-secondary); transition: background 0.1s; }
+    .tab-item:hover { background: var(--color-border); }
+    .tab-item.active { background: var(--color-primary-light); color: var(--color-primary); }
+    .empty-state { text-align: center; padding: 64px 24px; }
+  </style>
+</head>
+<body>
+  <div id="page-loader">
+    <div class="loader-logo">
+      <svg width="40" height="40" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1B3A6B"/><text x="16" y="22" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white" font-weight="bold">S</text></svg>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+  <nav class="navbar-app">
+    <div class="nav-left">
+      <a href="dashboard.html" class="nav-logo">SkillNest</a>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="browse.html">Browse</a>
+        <a href="sessions.html">Sessions</a>
+        <a href="chat.html">Messages</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="credits.html" class="nav-credit-chip" id="nav-credit-link">
+        ✦ <span class="js-credit-balance">0</span>
+      </a>
+      <a href="notifications.html" class="nav-icon-btn active" style="position:relative;">
+        🔔
+        <span class="nav-bell-badge" id="nav-bell-badge" style="display:none;"></span>
+      </a>
+      <div class="nav-avatar-wrap">
+        <button class="nav-avatar-btn" id="nav-avatar-btn">
+          <span class="avatar avatar-sm" id="nav-avatar"></span>
+        </button>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <a href="my-profile.html">My Profile</a>
+          <a href="settings.html">Settings</a>
+          <div class="nav-dropdown-divider"></div>
+          <button class="danger" id="nav-signout-btn">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" id="page-wrapper" style="visibility: hidden;">
+    <div class="notifications-header">
+      <h2>Notifications</h2>
+      <button id="btn-mark-all-read" class="btn btn-ghost" style="display: none;">Mark all as read</button>
+    </div>
+
+    <div class="tabs-wrap" id="notif-tabs">
+      <div class="tab-item active" data-filter="all">All</div>
+      <div class="tab-item" data-filter="unread">Unread</div>
+      <div class="tab-item" data-filter="sessions">Sessions</div>
+    </div>
+
+    <div id="notifications-list" style="background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden;">
+      <div style="padding: 24px; text-align: center;"><span class="spinner"></span></div>
+    </div>
+
+    <div id="empty-state" class="empty-state" style="display:none;">
+      <div style="font-size:3rem; margin-bottom: 16px;">🎉</div>
+      <h3 style="margin-bottom: 8px;">You're all caught up!</h3>
+      <p style="color: var(--color-text-secondary);">New notifications will appear here.</p>
+    </div>
+  </div>
+
+  <script src="js/notifications.js" type="module"></script>
+</body>
+</html>

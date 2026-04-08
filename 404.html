@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found | SkillNest</title>
+  <meta name="description" content="This page doesn't exist on SkillNest.">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color-secondary);
+    }
+    .not-found-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 24px;
+    }
+    .not-found-code {
+      font-size: 8rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+    }
+    .not-found-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+    }
+    .not-found-sub {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 40px;
+      line-height: 1.6;
+      max-width: 420px;
+    }
+    .not-found-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .not-found-icon {
+      font-size: 5rem;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Simple non-auth navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      SkillNest
+    </a>
+    <div class="navbar-links">
+      <a href="login.html" class="btn btn-secondary">Log In</a>
+      <a href="signup.html" class="btn btn-primary">Get Started</a>
+    </div>
+  </nav>
+
+  <div class="not-found-wrap">
+    <div class="not-found-icon">🔍</div>
+    <div class="not-found-code">404</div>
+    <h1 class="not-found-title">Page not found</h1>
+    <p class="not-found-sub">This page doesn't exist or you don't have access. It may have been moved, deleted, or the URL might be incorrect.</p>
+    <div class="not-found-actions">
+      <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+      <a href="index.html" class="btn btn-secondary">Go Home</a>
+    </div>
+  </div>
+</body>
+</html>

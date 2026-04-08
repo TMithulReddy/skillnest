@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — SkillNest</title>
+  <meta name="description" content="Join SkillNest free — get 4000 credits instantly and start exchanging skills with your college peers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+  <div class="auth-layout">
+
+    <!-- Left navy panel -->
+    <aside class="auth-panel">
+      <a href="index.html" class="auth-panel-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        SkillNest
+      </a>
+
+      <p class="auth-panel-tagline">Join 10,000+ students already exchanging skills.</p>
+      <p class="auth-panel-sub">No money. No barriers. Just peer-to-peer knowledge.</p>
+
+      <ul class="auth-panel-points">
+        <li>
+          <div class="point-icon">🎁</div>
+          Get 4000 credits instantly on signup
+        </li>
+        <li>
+          <div class="point-icon">🤝</div>
+          Learn anything from your college peers
+        </li>
+        <li>
+          <div class="point-icon">📈</div>
+          Build your profile and teach what you know
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Right form panel -->
+    <main class="auth-form-panel">
+      <div class="auth-form-inner">
+
+        <!-- Step indicator -->
+        <div class="step-indicator" id="step-indicator">
+          <div class="step-pill active" id="step-pill-1">
+            <span class="step-num">1</span>
+            Account Details
+          </div>
+          <div class="step-connector" id="step-connector"></div>
+          <div class="step-pill" id="step-pill-2">
+            <span class="step-num">2</span>
+            College Details
+          </div>
+        </div>
+
+        <!-- Alert area (shared) -->
+        <div id="signup-alert" class="alert alert-error" role="alert">
+          <span class="alert-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </span>
+          <span id="signup-alert-text"></span>
+        </div>
+
+        <!-- ========================
+             STEP 1 — Account Details
+             ======================== -->
+        <div id="step-1">
+          <h1 class="auth-title">Create your account</h1>
+          <p class="auth-subtitle">Start learning and teaching in minutes.</p>
+
+          <form id="step1-form" novalidate>
+
+            <!-- Full Name -->
+            <div class="form-group">
+              <label class="form-label" for="full-name">Full Name</label>
+              <input
+                id="full-name"
+                type="text"
+                class="form-input"
+                placeholder="Your full name"
+                autocomplete="name"
+                required
+              >
+              <span class="form-error" id="name-error">Please enter your full name.</span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label class="form-label" for="signup-email">College Email</label>
+              <input
+                id="signup-email"
+                type="email"
+                class="form-input"
+                placeholder="you@college.edu"
+                autocomplete="email"
+                required
+              >
+              <span class="form-error" id="signup-email-error">Please enter a valid email address.</span>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label class="form-label" for="signup-password">Password</label>
+              <div class="input-wrapper">
+                <input
+                  id="signup-password"
+                  type="password"
+                  class="form-input"
+                  placeholder="Min 8 characters"
+                  autocomplete="new-password"
+                  minlength="8"
+                  required
+                >
+                <button type="button" class="input-icon" id="toggle-signup-password" aria-label="Toggle password visibility">
+                  <svg id="eye-icon-1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+              <span class="form-error" id="signup-password-error">Password must be at least 8 characters.</span>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label class="form-label" for="confirm-password">Confirm Password</label>
+              <div class="input-wrapper">
+                <input
+                  id="confirm-password"
+                  type="password"
+                  class="form-input"
+                  placeholder="Re-enter your password"
+                  autocomplete="new-password"
+                  required
+                >
+                <button type="button" class="input-icon" id="toggle-confirm-password" aria-label="Toggle confirm password visibility">
+                  <svg id="eye-icon-2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+              <span class="form-error" id="confirm-password-error">Passwords do not match.</span>
+            </div>
+
+            <button type="submit" id="next-btn" class="btn btn-primary" style="width:100%;margin-top:8px;">
+              Next →
+            </button>
+          </form>
+
+          <div class="auth-link-row">
+            Already have an account? <a href="login.html">Log in</a>
+          </div>
+        </div>
+
+        <!-- ========================
+             STEP 2 — College Details
+             ======================== -->
+        <div id="step-2" style="display:none;">
+          <h2 class="auth-title">Your college details</h2>
+          <p class="auth-subtitle">Help your peers find and connect with you.</p>
+
+          <form id="step2-form" novalidate>
+
+            <!-- College name -->
+            <div class="form-group">
+              <label class="form-label" for="college">College / University</label>
+              <input
+                id="college"
+                type="text"
+                class="form-input"
+                placeholder="e.g. IIT Delhi, BITS Pilani"
+                required
+              >
+              <span class="form-error" id="college-error">Please enter your college name.</span>
+            </div>
+
+            <!-- Department -->
+            <div class="form-group">
+              <label class="form-label" for="department">Department / Program</label>
+              <input
+                id="department"
+                type="text"
+                class="form-input"
+                placeholder="e.g. B.Tech CSE, MBA, BCA"
+                required
+              >
+              <span class="form-error" id="department-error">Please enter your department.</span>
+            </div>
+
+            <!-- Year of Study -->
+            <div class="form-group">
+              <label class="form-label" for="year-of-study">Year of Study</label>
+              <select id="year-of-study" class="form-select" required>
+                <option value="" disabled selected>Select your year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year</option>
+                <option value="6">6th Year</option>
+              </select>
+              <span class="form-error" id="year-error">Please select your year of study.</span>
+            </div>
+
+            <!-- Mobile (optional) -->
+            <div class="form-group">
+              <label class="form-label" for="mobile">
+                Mobile Number
+                <span style="color:var(--color-text-hint);font-weight:400;font-size:12px;"> (optional)</span>
+              </label>
+              <input
+                id="mobile"
+                type="tel"
+                class="form-input"
+                placeholder="+91 98765 43210"
+                autocomplete="tel"
+              >
+            </div>
+
+            <div class="flex gap-3 mt-3">
+              <button type="button" id="back-btn" class="btn btn-secondary" style="flex:1;">
+                ← Back
+              </button>
+              <button type="submit" id="create-btn" class="btn btn-primary" style="flex:2;">
+                Create Account
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script type="module">
+    import { getCurrentUser } from './js/supabase.js';
+    import { signupUser } from './js/auth.js';
+
+    // Redirect if already logged in
+    (async () => {
+      const user = await getCurrentUser();
+      if (user) window.location.href = 'dashboard.html';
+    })();
+
+    // ────────────────────────────────────────────
+    // In-memory form data across steps
+    // ────────────────────────────────────────────
+    const formData = {
+      fullName: '',
+      email: '',
+      password: '',
+    };
+
+    // ────────────────────────────────────────────
+    // Password toggle helpers
+    // ────────────────────────────────────────────
+    function makeToggle(btnId, inputId, iconId) {
+      const btn = document.getElementById(btnId);
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      btn.addEventListener('click', () => {
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        icon.innerHTML = isPassword
+          ? `<path d="M17.94 17.94A10.06 10.06 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`
+          : `<path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>`;
+      });
+    }
+
+    makeToggle('toggle-signup-password', 'signup-password', 'eye-icon-1');
+    makeToggle('toggle-confirm-password', 'confirm-password', 'eye-icon-2');
+
+    // ────────────────────────────────────────────
+    // Alert helpers
+    // ────────────────────────────────────────────
+    function showAlert(msg) {
+      const alert = document.getElementById('signup-alert');
+      document.getElementById('signup-alert-text').textContent = msg;
+      alert.classList.add('visible');
+    }
+
+    function hideAlert() {
+      document.getElementById('signup-alert').classList.remove('visible');
+    }
+
+    function setFieldError(inputId, errorId, show) {
+      const input = document.getElementById(inputId);
+      const error = document.getElementById(errorId);
+      if (show) {
+        input.classList.add('error');
+        error.classList.add('visible');
+      } else {
+        input.classList.remove('error');
+        error.classList.remove('visible');
+      }
+    }
+
+    function clearStep1Errors() {
+      ['full-name', 'signup-email', 'signup-password', 'confirm-password'].forEach(id => {
+        document.getElementById(id).classList.remove('error');
+      });
+      ['name-error', 'signup-email-error', 'signup-password-error', 'confirm-password-error'].forEach(id => {
+        document.getElementById(id).classList.remove('visible');
+      });
+    }
+
+    function clearStep2Errors() {
+      ['college', 'department', 'year-of-study'].forEach(id => {
+        document.getElementById(id).classList.remove('error');
+      });
+      ['college-error', 'department-error', 'year-error'].forEach(id => {
+        document.getElementById(id).classList.remove('visible');
+      });
+    }
+
+    // ────────────────────────────────────────────
+    // Step transitions
+    // ────────────────────────────────────────────
+    function goToStep2() {
+      document.getElementById('step-1').style.display = 'none';
+      document.getElementById('step-2').style.display = 'block';
+
+      // Update step indicator
+      document.getElementById('step-pill-1').classList.remove('active');
+      document.getElementById('step-pill-1').classList.add('completed');
+      document.getElementById('step-pill-1').querySelector('.step-num').innerHTML = '✓';
+      document.getElementById('step-connector').classList.add('completed');
+      document.getElementById('step-pill-2').classList.add('active');
+
+      hideAlert();
+    }
+
+    function goToStep1() {
+      document.getElementById('step-2').style.display = 'none';
+      document.getElementById('step-1').style.display = 'block';
+
+      // Restore step indicator
+      document.getElementById('step-pill-1').classList.remove('completed');
+      document.getElementById('step-pill-1').classList.add('active');
+      document.getElementById('step-pill-1').querySelector('.step-num').textContent = '1';
+      document.getElementById('step-connector').classList.remove('completed');
+      document.getElementById('step-pill-2').classList.remove('active');
+
+      hideAlert();
+    }
+
+    // ────────────────────────────────────────────
+    // Step 1 — validate and proceed
+    // ────────────────────────────────────────────
+    document.getElementById('step1-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearStep1Errors();
+      hideAlert();
+
+      const fullName = document.getElementById('full-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      let valid = true;
+
+      if (!fullName) {
+        setFieldError('full-name', 'name-error', true);
+        valid = false;
+      }
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setFieldError('signup-email', 'signup-email-error', true);
+        valid = false;
+      }
+
+      if (!password || password.length < 8) {
+        setFieldError('signup-password', 'signup-password-error', true);
+        valid = false;
+      }
+
+      if (password !== confirmPassword) {
+        setFieldError('confirm-password', 'confirm-password-error', true);
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // Store step 1 data
+      formData.fullName = fullName;
+      formData.email = email;
+      formData.password = password;
+
+      goToStep2();
+    });
+
+    // ────────────────────────────────────────────
+    // Back button
+    // ────────────────────────────────────────────
+    document.getElementById('back-btn').addEventListener('click', () => {
+      goToStep1();
+    });
+
+    // ────────────────────────────────────────────
+    // Step 2 — submit everything
+    // ────────────────────────────────────────────
+    function setCreateLoading(loading) {
+      const btn = document.getElementById('create-btn');
+      const backBtn = document.getElementById('back-btn');
+      btn.disabled = loading;
+      backBtn.disabled = loading;
+      btn.innerHTML = loading
+        ? '<span class="spinner"></span> Creating account...'
+        : 'Create Account';
+    }
+
+    document.getElementById('step2-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearStep2Errors();
+      hideAlert();
+
+      const college = document.getElementById('college').value.trim();
+      const department = document.getElementById('department').value.trim();
+      const yearOfStudy = document.getElementById('year-of-study').value;
+      const mobile = document.getElementById('mobile').value.trim();
+      let valid = true;
+
+      if (!college) {
+        setFieldError('college', 'college-error', true);
+        valid = false;
+      }
+
+      if (!department) {
+        setFieldError('department', 'department-error', true);
+        valid = false;
+      }
+
+      if (!yearOfStudy) {
+        setFieldError('year-of-study', 'year-error', true);
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      setCreateLoading(true);
+      try {
+        await signupUser(formData.email, formData.password, {
+          fullName: formData.fullName,
+          college,
+          department,
+          yearOfStudy: parseInt(yearOfStudy, 10),
+          mobile: mobile || null,
+        });
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        showAlert(err.message || 'Something went wrong. Please try again.');
+      } finally {
+        setCreateLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

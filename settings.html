@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — SkillNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    body { background-color: var(--color-secondary); }
+    .container { max-width: 960px; margin: 0 auto; padding-top: 80px; padding-bottom: 64px; }
+    .settings-panel { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+  <div id="page-loader">
+    <div class="loader-logo">
+      <svg width="40" height="40" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1B3A6B"/><text x="16" y="22" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white" font-weight="bold">S</text></svg>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+  <nav class="navbar-app">
+    <div class="nav-left">
+      <a href="dashboard.html" class="nav-logo">SkillNest</a>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="browse.html">Browse</a>
+        <a href="sessions.html">Sessions</a>
+        <a href="chat.html">Messages</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="credits.html" class="nav-credit-chip" id="nav-credit-link">
+        ✦ <span class="js-credit-balance">0</span>
+      </a>
+      <a href="notifications.html" class="nav-icon-btn" style="position:relative;">
+        🔔
+        <span class="nav-bell-badge" id="nav-bell-badge" style="display:none;"></span>
+      </a>
+      <div class="nav-avatar-wrap">
+        <button class="nav-avatar-btn" id="nav-avatar-btn">
+          <span class="avatar avatar-sm" id="nav-avatar"></span>
+        </button>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <a href="my-profile.html">My Profile</a>
+          <a href="settings.html">Settings</a>
+          <div class="nav-dropdown-divider"></div>
+          <button class="danger" id="nav-signout-btn">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" id="page-wrapper" style="visibility: hidden;">
+    <h2 style="margin-bottom: 32px;">Settings</h2>
+    
+    <div class="settings-layout">
+      <!-- Sidebar -->
+      <div class="settings-sidebar" id="settings-tabs">
+        <div class="settings-nav-item active" data-target="sec-account">Account</div>
+        <div class="settings-nav-item" data-target="sec-security">Security</div>
+        <div class="settings-nav-item" data-target="sec-notifications">Notifications</div>
+        <div class="settings-nav-item" data-target="sec-danger" style="color:var(--color-danger);">Danger Zone</div>
+      </div>
+      
+      <!-- Content -->
+      <div class="settings-content">
+        
+        <!-- Account Section -->
+        <div id="sec-account" class="settings-section active">
+          <div class="settings-panel">
+            <h3 style="margin-top:0; margin-bottom: 24px;">Account Overview</h3>
+            <form id="account-form">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="input-field" id="settings-email" disabled readonly>
+                <div class="text-hint" style="margin-top:4px;">Email modifications are currently disabled.</div>
+              </div>
+              
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" class="input-field" id="settings-name" required>
+              </div>
+              
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label>College</label>
+                  <input type="text" class="input-field" id="settings-college">
+                </div>
+                <div class="form-group">
+                  <label>Department / Major</label>
+                  <input type="text" class="input-field" id="settings-department">
+                </div>
+              </div>
+              
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label>Year of Study</label>
+                  <select class="input-field" id="settings-year">
+                    <option value="">Select Year...</option>
+                    <option value="1">1st Year (Freshman)</option>
+                    <option value="2">2nd Year (Sophomore)</option>
+                    <option value="3">3rd Year (Junior)</option>
+                    <option value="4">4th Year (Senior)</option>
+                    <option value="5+">5th Year+</option>
+                    <option value="Alumni">Alumni</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Mobile Number</label>
+                  <input type="tel" class="input-field" id="settings-mobile">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <label>Bio</label>
+                  <span id="bio-counter" class="text-hint" style="font-size:12px;">0 / 300</span>
+                </div>
+                <textarea class="input-field" id="settings-bio" rows="4" maxlength="300"></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-primary" id="btn-save-account">Save Changes</button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Security Section -->
+        <div id="sec-security" class="settings-section">
+          <div class="settings-panel">
+            <h3 style="margin-top:0; margin-bottom: 24px;">Change Password</h3>
+            <form id="password-form">
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" class="input-field" id="pw-new" minlength="8" required>
+              </div>
+              <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" class="input-field" id="pw-confirm" minlength="8" required>
+              </div>
+              <button type="submit" class="btn btn-primary" id="btn-update-password">Update Password</button>
+            </form>
+          </div>
+          
+          <div class="settings-panel">
+            <h3 style="margin-top:0; margin-bottom: 16px;">Active Sessions</h3>
+            <p style="color:var(--color-text-secondary); margin-bottom: 16px; line-height: 1.5;">You are currently signed in. Signing out will end your session on this device.</p>
+            <button type="button" class="btn btn-ghost danger" id="settings-signout-btn">Sign Out</button>
+          </div>
+        </div>
+        
+        <!-- Notifications Section -->
+        <div id="sec-notifications" class="settings-section">
+          <div class="settings-panel">
+            <h3 style="margin-top:0; margin-bottom: 8px;">Notification Preferences</h3>
+            <p style="color:var(--color-text-hint); margin-bottom: 24px;">Choose which notifications you'd like to receive on the platform.</p>
+            
+            <div id="notif-toggles">
+              <!-- Rendered via JS -->
+            </div>
+            
+            <button class="btn btn-primary" id="btn-save-notifs" style="margin-top: 24px;">Save Preferences</button>
+          </div>
+        </div>
+        
+        <!-- Danger Zone Section -->
+        <div id="sec-danger" class="settings-section">
+          <div class="settings-panel danger-zone">
+            <h3 style="margin-top:0; margin-bottom: 16px; color: var(--color-danger);">Delete Account</h3>
+            <p style="color:var(--color-text-secondary); margin-bottom: 24px; line-height: 1.5;">This will permanently delete your account, profile, sessions, and all data. This cannot be undone.</p>
+            <button type="button" class="btn btn-outline danger" id="btn-delete-account">Delete My Account</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal-content" style="max-width: 400px;">
+      <h3 style="color:var(--color-danger);">Confirm Delete Account</h3>
+      <p style="color:var(--color-text-secondary); font-size:0.9rem; margin-bottom: 16px;">Type <strong>DELETE</strong> below to confirm you want to permanently erase your account.</p>
+      <input type="text" class="input-field" id="delete-confirm-input" placeholder="Type DELETE" style="margin-bottom: 24px;">
+      <div style="display:flex; justify-content:flex-end; gap:12px;">
+        <button type="button" class="btn btn-ghost" id="btn-cancel-delete">Cancel</button>
+        <button type="button" class="btn btn-primary danger" id="btn-confirm-delete" disabled>Delete Account</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/settings.js" type="module"></script>
+</body>
+</html>

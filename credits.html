@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credits — SkillNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    .container { max-width: 960px; margin: 0 auto; padding-top: 80px; padding-bottom: 64px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 24px; }
+    .stat-label { font-size: 0.85rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 8px; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--color-text-primary); }
+    .stat-value.purple { color: var(--color-primary); }
+    .stat-value.green { color: var(--color-success); }
+    .stat-value.red { color: var(--color-danger); }
+    .stat-value.navy { color: #1E3A8A; /* equivalent to custom navy if needed, using primary for now */ }
+    
+    .filter-row { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; justify-content: space-between; }
+    .filter-group { display: flex; gap: 12px; align-items: center; }
+    
+    .empty-state { text-align: center; padding: 64px 24px; background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+  </style>
+</head>
+<body>
+  <div id="page-loader">
+    <div class="loader-logo">
+      <svg width="40" height="40" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1B3A6B"/><text x="16" y="22" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white" font-weight="bold">S</text></svg>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+  <nav class="navbar-app">
+    <div class="nav-left">
+      <a href="dashboard.html" class="nav-logo">SkillNest</a>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="browse.html">Browse</a>
+        <a href="sessions.html">Sessions</a>
+        <a href="chat.html">Messages</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="credits.html" class="nav-credit-chip active" id="nav-credit-link">
+        ✦ <span class="js-credit-balance">0</span>
+      </a>
+      <a href="notifications.html" class="nav-icon-btn" style="position:relative;">
+        🔔
+        <span class="nav-bell-badge" id="nav-bell-badge" style="display:none;"></span>
+      </a>
+      <div class="nav-avatar-wrap">
+        <button class="nav-avatar-btn" id="nav-avatar-btn">
+          <span class="avatar avatar-sm" id="nav-avatar"></span>
+        </button>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <a href="my-profile.html">My Profile</a>
+          <a href="settings.html">Settings</a>
+          <div class="nav-dropdown-divider"></div>
+          <button class="danger" id="nav-signout-btn">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" id="page-wrapper" style="visibility: hidden;">
+    <h2 style="margin-bottom: 24px;">Credit Economy</h2>
+
+    <div class="summary-grid">
+      <div class="stat-card">
+        <div class="stat-label">Current Balance</div>
+        <div class="stat-value purple">✦ <span id="stat-balance">0</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Earned</div>
+        <div class="stat-value green" id="stat-earned">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Spent</div>
+        <div class="stat-value red" id="stat-spent">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Earned Teaching</div>
+        <div class="stat-value" style="color:var(--color-primary);" id="stat-teaching">0</div>
+      </div>
+    </div>
+
+    <details class="credit-info-box">
+      <summary>How credits work ▾</summary>
+      <div style="padding: 16px 20px; border-top: 1px solid var(--color-border); background: var(--color-white); font-size: 0.9rem;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding:8px 0;">Signup bonus</td><td style="text-align:right; color:var(--color-success); font-weight:600;">+4000 ✦</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding:8px 0;">Teach a session (1hr)</td><td style="text-align:right; color:var(--color-success); font-weight:600;">+2000 ✦</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding:8px 0;">5-star rating</td><td style="text-align:right; color:var(--color-success); font-weight:600;">+500 ✦</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding:8px 0;">7-day streak</td><td style="text-align:right; color:var(--color-success); font-weight:600;">+750 ✦</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding:8px 0;">Endorse a peer</td><td style="text-align:right; color:var(--color-success); font-weight:600;">+250 ✦</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding:8px 0;">Profile complete</td><td style="text-align:right; color:var(--color-success); font-weight:600;">+1250 ✦</td></tr>
+          <tr><td style="padding:8px 0;">Learn a session (1hr)</td><td style="text-align:right; color:var(--color-danger); font-weight:600;">−1250 ✦</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+      <h3 style="margin: 0;">Transaction History</h3>
+      <div class="filter-group">
+        <select class="input-field" id="filter-type" style="padding: 6px 12px; font-size: 0.85rem; height: auto;">
+          <option value="all">All Types</option>
+          <option value="earned">Earned</option>
+          <option value="spent">Spent</option>
+          <option value="teaching">Teaching</option>
+          <option value="learning">Learning</option>
+          <option value="bonuses">Bonuses</option>
+        </select>
+        <select class="input-field" id="filter-date" style="padding: 6px 12px; font-size: 0.85rem; height: auto;">
+          <option value="all">All Time</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden;">
+      <table class="ledger-table" id="ledger-table" style="display: none;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Event</th>
+            <th>Description</th>
+            <th style="text-align:right;">Amount</th>
+            <th style="text-align:right;">Balance After</th>
+          </tr>
+        </thead>
+        <tbody id="ledger-body"></tbody>
+      </table>
+      
+      <div id="empty-state" class="empty-state" style="display:none; border: none; border-radius: 0;">
+        <div style="font-size:3rem; margin-bottom: 16px;">✦</div>
+        <p style="color: var(--color-text-secondary);">No transactions yet. Start by teaching a skill or completing your profile!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/credits.js" type="module"></script>
+</body>
+</html>
