@@ -377,6 +377,9 @@ function renderSessionCard(s) {
       <!-- Escrow note -->
       ${showEscrow ? `<div class="session-escrow-note">✦ ${Number(escrowAmt).toLocaleString()} credits held in escrow</div>` : ''}
 
+      ${s.status === 'confirmed' && !s.meet_link ? `<div class="meet-link-banner">⏳ Waiting for teacher to add Google Meet link</div>` : ''}
+      ${s.status === 'confirmed' && s.meet_link && !isTeaching ? `<div class="meet-link-display">${s.meet_link}</div>` : ''}
+
       <!-- Footer actions -->
       ${actions.length > 0 ? `<div class="session-card-footer">${actions.join('')}</div>` : ''}
 
@@ -399,14 +402,21 @@ function buildActionButtons(s, isTeaching, passed) {
   if (s.status === 'confirmed') {
     if (s.meet_link) {
       buttons.push(`<a href="${s.meet_link}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Join Session</a>`);
+      if (!isTeaching) {
+        buttons.push(`<button class="btn-copy" onclick="window.copyMeetLink('${s.meet_link}')" title="Copy Link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>`);
+      }
     } else {
-      buttons.push(`<button class="btn btn-secondary" style="opacity:0.5;" disabled>No Meet Link Yet</button>`);
+      if (!isTeaching) {
+        buttons.push(`<button class="btn btn-secondary" style="opacity:0.5;" disabled>No Meet Link Yet</button>`);
+      }
     }
 
     if (isTeaching) {
-      buttons.push(`<button class="btn btn-secondary" onclick="window.openMeetLinkModal('${sid}')">
-        ${s.meet_link ? 'Update Meet Link' : 'Add Meet Link'}
-      </button>`);
+      buttons.push(`<button class="btn btn-secondary meet-link-btn" data-session-id="${sid}" data-meet-link="${s.meet_link || ''}">
+  ${s.meet_link ? 'Edit Meet Link' : 'Add Meet Link'}
+</button>`);
       if (passed) {
         buttons.push(`<button class="btn btn-ghost" onclick="window.markNoShow('${sid}')">Mark No Show</button>`);
       }
@@ -433,6 +443,81 @@ function buildActionButtons(s, isTeaching, passed) {
 // ─────────────────────────────────────────────────
 // Action Handlers (exposed on window for inline onclick)
 // ─────────────────────────────────────────────────
+
+// Store session ID on window so it's truly global
+window._meetSessionId = null
+
+window.openMeetModal = function(sessionId, existingLink = '') {
+  window._meetSessionId = sessionId
+  console.log('openMeetModal called, id:', window._meetSessionId)
+  const input = document.getElementById('meet-modal-link-input')
+  if (input) input.value = existingLink || ''
+  const errorEl = document.getElementById('meet-modal-error')
+  if (errorEl) errorEl.style.display = 'none'
+  const modal = document.getElementById('meet-link-modal')
+  if (modal) modal.classList.add('open')
+}
+
+window.closeMeetModal = function() {
+  document.getElementById('meet-link-modal').classList.remove('open');
+};
+
+window.saveMeetLink = async function() {
+  const sessionId = window._meetSessionId
+  console.log('saveMeetLink called, id:', sessionId)
+  const meetLink = document.getElementById('meet-modal-link-input')?.value?.trim()
+  const errorEl = document.getElementById('meet-modal-error')
+
+  if (!sessionId) {
+    if (errorEl) { errorEl.textContent = 'Session ID missing — please refresh'; errorEl.style.display = 'block' }
+    return
+  }
+
+  if (!meetLink || !meetLink.startsWith('https://meet.google.com/')) {
+    if (errorEl) { errorEl.textContent = 'Please enter a valid Google Meet link'; errorEl.style.display = 'block' }
+    return
+  }
+
+  const { error } = await supabaseClient
+    .from('sessions')
+    .update({ meet_link: meetLink })
+    .eq('id', sessionId)
+    .eq('teacher_id', currentUser.id)
+
+  if (error) {
+    console.error('saveMeetLink error:', error.message)
+    if (errorEl) { errorEl.textContent = error.message; errorEl.style.display = 'block' }
+    return
+  }
+
+  const sess = sessions.find(s => s.id === sessionId)
+  if (sess) {
+    await supabaseClient.from('notifications').insert({
+      user_id: sess.learner_id,
+      type: 'session_confirmed',
+      title: 'Meet Link Ready!',
+      body: `Your teacher added a Google Meet link for your ${sess.skill?.name} session`,
+      link_url: 'sessions.html',
+      actor_id: currentUser.id,
+      session_id: sessionId
+    })
+  }
+
+  showToast('Meet link saved!', 'success')
+  window._meetSessionId = null
+  document.getElementById('meet-link-modal')?.classList.remove('open')
+  refreshSessions()
+}
+
+window.copyMeetLink = async function(meetLink) {
+  try {
+    await navigator.clipboard.writeText(meetLink);
+    showToast('Meet link copied to clipboard!', 'success');
+  } catch (err) {
+    showToast('Failed to copy', 'error');
+  }
+};
+
 
 window.confirmSession = async function(sessionId) {
   const s = sessions.find(x => x.id === sessionId);
@@ -673,86 +758,65 @@ window.markComplete = async function(sessionId) {
 // ─────────────────────────────────────────────────
 
 function initModals() {
-  // Meet Link Modal
-  const meetModal = document.getElementById('meet-link-modal');
-  document.getElementById('meet-modal-close').addEventListener('click', closeMeetModal);
-  document.getElementById('meet-modal-cancel').addEventListener('click', closeMeetModal);
-  meetModal.addEventListener('click', e => { if (e.target === meetModal) closeMeetModal(); });
-
-  document.getElementById('meet-modal-save').addEventListener('click', async () => {
-    const url = document.getElementById('meet-link-input').value.trim();
-    const errorEl = document.getElementById('meet-modal-error');
-
-    if (!url) { errorEl.textContent = 'Please enter a meeting URL'; errorEl.style.display = 'flex'; return; }
-
-    const btn = document.getElementById('meet-modal-save');
-    btn.disabled = true; btn.textContent = 'Saving…';
-
-    const s = sessions.find(x => x.id === meetLinkSessionId);
-
-    const { error } = await supabaseClient.from('sessions')
-      .update({ meet_link: url })
-      .eq('id', meetLinkSessionId)
-      .eq('teacher_id', currentUser.id);
-
-    btn.disabled = false; btn.textContent = 'Save Link';
-
-    if (error) { errorEl.textContent = 'Error saving link'; errorEl.style.display = 'flex'; return; }
-
-    if (s) {
-      await supabaseClient.from('notifications').insert({
-        user_id: s.learner_id,
-        type: 'session_confirmed',
-        title: 'Meet Link Added',
-        body: `Your teacher added a Google Meet link for your ${s.skill?.name} session`,
-        link_url: 'sessions.html',
-        actor_id: currentUser.id,
-        session_id: meetLinkSessionId
-      });
+  // Meet link modal — handled via window.openMeetModal and window.saveMeetLink
+  // Close on backdrop click
+  document.getElementById('meet-link-modal')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('meet-link-modal')) {
+      window.closeMeetModal()
     }
+  })
 
-    showToast('Meet link saved!', 'success');
-    closeMeetModal();
-    await refreshSessions();
-  });
-
-  // Rating Modal
-  const ratingModal = document.getElementById('rating-modal');
-  document.getElementById('rating-modal-close').addEventListener('click', closeRatingModal);
-  document.getElementById('rating-modal-skip').addEventListener('click', closeRatingModal);
-  ratingModal.addEventListener('click', e => { if (e.target === ratingModal) closeRatingModal(); });
+  // Rating modal
+  document.getElementById('rating-modal-close')?.addEventListener('click', () => {
+    document.getElementById('rating-modal').classList.remove('open')
+  })
+  document.getElementById('rating-modal-skip')?.addEventListener('click', () => {
+    document.getElementById('rating-modal').classList.remove('open')
+  })
+  document.getElementById('rating-modal')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('rating-modal')) {
+      document.getElementById('rating-modal').classList.remove('open')
+    }
+  })
+  document.getElementById('rating-modal-submit')?.addEventListener('click', submitRating)
 
   // Star picker
-  document.querySelectorAll('.star-btn').forEach(btn => {
+  document.querySelectorAll('#star-picker .star-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      selectedStars = parseInt(btn.dataset.val, 10);
-      document.querySelectorAll('.star-btn').forEach((b, i) => {
-        b.classList.toggle('active', i < selectedStars);
-      });
-      document.getElementById('rating-modal-submit').disabled = selectedStars === 0;
-    });
-  });
+      const val = parseInt(btn.getAttribute('data-val'))
+      selectedStars = val
+      document.querySelectorAll('#star-picker .star-btn').forEach((b, i) => {
+        b.classList.toggle('active', i < val)
+      })
+      document.getElementById('rating-modal-submit').disabled = false
+    })
+  })
 
   // Review char counter
-  document.getElementById('review-text').addEventListener('input', e => {
-    document.getElementById('review-char-counter').textContent = `${e.target.value.length} / 300`;
-  });
+  document.getElementById('review-text')?.addEventListener('input', (e) => {
+    const len = e.target.value.length
+    const counter = document.getElementById('review-char-counter')
+    if (counter) counter.textContent = `${len} / 300`
+  })
 
-  // Submit review
-  document.getElementById('rating-modal-submit').addEventListener('click', submitRating);
+  // Session detail modal
+  document.getElementById('detail-modal-close')?.addEventListener('click', () => {
+    document.getElementById('session-detail-modal').classList.remove('open')
+  })
+  document.getElementById('detail-modal-close-btn')?.addEventListener('click', () => {
+    document.getElementById('session-detail-modal').classList.remove('open')
+  })
+  document.getElementById('session-detail-modal')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('session-detail-modal')) {
+      document.getElementById('session-detail-modal').classList.remove('open')
+    }
+  })
 }
 
-window.openMeetLinkModal = function(sessionId) {
-  meetLinkSessionId = sessionId;
-  const s = sessions.find(x => x.id === sessionId);
-  document.getElementById('meet-link-input').value = s?.meet_link || '';
-  document.getElementById('meet-modal-error').style.display = 'none';
-  document.getElementById('meet-link-modal').classList.add('open');
-};
-
-function closeMeetModal() {
-  document.getElementById('meet-link-modal').classList.remove('open');
-  meetLinkSessionId = null;
+// Meet modal global functions
+window.closeMeetModal = function() {
+  document.getElementById('meet-link-modal').classList.remove('open')
+  window._meetSessionId = null
 }
 
 // ─────────────────────────────────────────────────
@@ -1052,3 +1116,12 @@ async function refreshSessions() {
 // Boot
 // ─────────────────────────────────────────────────
 init();
+
+document.getElementById('sessions-container')?.addEventListener('click', (e) => {
+  const meetBtn = e.target.closest('.meet-link-btn')
+  if (meetBtn) {
+    const sid = meetBtn.getAttribute('data-session-id')
+    const existingLink = meetBtn.getAttribute('data-meet-link') || ''
+    window.openMeetModal(sid, existingLink)
+  }
+})

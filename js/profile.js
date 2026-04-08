@@ -1,5 +1,5 @@
 import { supabaseClient, requireAuth, getCurrentProfile, signOut, initOnlineTracking, getTotalUnreadCount } from './supabase.js';
-import { showToast } from './utils.js';
+import { showToast, formatTimeAgo, formatDate, formatDateTime, formatCredits, calculateCredits, CREDITS_PER_HOUR_COST, CREDITS_PER_HOUR_EARN } from './utils.js';
 
 let currentUser = null;
 let currentProfile = null;
@@ -757,7 +757,7 @@ function closeRequestModal() {
 
 function updateModalCost() {
   const mins = parseInt(document.getElementById('modal-duration').value, 10);
-  const cost = (mins / 60) * 1250;
+  const { cost } = calculateCredits(mins);
   document.getElementById('modal-cost-preview').textContent = `Cost: ${cost} ✦`;
   
   const btn = document.getElementById('confirm-request-btn');
@@ -775,7 +775,7 @@ function updateModalCost() {
 async function handleSessionRequest(e, targetProfileId) {
   e.preventDefault();
   const duration = parseInt(document.getElementById('modal-duration').value, 10);
-  const cost = (duration / 60) * 1250;
+  const { cost, earned } = calculateCredits(duration);
   const dateTimeStr = document.getElementById('modal-datetime').value;
   const notes = document.getElementById('modal-notes').value.trim();
   const selectEl = document.getElementById('modal-skill-select');
@@ -796,7 +796,7 @@ async function handleSessionRequest(e, targetProfileId) {
         scheduled_at: new Date(dateTimeStr).toISOString(),
         notes: notes,
         credits_cost: cost,
-        credits_earned: cost,
+        credits_earned: earned,
         status: 'pending'
       }).select('id').single();
 

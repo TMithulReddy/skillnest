@@ -1,5 +1,5 @@
 import { supabaseClient, requireAuth, getCurrentProfile, signOut, initOnlineTracking, getTotalUnreadCount } from './supabase.js';
-import { showToast } from './utils.js';
+import { showToast, formatTimeAgo, formatDate, formatDateTime, formatCredits, calculateCredits, CREDITS_PER_HOUR_COST, CREDITS_PER_HOUR_EARN } from './utils.js';
 
 let currentUser = null;
 let currentProfile = null;
@@ -128,49 +128,53 @@ async function fetchPeers(filters) {
         is_online, is_verified, credit_balance
       )
     `)
-    .neq('user_id', currentUser.id);
+    .neq('user_id', currentUser.id)
 
   if (filters.category && filters.category !== 'all') {
-    query = query.eq('skill.category', filters.category);
+    query = query.eq('skill.category', filters.category)
   }
   if (filters.proficiency) {
-    query = query.eq('proficiency', filters.proficiency);
+    query = query.eq('proficiency', filters.proficiency)
   }
   if (filters.minRating > 0) {
-    query = query.gte('avg_rating', filters.minRating);
-  }
-  if (filters.activeOnly) {
-    query = query.eq('profile.is_online', true);
-  }
-  if (filters.search) {
-    query = query.or(`skill_name.ilike.%${filters.search}%,profile_name.ilike.%${filters.search}%`); 
-    // Supabase JS doesn't easily allow cross-table ORs this way without a view, falling back to a simpler approach or filtering locally if needed. 
-    // For now we assume a custom search view or just ignore deep search complexity. Let's just pass search to a generic view if it existed, 
-    // but the prompt specified this syntax which requires a view or RPC. Given prompt constraints, we'll execute it as given or simplify.
-    // Actually, prompt says: query.or(`skill.name.ilike.%${filters.search}%,profile.full_name.ilike.%${filters.search}%`)
-    // I will use what the prompt exactly said:
-    // query = query.or(`skill.name.ilike.%${filters.search}%,profile.full_name.ilike.%${filters.search}%`)
-    // Note: PostgREST requires embedded resources to be referenced properly in OR, which might be tricky but we follow prompt.
-    // query = query.or(`skill.name.ilike.%${filters.search}%,profile.full_name.ilike.%${filters.search}%`);
+    query = query.gte('avg_rating', filters.minRating)
   }
 
-  const { data, error } = await query.limit(24);
+  const { data, error } = await query.limit(50)
+
   if (error) {
-    console.error('Error fetching peers:', error.message);
-    return [];
-  }
-  
-  // Local search filter as a fallback since joined OR is tricky in Supabase
-  if (filters.search) {
-    const term = filters.search.toLowerCase();
-    return data.filter(d => 
-      d.skill?.name?.toLowerCase().includes(term) || 
-      d.profile?.full_name?.toLowerCase().includes(term) ||
-      d.profile?.college?.toLowerCase().includes(term)
-    );
+    console.error('Error fetching peers:', error.message)
+    return []
   }
 
-  return data;
+  // Filter out entries where profile or skill is null
+  let results = (data || []).filter(d => d.profile && d.skill)
+
+  // Local search filter — searches skill name, person name, college
+  if (filters.search) {
+    const term = filters.search.toLowerCase().trim()
+    results = results.filter(d =>
+      d.skill?.name?.toLowerCase().includes(term) ||
+      d.profile?.full_name?.toLowerCase().includes(term) ||
+      d.profile?.college?.toLowerCase().includes(term) ||
+      d.profile?.department?.toLowerCase().includes(term)
+    )
+  }
+
+  // Filter online only
+  if (filters.activeOnly) {
+    results = results.filter(d => d.profile?.is_online === true)
+  }
+
+  // Remove duplicate profiles — show each person once with their best skill
+  const seen = new Set()
+  results = results.filter(d => {
+    if (seen.has(d.profile.id)) return false
+    seen.add(d.profile.id)
+    return true
+  })
+
+  return results
 }
 
 async function loadPeers() {
@@ -228,16 +232,9 @@ function renderPeerCard(peerData, listMode) {
   const sessionsCount = p.total_sessions || 0;
   const endorsementCount = peerData.endorsement_count || 0;
   
-  // Create JSON string of peer data to attach to "Request Session" button
-  const peerJson = encodeURIComponent(JSON.stringify({
-    teacher_id: p.id,
-    teacher_name: name,
-    teacher_avatar: p.avatar_url,
-    skill_id: s.id,
-    skill_name: s.name,
-    category: s.category,
-    proficiency: peerData.proficiency
-  }));
+  // Not needed anymore since we pass proper args
+  const avatarSafe = p.avatar_url ? p.avatar_url.replace(/'/g, "%27") : '';
+  const nameSafe = name.replace(/'/g, "\\'");
 
   return `
     <div class="peer-card">
@@ -271,9 +268,9 @@ function renderPeerCard(peerData, listMode) {
       <div class="peer-actions">
         <!-- Always ghost or outline -->
         <a href="profile.html?id=${p.id}" class="btn btn-ghost" style="padding:8px 16px;font-size:13px;flex:1;">View Profile</a>
-        <button onclick="window.openRequestModal('${peerJson}')" class="btn btn-primary" style="padding:8px 16px;font-size:13px;flex:1;">Request</button>
+        <button onclick="window.openRequestModal('${p.id}', '${nameSafe}', '${avatarSafe}')" class="btn btn-primary" style="padding:8px 16px;font-size:13px;flex:1;">Request</button>
       </div>
-      <div class="peer-cost">Session from 1250 ✦</div>
+      <div class="peer-cost">Session from ${CREDITS_PER_HOUR_COST} ✦</div>
     </div>
   `;
 }
@@ -412,17 +409,45 @@ function initFiltersFromURL() {
 let modalSelectedPeer = null;
 
 // Attach to window so innerHTML onclick can reach it
-window.openRequestModal = function(peerJsonEncoded) {
-  const peer = JSON.parse(decodeURIComponent(peerJsonEncoded));
-  modalSelectedPeer = peer;
+window.openRequestModal = async function(peerId, peerName, peerAvatar) {
+  modalSelectedPeer = { teacher_id: peerId, teacher_name: peerName };
+
+  // Fetch this peer's teaching skills
+  const { data: teachSkills, error } = await supabaseClient
+    .from('user_skills_teach')
+    .select('id, proficiency, skill:skills(id, name, category)')
+    .eq('user_id', peerId)
+
+  if (error || !teachSkills || teachSkills.length === 0) {
+    showToast('Could not load skills for this peer', 'error')
+    return
+  }
 
   // Populate UI
-  document.getElementById('modal-peer-avatar').innerHTML = renderAvatar(peer.teacher_name, peer.teacher_avatar, "avatar-md");
-  document.getElementById('modal-peer-name').textContent = `Request session with ${peer.teacher_name}`;
-  document.getElementById('modal-skill-badge').className = `badge ${categoryBadgeClass(peer.category)}`;
-  document.getElementById('modal-skill-badge').textContent = peer.skill_name;
-  
+  document.getElementById('modal-peer-avatar').innerHTML = renderAvatar(peerName, peerAvatar, "avatar-md");
   document.getElementById('modal-your-balance').textContent = `Your balance: ${Number(currentProfile.credit_balance).toLocaleString()} ✦`;
+
+  // Populate skill dropdown
+  const skillSelect = document.getElementById('modal-skill-select')
+  skillSelect.innerHTML = ''
+  teachSkills.forEach(ts => {
+    const option = document.createElement('option')
+    option.value = ts.skill.id
+    option.textContent = `${ts.skill.name} (${ts.proficiency})`
+    skillSelect.appendChild(option)
+  })
+
+  // Set first skill as default selected
+  skillSelect.selectedIndex = 0
+
+  // Update modal header
+  document.getElementById('modal-peer-name').textContent = `Request session with ${peerName}`
+  const skillLabelElement = document.getElementById('modal-skill-label');
+  if (skillLabelElement) skillLabelElement.textContent = skillSelect.options[0]?.text || '';
+
+  // Store peerId for submission
+  const teacherIdInput = document.getElementById('modal-teacher-id');
+  if (teacherIdInput) teacherIdInput.value = peerId;
 
   // Reset form
   document.getElementById('session-request-form').reset();
@@ -443,6 +468,7 @@ window.openRequestModal = function(peerJsonEncoded) {
   document.getElementById('request-modal').classList.add('open');
 };
 
+
 function closeRequestModal() {
   document.getElementById('request-modal').classList.remove('open');
   modalSelectedPeer = null;
@@ -450,7 +476,7 @@ function closeRequestModal() {
 
 function updateModalCost() {
   const mins = parseInt(document.getElementById('modal-duration').value, 10);
-  const cost = (mins / 60) * 1250;
+  const { cost } = calculateCredits(mins);
   
   document.getElementById('modal-cost-preview').textContent = `Cost: ${cost} ✦`;
   
@@ -472,8 +498,15 @@ async function handleSessionRequest(e) {
   
   if (!modalSelectedPeer) return;
   
+  const skillSelectElement = document.getElementById('modal-skill-select');
+  const skillId = skillSelectElement ? skillSelectElement.value : null;
+  if (!skillId) {
+    showToast('Please select a skill', 'error')
+    return
+  }
+
   const duration = parseInt(document.getElementById('modal-duration').value, 10);
-  const cost = (duration / 60) * 1250;
+  const { cost, earned } = calculateCredits(duration);
   const dateTimeStr = document.getElementById('modal-datetime').value;
   const notes = document.getElementById('modal-notes').value.trim();
   const errorAlert = document.getElementById('modal-error');
@@ -501,12 +534,12 @@ async function handleSessionRequest(e) {
       .insert({
         teacher_id: modalSelectedPeer.teacher_id,
         learner_id: currentUser.id,
-        skill_id: modalSelectedPeer.skill_id,
+        skill_id: skillId,
         duration_mins: duration,
-        scheduled_at: new Date(dateTimeStr).toISOString(),
+         scheduled_at: new Date(dateTimeStr).toISOString(),
         notes: notes,
         credits_cost: cost,
-        credits_earned: cost, // Simplification: 1-to-1 transfer
+        credits_earned: earned,
         status: 'pending'
       })
       .select('id')
