@@ -4,7 +4,7 @@ import { showToast, formatTimeAgo, formatDate, formatDateTime, formatCredits, ca
 let currentUser = null;
 let currentProfile = null;
 let profileId = null;
-const isMyProfile = window.location.pathname.includes('my-profile.html');
+const isMyProfile = window.location.pathname.includes('my-profile.html') || window.location.pathname.includes('settings.html');
 
 // State for search dropdowns
 let selectedTeachSkill = null;
@@ -56,14 +56,14 @@ async function init() {
     // Public profile
     const params = new URLSearchParams(window.location.search);
     profileId = params.get('id');
-    
+
     if (!profileId) {
       window.location.href = 'browse.html';
       return;
     }
-    
+
     if (profileId === currentUser.id) {
-      window.location.href = 'my-profile.html';
+      window.location.href = 'settings.html';
       return;
     }
 
@@ -89,7 +89,7 @@ function initNavbar(profile) {
   if (avatarBtn && dropdown) {
     // Basic dropdown link setup
     dropdown.innerHTML = `
-      <a href="my-profile.html">My Profile</a>
+      <a href="settings.html">My Profile</a>
       <a href="settings.html">Settings</a>
       <div class="nav-dropdown-divider"></div>
       <button class="danger" id="nav-signout-btn">Sign Out</button>
@@ -138,35 +138,34 @@ async function loadPublicProfile() {
   document.getElementById('profile-college').textContent = collegeStr;
 
   document.getElementById('profile-bio').textContent = profile.bio || 'No bio provided.';
-  
+
   const ratingText = Number(profile.avg_rating ?? 0).toFixed(1);
   const ratingCount = profile.total_ratings || 0;
   document.getElementById('profile-rating-display').textContent = `★ ${ratingText} (${ratingCount} rating${ratingCount !== 1 ? 's' : ''})`;
   document.getElementById('profile-sessions-display').textContent = `${profile.total_sessions || 0} sessions`;
 
-  document.getElementById('btn-send-message').href = `messages.html?user=${profileId}`;
-
+  document.getElementById('btn-send-message').href = `chat.html?user=${profileId}`;
   // Fetch teaching skills
   const { data: teachSkills } = await supabaseClient.from('user_skills_teach').select('*, skill:skills(name, category)').eq('user_id', profileId);
   // Fetch endorsements
   const { data: endorsements } = await supabaseClient.from('endorsements').select('skill_id').eq('endorsee_id', profileId);
   const { data: myEndorsements } = await supabaseClient.from('endorsements').select('skill_id').eq('endorser_id', currentUser.id).eq('endorsee_id', profileId);
-  
+
   // Render teaching skills
   document.getElementById('teach-skeleton').style.display = 'none';
   if (teachSkills && teachSkills.length > 0) {
     const list = document.getElementById('teach-skills-container');
     list.style.display = 'grid';
-    
+
     // Set up request modal select if needed
     const modalSelect = document.getElementById('modal-skill-select');
     if (modalSelect) modalSelect.innerHTML = '';
-    
+
     teachSkills.forEach(ts => {
       const eCount = endorsements?.filter(e => e.skill_id === ts.skill_id).length || 0;
       const iEndorsed = myEndorsements?.some(e => e.skill_id === ts.skill_id);
-      
-      const endorseBtnHTML = iEndorsed ? 
+
+      const endorseBtnHTML = iEndorsed ?
         `<button class="btn btn-secondary btn-sm endorse-btn" disabled>✓ Endorsed</button>` :
         `<button class="btn btn-secondary btn-sm endorse-btn" onclick="window.endorseSkill('${profileId}', '${ts.skill_id}')">Endorse Skill</button>`;
 
@@ -187,7 +186,7 @@ async function loadPublicProfile() {
           ${endorseBtnHTML}
         </div>
       `;
-      
+
       if (modalSelect) {
         modalSelect.innerHTML += `<option value="${ts.skill_id}">${ts.skill?.name}</option>`;
       }
@@ -234,7 +233,7 @@ async function loadPublicProfile() {
     .eq('ratee_id', profileId)
     .order('created_at', { ascending: false })
     .limit(5);
-    
+
   document.getElementById('reviews-skeleton').style.display = 'none';
   if (ratings && ratings.length > 0) {
     const list = document.getElementById('reviews-container');
@@ -242,7 +241,7 @@ async function loadPublicProfile() {
     ratings.forEach(r => {
       const stars = Math.round(r.rating || 0);
       const starHTML = Array.from({ length: 5 }, (_, i) => `<span style="color:${i < stars ? "var(--color-warning)" : "var(--color-border)"}">★</span>`).join("");
-      
+
       list.innerHTML += `
         <div class="review-item">
           <div class="review-header">
@@ -274,19 +273,19 @@ async function loadPublicProfile() {
 }
 
 // Global action for Endorse
-window.endorseSkill = async function(endorseeId, skillId) {
+window.endorseSkill = async function (endorseeId, skillId) {
   const { error } = await supabaseClient.from('endorsements').insert({
     endorser_id: currentUser.id,
     endorsee_id: endorseeId,
     skill_id: skillId
   });
-  
+
   if (error) {
     showToast('Already endorsed or error occurred', 'error');
     console.error(error);
     return;
   }
-  
+
   showToast('Endorsed! You earned 250 ✦ credits', 'success');
   // Simple reload for now
   setTimeout(() => window.location.reload(), 1000);
@@ -301,21 +300,21 @@ async function loadMyProfile() {
   // Populate form
   document.getElementById('profile-avatar').innerHTML = renderAvatar(currentProfile.full_name, currentProfile.avatar_url, "avatar-lg");
   document.getElementById('profile-name-text').textContent = currentProfile.full_name;
-  
+
   document.getElementById('edit-fullname').value = currentProfile.full_name || '';
   document.getElementById('edit-mobile').value = currentProfile.mobile || '';
   document.getElementById('edit-bio').value = currentProfile.bio || '';
   document.getElementById('edit-college').value = currentProfile.college || '';
   document.getElementById('edit-department').value = currentProfile.department || '';
   document.getElementById('edit-year').value = currentProfile.year_of_study || '';
-  
+
   updateBioCounter();
 
   // Load Teach Skills
   await refreshTeachSkills();
   // Load Learn Skills
   await refreshLearnSkills();
-  
+
   // Availability
   const { data: avail } = await supabaseClient.from('availability').select('*').eq('user_id', profileId);
   renderAvailabilityGrid(avail || [], true);
@@ -325,13 +324,13 @@ async function loadMyProfile() {
 
 function bindMyProfileEvents() {
   document.getElementById('edit-bio').addEventListener('input', updateBioCounter);
-  
+
   document.getElementById('edit-profile-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('btn-save-profile');
     btn.disabled = true;
     btn.textContent = 'Saving...';
-    
+
     const updates = {
       full_name: document.getElementById('edit-fullname').value.trim(),
       mobile: document.getElementById('edit-mobile').value.trim(),
@@ -341,12 +340,12 @@ function bindMyProfileEvents() {
       year_of_study: document.getElementById('edit-year').value.trim(),
       updated_at: new Date().toISOString()
     };
-    
+
     const { error } = await supabaseClient.from('profiles').update(updates).eq('id', profileId);
-    
+
     btn.disabled = false;
     btn.textContent = 'Save Changes';
-    
+
     if (error) {
       showToast('Error saving profile', 'error');
     } else {
@@ -362,22 +361,22 @@ function bindMyProfileEvents() {
   avatarInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     try {
       showToast('Uploading avatar...', 'info');
       const ext = file.name.split('.').pop();
       const fileName = `${currentUser.id}.${ext}`;
-      
+
       const { error: uploadError } = await supabaseClient.storage
         .from('avatars')
         .upload(fileName, file, { upsert: true });
-        
+
       if (uploadError) throw uploadError;
-      
+
       const { data } = supabaseClient.storage.from('avatars').getPublicUrl(fileName);
-      
+
       await supabaseClient.from('profiles').update({ avatar_url: data.publicUrl }).eq('id', currentUser.id);
-      
+
       currentProfile.avatar_url = data.publicUrl;
       document.getElementById('profile-avatar').innerHTML = renderAvatar(currentProfile.full_name, data.publicUrl, "avatar-lg");
       initNavbar(currentProfile); // update top nav
@@ -398,10 +397,10 @@ function bindMyProfileEvents() {
   const lsSearch = document.getElementById('search-learn-skill');
   lsSearch.addEventListener('input', (e) => handleSkillSearch(e.target.value.trim(), 'learn'));
   document.getElementById('btn-add-learn').addEventListener('click', addLearnSkill);
-  
+
   // Close dropdowns on outside click
   document.addEventListener('click', (e) => {
-    if(!e.target.closest('.search-dropdown-wrap')) {
+    if (!e.target.closest('.search-dropdown-wrap')) {
       document.getElementById('teach-search-results').classList.remove('open');
       document.getElementById('learn-search-results').classList.remove('open');
     }
@@ -414,7 +413,7 @@ function bindMyProfileEvents() {
       .eq('id', currentUser.id)
       .eq('profile_completion', 99); // Safe guard
 
-    if(error) {
+    if (error) {
       showToast('Already claimed or error occurred', 'error');
       return;
     }
@@ -444,23 +443,23 @@ async function handleSkillSearch(term, type) {
   clearTimeout(searchTimeout);
   const resEl = document.getElementById(`${type}-search-results`);
   const btn = document.getElementById(`btn-add-${type}`);
-  
+
   if (!term) {
     resEl.classList.remove('open');
     btn.disabled = true;
-    if(type === 'teach') selectedTeachSkill = null;
+    if (type === 'teach') selectedTeachSkill = null;
     else selectedLearnSkill = null;
     return;
   }
-  
+
   searchTimeout = setTimeout(async () => {
     const { data } = await supabaseClient.from('skills')
       .select('id, name, category')
       .ilike('name', `%${term}%`)
       .limit(10);
-      
+
     resEl.innerHTML = '';
-    
+
     if (data && data.length > 0) {
       data.forEach(skill => {
         const div = document.createElement('div');
@@ -485,22 +484,22 @@ async function handleSkillSearch(term, type) {
 async function addTeachSkill() {
   if (!selectedTeachSkill) return;
   const prof = document.getElementById('teach-skill-prof').value;
-  
+
   // Check duplicate
   const { data: exist } = await supabaseClient.from('user_skills_teach')
     .select('id').eq('user_id', currentUser.id).eq('skill_id', selectedTeachSkill.id);
-    
+
   if (exist && exist.length > 0) {
     showToast('You already added this teaching skill', 'error');
     return;
   }
-  
+
   const { error } = await supabaseClient.from('user_skills_teach').insert({
     user_id: currentUser.id,
     skill_id: selectedTeachSkill.id,
     proficiency: prof
   });
-  
+
   if (error) {
     showToast('Error adding skill', 'error');
   } else {
@@ -515,21 +514,21 @@ async function addTeachSkill() {
 
 async function addLearnSkill() {
   if (!selectedLearnSkill) return;
-  
+
   const { data: exist } = await supabaseClient.from('user_skills_learn')
     .select('id').eq('user_id', currentUser.id).eq('skill_id', selectedLearnSkill.id);
-    
+
   if (exist && exist.length > 0) {
     showToast('You already added this learning skill', 'error');
     return;
   }
-  
+
   const { error } = await supabaseClient.from('user_skills_learn').insert({
     user_id: currentUser.id,
     skill_id: selectedLearnSkill.id,
     is_active: true
   });
-  
+
   if (error) {
     showToast('Error adding skill', 'error');
   } else {
@@ -543,15 +542,15 @@ async function addLearnSkill() {
 }
 
 // Global hook for delete
-window.deleteTeachSkill = async function(id) {
+window.deleteTeachSkill = async function (id) {
   await supabaseClient.from('user_skills_teach').delete().eq('id', id).eq('user_id', currentUser.id);
   refreshTeachSkills();
 }
-window.deleteLearnSkill = async function(id) {
+window.deleteLearnSkill = async function (id) {
   await supabaseClient.from('user_skills_learn').delete().eq('id', id).eq('user_id', currentUser.id);
   refreshLearnSkills();
 }
-window.toggleLearnActive = async function(id, currentActive) {
+window.toggleLearnActive = async function (id, currentActive) {
   await supabaseClient.from('user_skills_learn').update({ is_active: !currentActive }).eq('id', id).eq('user_id', currentUser.id);
   refreshLearnSkills(); // Just to re-render properly
 }
@@ -559,13 +558,13 @@ window.toggleLearnActive = async function(id, currentActive) {
 async function refreshTeachSkills() {
   const list = document.getElementById('teach-manager-list');
   const { data } = await supabaseClient.from('user_skills_teach').select('*, skill:skills(name, category)').eq('user_id', currentUser.id);
-  
+
   list.innerHTML = '';
-  if(!data || data.length === 0) {
+  if (!data || data.length === 0) {
     list.innerHTML = `<div class="text-hint">No teaching skills added.</div>`;
     return;
   }
-  
+
   data.forEach(item => {
     list.innerHTML += `
       <div class="manager-item">
@@ -581,13 +580,13 @@ async function refreshTeachSkills() {
 async function refreshLearnSkills() {
   const list = document.getElementById('learn-manager-list');
   const { data } = await supabaseClient.from('user_skills_learn').select('*, skill:skills(name)').eq('user_id', currentUser.id);
-  
+
   list.innerHTML = '';
-  if(!data || data.length === 0) {
+  if (!data || data.length === 0) {
     list.innerHTML = `<div class="text-hint">No learning skills added.</div>`;
     return;
   }
-  
+
   data.forEach(item => {
     list.innerHTML += `
       <div class="manager-item">
@@ -609,15 +608,15 @@ async function refreshLearnSkills() {
 
 function renderAvailabilityGrid(availabilityData, isEditor) {
   const grid = document.getElementById('availability-grid');
-  if(!grid) return;
-  
+  if (!grid) return;
+
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const slots = ['morning', 'afternoon', 'evening', 'night'];
   const slotLabels = { morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening', night: 'Night' };
-  
+
   let html = `<div class="avail-header"></div>`;
   days.forEach(day => html += `<div class="avail-header">${day}</div>`);
-  
+
   slots.forEach(slot => {
     html += `<div class="avail-row-label">${slotLabels[slot]}</div>`;
     days.forEach(dayStr => {
@@ -626,26 +625,26 @@ function renderAvailabilityGrid(availabilityData, isEditor) {
       // In DB we probably use strings for day_of_week based on instructions ("dayOfWeek") - let's assume we use string "Mon"
       const cellData = availabilityData.find(a => a.day_of_week === dayStr && a.slot === slot);
       const isAvailable = cellData ? cellData.is_available : false;
-      
+
       const availClass = isAvailable ? 'available' : '';
       const interactClass = isEditor ? 'interactive' : '';
       const onClick = isEditor ? `onclick="window.toggleAvailability('${dayStr}', '${slot}', ${isAvailable})"` : '';
-      
+
       html += `<div class="avail-cell ${availClass} ${interactClass}" ${onClick}></div>`;
     });
   });
-  
+
   grid.innerHTML = html;
 }
 
-window.toggleAvailability = async function(day, slot, currentVal) {
+window.toggleAvailability = async function (day, slot, currentVal) {
   await supabaseClient.from('availability').upsert({
     user_id: currentUser.id,
     day_of_week: day,
     slot: slot,
     is_available: !currentVal
   }, { onConflict: 'user_id,day_of_week,slot' });
-  
+
   // Refresh visually instantly rather than full refetch
   const { data: avail } = await supabaseClient.from('availability').select('*').eq('user_id', currentUser.id);
   renderAvailabilityGrid(avail || [], true);
@@ -660,7 +659,7 @@ async function checkCompletionData() {
   const { data: teach } = await supabaseClient.from('user_skills_teach').select('id').eq('user_id', profileId).limit(1);
   const { data: learn } = await supabaseClient.from('user_skills_learn').select('id').eq('user_id', profileId).limit(1);
   const { data: avail } = await supabaseClient.from('availability').select('id').eq('user_id', profileId).eq('is_available', true).limit(1);
-  
+
   return {
     hasAvatar: !!currentProfile.avatar_url,
     hasBio: !!currentProfile.bio,
@@ -680,11 +679,11 @@ async function updateCompletionWidget() {
     document.getElementById('completion-widget').style.display = 'none';
     return;
   }
-  
+
   document.getElementById('completion-widget').style.display = 'block';
-  
+
   const status = await checkCompletionData();
-  
+
   let score = 15; // base for account created
   if (status.hasAvatar) score += 15;
   if (status.hasBio) score += 10;
@@ -692,14 +691,14 @@ async function updateCompletionWidget() {
   if (status.hasTeach) score += 15;
   if (status.hasLearn) score += 10;
   if (status.hasAvail) score += 15;
-  
+
   if (score > 99) score = 99; // Cap at 99 until claimed
-  
+
   document.getElementById('completion-progress').style.width = `${score}%`;
-  
+
   function setEl(id, isDone) {
     const el = document.getElementById(id);
-    if(isDone) {
+    if (isDone) {
       el.classList.add('done');
       el.innerHTML = `${checkSvg} ${el.textContent.trim()}`;
     } else {
@@ -715,16 +714,16 @@ async function updateCompletionWidget() {
   setEl('req-teach', status.hasTeach);
   setEl('req-learn', status.hasLearn);
   setEl('req-avail', status.hasAvail);
-  
+
   const btn = document.getElementById('btn-claim-bonus');
   if (score === 99) {
     btn.disabled = false;
   } else {
     btn.disabled = true;
   }
-  
+
   // Background DB update for partial score
-  if(currentProfile.profile_completion !== score) {
+  if (currentProfile.profile_completion !== score) {
     await supabaseClient.from('profiles').update({ profile_completion: score }).eq('id', currentUser.id);
     currentProfile.profile_completion = score;
   }
@@ -734,13 +733,13 @@ async function updateCompletionWidget() {
 // Public Modal Actions (Same as Browse)
 // ────────────────────────────────────────────
 
-window.openRequestModal = function(profile) {
+window.openRequestModal = function (profile) {
   // We assume the modal HTML exists in profile.html
   document.getElementById('modal-peer-avatar').innerHTML = renderAvatar(profile.full_name, profile.avatar_url, "avatar-md");
   document.getElementById('modal-peer-name').textContent = `Request session with ${profile.full_name}`;
-  
+
   document.getElementById('modal-your-balance').textContent = `Your balance: ${Number(currentProfile.credit_balance).toLocaleString()} ✦`;
-  
+
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   tomorrow.setHours(14, 0, 0, 0);
@@ -759,7 +758,7 @@ function updateModalCost() {
   const mins = parseInt(document.getElementById('modal-duration').value, 10);
   const { cost } = calculateCredits(mins);
   document.getElementById('modal-cost-preview').textContent = `Cost: ${cost} ✦`;
-  
+
   const btn = document.getElementById('confirm-request-btn');
   const errorAlert = document.getElementById('modal-error');
   if (cost > (currentProfile.credit_balance || 0)) {
@@ -780,7 +779,7 @@ async function handleSessionRequest(e, targetProfileId) {
   const notes = document.getElementById('modal-notes').value.trim();
   const selectEl = document.getElementById('modal-skill-select');
   const skillId = selectEl.value; // Must exist from populated teach skills
-  
+
   const btn = document.getElementById('confirm-request-btn');
   btn.disabled = true;
   btn.innerHTML = `<span class="spinner"></span> Requesting...`;
@@ -801,7 +800,7 @@ async function handleSessionRequest(e, targetProfileId) {
       }).select('id').single();
 
     if (sessionErr) throw sessionErr;
-    
+
     // Escrow etc... same logic as browse.js
     await supabaseClient.from('session_escrow').insert({
       session_id: sessionData.id,
@@ -810,7 +809,7 @@ async function handleSessionRequest(e, targetProfileId) {
       amount: cost,
       status: 'held'
     });
-    
+
     const newBal = currentProfile.credit_balance - cost;
     await supabaseClient.from('profiles').update({ credit_balance: newBal }).eq('id', currentUser.id);
     await supabaseClient.from('credit_ledger').insert({
