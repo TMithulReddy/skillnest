@@ -1,23 +1,4 @@
-import { getCurrentUser } from "./supabase.js";
-
 document.addEventListener("DOMContentLoaded", async () => {
-  // 1. Check Auth State implicitly to swap login/signup buttons
-  try {
-    const user = await getCurrentUser();
-    if (user) {
-      // If user is logged in, point auth buttons to dashboard instead of redirecting immediately
-      document.querySelectorAll('a[href="login.html"], a[href="signup.html"]').forEach(btn => {
-        btn.href = "dashboard.html";
-        if (btn.textContent.includes("Log In")) {
-          btn.textContent = "Dashboard";
-        } else {
-          btn.textContent = "Go to Dashboard";
-        }
-      });
-    }
-  } catch (err) {
-    console.error("Supabase not set up or offline:", err);
-  }
 
   // 2. Navbar Scroll Effect
   const navbar = document.querySelector(".navbar");
