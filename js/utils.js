@@ -1,5 +1,5 @@
 /**
- * SkillNest Utilities
+ * TalentLoop Utilities
  * Shared functions used across all page scripts.
  */
 

@@ -557,7 +557,17 @@ function initSecuritySection() {
 // ─────────────────────────────────────────────────
 
 function initNotificationsSection() {
-  const prefsStr = localStorage.getItem('skillnest_notif_prefs');
+  // Try new key first; fall back to legacy 'skillnest_notif_prefs' once for existing users
+  let prefsStr = localStorage.getItem('talentloop_notif_prefs');
+  if (!prefsStr) {
+    const legacyStr = localStorage.getItem('skillnest_notif_prefs');
+    if (legacyStr) {
+      // Migrate to new key and remove old one
+      prefsStr = legacyStr;
+      localStorage.setItem('talentloop_notif_prefs', legacyStr);
+      localStorage.removeItem('skillnest_notif_prefs');
+    }
+  }
   let prefs = {};
   if (prefsStr) {
     try { prefs = JSON.parse(prefsStr); } catch (e) {}
@@ -586,7 +596,7 @@ function initNotificationsSection() {
     notifKeys.forEach(k => {
       newPrefs[k.id] = document.getElementById(`pref-${k.id}`).checked;
     });
-    localStorage.setItem('skillnest_notif_prefs', JSON.stringify(newPrefs));
+    localStorage.setItem('talentloop_notif_prefs', JSON.stringify(newPrefs));
     showToast('Preferences saved', 'success');
   });
 }

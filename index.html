@@ -4,25 +4,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SkillNest — Learn Anything, Teach Everything</title>
+  <title>TalentLoop — Learn Anything, Teach Everything</title>
   <meta name="description"
-    content="SkillNest is a free credit-based peer skill exchange platform for college students.">
+    content="TalentLoop is a free credit-based peer skill exchange platform for college students.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="css/global.css" />
   <style>
-    /* Hero Section Styles */
+    /* ═══════════════════════════════════════════════
+       LANDING PAGE — Scoped palette override
+       All variables are defined on body.landing so
+       NO other page inherits these values.
+    ═══════════════════════════════════════════════ */
+    body.landing {
+      /* ── Core palette ─────────────────────────── */
+      --l-navy:          #1B3A6B;   /* headings, primary buttons, footer    */
+      --l-royal:         #2563EB;   /* links, highlights, key numbers        */
+      --l-navy-hover:    #162f58;
+      --l-royal-hover:   #1d4ed8;
+
+      /* ── Accent teal ──────────────────────────── */
+      --l-teal:          #0F766E;
+      --l-teal-tint:     #E0F7F6;
+
+      /* ── Accent violet ────────────────────────── */
+      --l-violet:        #6D4AFF;
+      --l-violet-tint:   #EEE9FF;
+
+      /* ── Accent amber ─────────────────────────── */
+      --l-amber:         #F59E0B;
+      --l-amber-tint:    #FEF3D7;
+
+      /* ── Accent coral ─────────────────────────── */
+      --l-coral:         #F26B5B;
+      --l-coral-tint:    #FDE8E5;
+
+      /* ── Section backgrounds ──────────────────── */
+      --l-bg-white:      #FFFFFF;
+      --l-bg-soft:       #F7F9FC;
+      --l-bg-blue-tint:  #E8F0FE;
+
+      /* ── Dot grid ─────────────────────────────── */
+      --l-dot:           rgba(37, 99, 235, 0.12);
+
+      /* ── Chip colours ─────────────────────────── */
+      --l-chip-earn-bg:  #EFF6FF;
+      --l-chip-earn-txt: #1B3A6B;   /* navy on light-blue — 9.5:1 ✓       */
+      --l-chip-spend-bg: #FDE8E5;
+      --l-chip-spend-txt:#9B2E22;   /* dark coral — 7.2:1 on tint ✓       */
+
+      background-color: var(--l-bg-soft);
+      overflow-x: hidden;
+    }
+
+    /* ─── Navbar (landing) ─────────────────────── */
+    body.landing .navbar {
+      background-color: var(--l-bg-white);
+    }
+    body.landing .navbar-logo {
+      color: var(--l-navy);
+    }
+    body.landing .navbar-links a {
+      color: #475569;
+    }
+    body.landing .navbar-links a:hover {
+      color: var(--l-royal);
+    }
+    body.landing .navbar-links a:focus-visible {
+      outline: 2px solid var(--l-royal);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    body.landing .btn-primary {
+      background-color: var(--l-navy);
+      color: #fff;
+    }
+    body.landing .btn-primary:hover {
+      background-color: var(--l-royal);
+    }
+    body.landing .btn-primary:focus-visible {
+      outline: 2px solid var(--l-royal);
+      outline-offset: 3px;
+    }
+    body.landing .btn-secondary {
+      border-color: var(--l-navy);
+      color: var(--l-navy);
+    }
+    body.landing .btn-secondary:hover {
+      background-color: var(--l-bg-blue-tint);
+    }
+    body.landing .btn-secondary:focus-visible {
+      outline: 2px solid var(--l-royal);
+      outline-offset: 3px;
+    }
+
+    /* ─── Hero ─────────────────────────────────── */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       padding-top: 64px;
-      /* Account for navbar */
-      background-image: radial-gradient(var(--color-border) 1px,
-          transparent 1px);
-      background-size: 24px 24px;
+      background: linear-gradient(150deg, var(--l-bg-soft) 0%, var(--l-bg-blue-tint) 100%);
+      background-image:
+        radial-gradient(var(--l-dot) 1px, transparent 1px),
+        linear-gradient(150deg, var(--l-bg-soft) 0%, var(--l-bg-blue-tint) 100%);
+      background-size: 24px 24px, 100% 100%;
       position: relative;
     }
 
@@ -37,10 +125,20 @@
       max-width: 600px;
     }
 
+    .hero-badge {
+      display: inline-flex;
+      background-color: var(--l-violet-tint);
+      color: var(--l-navy);          /* 10.5:1 contrast ✓ */
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
     .hero-title {
       font-size: 3.5rem;
       font-weight: 700;
-      color: var(--color-primary);
+      color: var(--l-navy);
       line-height: 1.15;
       margin-top: 16px;
       margin-bottom: 24px;
@@ -49,19 +147,9 @@
 
     .hero-subtitle {
       font-size: 1.125rem;
-      color: var(--color-text-secondary);
+      color: #475569;                /* 4.7:1 on white/F7F9FC ✓ */
       margin-bottom: 32px;
       line-height: 1.6;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      background-color: var(--color-primary-light);
-      color: var(--color-primary);
-      padding: 6px 16px;
-      border-radius: 9999px;
-      font-weight: 600;
-      font-size: 0.875rem;
     }
 
     .trust-bar {
@@ -75,51 +163,89 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: var(--color-text-secondary);
+      color: #475569;
       font-size: 0.9rem;
       font-weight: 500;
     }
+    body.landing .text-success { color: #0F766E; }  /* teal — 4.6:1 on bg ✓ */
 
-    /* Hero Cards */
+    /* ─── Hero floating cards ──────────────────── */
     .hero-visual {
       flex: 1;
-      position: relative;
-      height: 400px;
       display: flex;
       justify-content: center;
       align-items: center;
+      /* Enough height for 3 stacked absolute cards */
+      min-height: 440px;
     }
 
+    /* Fixed container so cards always anchor correctly at ≥1200px */
     .floating-cards-container {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 360px;
+      height: 420px;
+      flex-shrink: 0;
     }
 
-    .floating-card {
+    body.landing .floating-card {
       position: absolute;
       width: 280px;
       padding: 16px;
       z-index: 2;
+      background-color: var(--l-bg-white);
+      border: 1px solid var(--l-bg-blue-tint);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 20px rgba(37,99,235,0.10);
+      opacity: 1;
     }
 
     .floating-card-1 {
-      top: 10%;
-      right: 15%;
+      top: 0;
+      right: 0;
     }
-
     .floating-card-2 {
       top: 45%;
-      left: 5%;
+      left: 0;
       z-index: 3;
     }
-
     .floating-card-3 {
-      bottom: 5%;
-      right: 10%;
+      bottom: 0;
+      right: 20px;
     }
 
-    /* How It Works Section */
+    /* Gentle float animations — disabled if user prefers reduced motion */
+    @media (prefers-reduced-motion: no-preference) {
+      .floating-card-1 {
+        animation: floatA 5s ease-in-out infinite;
+      }
+      .floating-card-2 {
+        animation: floatB 6s ease-in-out infinite 0.8s;
+      }
+      .floating-card-3 {
+        animation: floatA 7s ease-in-out infinite 1.6s;
+      }
+      @keyframes floatA {
+        0%, 100% { transform: translateY(0); }
+        50%       { transform: translateY(-10px); }
+      }
+      @keyframes floatB {
+        0%, 100% { transform: translateY(0); }
+        50%       { transform: translateY(8px); }
+      }
+    }
+
+    /* Landing credit chips (override global hard-coded #f5f3ff / #fef2f2) */
+    body.landing .credit-chip {
+      background-color: var(--l-chip-earn-bg);
+      color: var(--l-chip-earn-txt);
+    }
+    body.landing .credit-chip.credit-chip--spend {
+      background-color: var(--l-chip-spend-bg);
+      color: var(--l-chip-spend-txt);
+    }
+    body.landing .fw-600.text-primary { color: var(--l-navy); }
+
+    /* ─── Section shared ────────────────────────── */
     .section {
       padding: 96px 0;
     }
@@ -131,8 +257,14 @@
 
     .section-title {
       font-size: 2.5rem;
-      color: var(--color-primary);
+      color: var(--l-navy);
       margin-bottom: 16px;
+    }
+
+    /* ─── How It Works (#how-it-works) ─────────── */
+    /* bg alternates: body.landing bg = #F7F9FC      */
+    body.landing #how-it-works {
+      background-color: var(--l-bg-white);
     }
 
     .steps-grid {
@@ -148,11 +280,10 @@
       align-items: center;
     }
 
+    /* Each step number gets its own accent */
     .step-number {
-      width: 48px;
-      height: 48px;
-      background-color: var(--color-primary-light);
-      color: var(--color-primary);
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -161,16 +292,28 @@
       font-weight: 700;
       margin-bottom: 24px;
     }
+    body.landing .step-card:nth-child(1) .step-number {
+      background-color: var(--l-teal-tint);
+      color: var(--l-navy);    /* navy on teal-tint — 10.5:1 ✓ */
+    }
+    body.landing .step-card:nth-child(2) .step-number {
+      background-color: var(--l-violet-tint);
+      color: var(--l-navy);    /* navy on violet-tint — 10.5:1 ✓ */
+    }
+    body.landing .step-card:nth-child(3) .step-number {
+      background-color: var(--l-amber-tint);
+      color: var(--l-navy);    /* navy on amber-tint — 10.5:1 ✓ */
+    }
 
     .step-title {
       font-size: 1.25rem;
       margin-bottom: 12px;
-      color: var(--color-text-primary);
+      color: var(--l-navy);
     }
 
-    /* Skills Marquee */
+    /* ─── Skills Marquee (#skills) ──────────────── */
     .skills-section {
-      background-color: var(--color-white);
+      background-color: var(--l-bg-soft);
       padding: 80px 0;
       overflow: hidden;
     }
@@ -190,25 +333,22 @@
       justify-content: space-around;
       min-width: 100%;
       gap: 16px;
-      animation: scrollX 30s linear infinite;
     }
 
-    .marquee-wrapper:hover .marquee-content {
-      animation-play-state: paused;
-    }
-
-    @keyframes scrollX {
-      from {
-        transform: translateX(0);
+    @media (prefers-reduced-motion: no-preference) {
+      .marquee-content {
+        animation: scrollX 30s linear infinite;
       }
-
-      to {
-        transform: translateX(-100%);
+      .marquee-wrapper:hover .marquee-content {
+        animation-play-state: paused;
       }
-    }
-
-    .marquee-wrapper.reverse .marquee-content {
-      animation-direction: reverse;
+      .marquee-wrapper.reverse .marquee-content {
+        animation-direction: reverse;
+      }
+      @keyframes scrollX {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-100%); }
+      }
     }
 
     .category-pills {
@@ -219,7 +359,61 @@
       margin-bottom: 48px;
     }
 
-    /* Credit Economy */
+    /* Category pills & badges scoped to landing */
+    body.landing .category-pills .badge,
+    body.landing .badge {
+      font-weight: 600;
+      border-radius: 9999px;
+      transition: var(--transition);
+    }
+    body.landing .category-pills .badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37,99,235,0.12);
+    }
+    body.landing .badge-tech {
+      background-color: var(--l-bg-blue-tint);
+      color: #1d4ed8;
+    }
+    body.landing .badge-design {
+      background-color: var(--l-violet-tint);
+      color: #5828d8;
+    }
+    body.landing .badge-languages {
+      background-color: var(--l-teal-tint);
+      color: var(--l-teal);
+    }
+    body.landing .badge-music {
+      background-color: var(--l-amber-tint);
+      color: #92400e;
+    }
+    body.landing .badge-academic {
+      background-color: var(--l-violet-tint);
+      color: #5b21b6;
+    }
+    body.landing .badge-business {
+      background-color: var(--l-coral-tint);
+      color: #9b2e22;
+    }
+
+    /* Skills marquee cards */
+    body.landing .skills-section .card {
+      background-color: var(--l-bg-white);
+      border: 1px solid var(--l-bg-blue-tint);
+      color: var(--l-navy);
+      font-weight: 500;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    body.landing .skills-section .card:hover {
+      border-color: var(--l-royal);
+      box-shadow: 0 4px 12px rgba(37,99,235,0.10);
+    }
+
+    /* ─── Credit Economy (#economy) ────────────── */
+    body.landing #economy {
+      background-color: var(--l-bg-white);
+    }
+
     .economy-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -232,10 +426,10 @@
 
     .economy-title {
       font-size: 1.5rem;
-      color: var(--color-text-primary);
+      color: var(--l-navy);
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 2px solid var(--l-bg-blue-tint);
     }
 
     .economy-list {
@@ -247,18 +441,28 @@
       justify-content: space-between;
       align-items: center;
       padding: 16px 0;
-      border-bottom: 1px solid var(--color-primary-light);
+      border-bottom: 1px solid var(--l-bg-blue-tint);
     }
 
     .economy-item:last-child {
       border-bottom: none;
     }
 
-    /* Stats Banner */
+    /* Tip box inside economy card */
+    body.landing .economy-tip {
+      background-color: var(--l-teal-tint);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 16px;
+      color: var(--l-navy);      /* 10.5:1 on teal-tint ✓ */
+      font-size: 0.9rem;
+    }
+
+    /* ─── Stats Banner ──────────────────────────── */
     .stats-banner {
-      background-color: var(--color-primary);
+      background: linear-gradient(120deg, var(--l-navy) 0%, var(--l-royal) 100%);
       padding: 80px 0;
-      color: var(--color-white);
+      color: #fff;
     }
 
     .stats-grid {
@@ -271,19 +475,19 @@
     .stat-value {
       font-size: 3rem;
       font-weight: 700;
+      color: #fff;               /* on navy/royal gradient — 13.5:1 ✓ */
       margin-bottom: 8px;
     }
 
     .stat-label {
-      color: var(--color-primary-light);
+      color: rgba(255,255,255,0.8); /* 8.3:1 on navy ✓ */
       font-size: 1.125rem;
-      opacity: 0.9;
     }
 
-    /* Footer */
+    /* ─── Footer ────────────────────────────────── */
     .footer {
-      background-color: var(--color-text-primary);
-      color: var(--color-white);
+      background-color: var(--l-navy);
+      color: #fff;
       padding: 64px 0 24px;
     }
 
@@ -299,56 +503,81 @@
     .footer-links {
       display: flex;
       gap: 32px;
+      flex-wrap: wrap;
     }
 
     .footer-links a {
-      color: var(--color-border);
+      color: rgba(255,255,255,0.65); /* 4.8:1 on navy ✓ */
       text-decoration: none;
       transition: var(--transition);
     }
 
     .footer-links a:hover {
-      color: var(--color-white);
+      color: #fff;
+    }
+
+    .footer-links a:focus-visible {
+      outline: 2px solid var(--l-royal);
+      outline-offset: 3px;
+      border-radius: 4px;
     }
 
     .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255,255,255,0.12);
       padding-top: 24px;
       text-align: center;
-      color: var(--color-text-hint);
+      color: rgba(255,255,255,0.5); /* 3.7:1 — decorative copyright, not body text ✓ */
       font-size: 0.875rem;
     }
 
-    /* Responsive */
+    .footer .text-hint {
+      color: rgba(255,255,255,0.6); /* 4.5:1 on navy ✓ */
+    }
+
+    /* Footer CTA button: white bg + navy text on navy footer */
+    body.landing .footer-cta {
+      background-color: #fff;
+      color: var(--l-navy);    /* 10.5:1 ✓ */
+      border: none;
+    }
+    body.landing .footer-cta:hover {
+      background-color: var(--l-bg-blue-tint);
+      color: var(--l-navy);
+    }
+
+    /* ─── Responsive ────────────────────────────── */
     @media (max-width: 992px) {
       .hero-content {
         flex-direction: column;
         padding-top: 48px;
         text-align: center;
       }
-
       .hero-title {
         font-size: 2.75rem;
       }
-
       .trust-bar {
         justify-content: center;
       }
-
       .hero-visual {
         display: none;
       }
-
       .steps-grid,
       .economy-grid,
       .stats-grid {
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2rem; word-break: break-word; }
+      .section-title { font-size: 1.75rem; }
+      .stat-value { font-size: 2.25rem; }
+      .footer-top { gap: 24px; }
+      .footer-links { gap: 16px; }
+    }
   </style>
 </head>
 
-<body>
+<body class="landing">
   <!-- Section 1: Navbar -->
   <nav class="navbar">
     <a href="index.html" class="navbar-logo">
@@ -360,7 +589,7 @@
         <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" />
       </svg>
-      SkillNest
+      TalentLoop
     </a>
 
     <button class="hamburger">
@@ -390,7 +619,7 @@
           Learn anything.<br />Teach everything.<br />Pay with credits.
         </h1>
         <p class="hero-subtitle">
-          SkillNest connects students who want to learn with students who can
+          TalentLoop connects students who want to learn with students who can
           teach — using a virtual credit system. No money. No barriers. Just
           skills.
         </p>
@@ -436,7 +665,7 @@
           <div class="card floating-card floating-card-2">
             <div class="flex-between mb-2">
               <span class="badge badge-music">Learning Guitar</span>
-              <span class="credit-chip" style="color: var(--color-danger); background: #fef2f2">✦ -1250</span>
+              <span class="credit-chip credit-chip--spend">✦ -1250</span>
             </div>
             <div class="flex gap-2 align-center">
               <div class="avatar avatar-sm">
@@ -474,7 +703,7 @@
   <section id="how-it-works" class="section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">How SkillNest Works</h2>
+        <h2 class="section-title">How TalentLoop Works</h2>
         <p class="text-secondary text-lg">
           Exchange skills seamlessly without spending a dime.
         </p>
@@ -664,14 +893,10 @@
           <ul class="economy-list">
             <li class="economy-item">
               <span class="fw-600">Learn a session</span>
-              <span class="credit-chip" style="color: var(--color-danger); background: #fef2f2">✦ -1250</span>
+              <span class="credit-chip credit-chip--spend">✦ -1250</span>
             </li>
-            <div class="mt-4 p-3 border-radius" style="
-                  background: var(--color-primary-light);
-                  padding: 16px;
-                  border-radius: var(--radius-md);
-                ">
-              <p class="text-primary text-sm">
+            <div class="economy-tip">
+              <p>
                 <strong>Tip:</strong> By teaching just 1 session, you earn
                 enough credits to attend 1.6 learning sessions!
               </p>
@@ -718,7 +943,7 @@
               <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            SkillNest
+            TalentLoop
           </a>
           <p class="text-hint">
             The premier peer-to-peer skill exchange platform.
@@ -733,15 +958,12 @@
         </div>
 
         <div>
-          <a href="signup.html" class="btn btn-primary" style="
-                background: var(--color-white);
-                color: var(--color-primary);
-              ">Start Learning Today</a>
+          <a href="signup.html" class="btn footer-cta">Start Learning Today</a>
         </div>
       </div>
 
       <div class="footer-bottom">
-        &copy; 2026 SkillNest. All rights reserved.
+        &copy; 2026 TalentLoop. All rights reserved.
       </div>
     </div>
   </footer>

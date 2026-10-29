@@ -1,4 +1,4 @@
-# SkillNest — Complete Supabase Database Schema
+# TalentLoop — Complete Supabase Database Schema
 
 > **PostgreSQL / Supabase compatible.** All tables reference `auth.users(id)` via Supabase Auth.
 > Enable **Row Level Security (RLS)** on every table before going to production.
@@ -27,7 +27,7 @@
 
 ## 1. `profiles`
 
-**Purpose:** Extends Supabase `auth.users` with all SkillNest-specific data. Created automatically on signup via trigger. This is the central user table.
+**Purpose:** Extends Supabase `auth.users` with all TalentLoop-specific data. Created automatically on signup via trigger. This is the central user table.
 
 ```sql
 CREATE TABLE public.profiles (
@@ -434,7 +434,7 @@ BEGIN
   );
   -- Credit the signup bonus
   INSERT INTO credit_ledger (user_id, event_type, amount, balance_after, description)
-  VALUES (NEW.id, 'signup_bonus', 4000, 4000, 'Welcome to SkillNest! Signup bonus credited.');
+  VALUES (NEW.id, 'signup_bonus', 4000, 4000, 'Welcome to TalentLoop! Signup bonus credited.');
   RETURN NEW;
 END;
 $$;
